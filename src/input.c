@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/20 10:58:36 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/20 17:27:54 by bedantas         ###   ########.fr       */
+/*   Created: 2025/10/20 17:16:16 by bedantas          #+#    #+#             */
+/*   Updated: 2025/10/20 17:25:50 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../utils/minishell.h"
 
-#include "collector.h"
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+char	*read_input(void)
+{
+	char	*prompt;
+	char	*line;
 
-#endif
+	prompt = "minishell ~ ";
+	line = readline(prompt);
+	if (line == NULL)
+	{
+		printf("exit\n");
+		exit(EXIT_FAILURE);
+	}
+	if (line[0] != '\0')
+		add_history(line);
+	return (line);
+}
