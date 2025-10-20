@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   collector.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wedos-sa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 11:00:29 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/20 11:17:38 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:36:00 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLLECTOR_H
-
 # define COLLECTOR_H
 
 #include "../libft/libft.h"
