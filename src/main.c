@@ -1,7 +1,7 @@
 
 #include "../utils/minishell.h"
 
-int	main(int argc, char ** argv)
+int	main(int argc, char ** argv, char **env)
 {
 	char	*line;
 
@@ -9,7 +9,10 @@ int	main(int argc, char ** argv)
 	{
 		line = read_input("minishell ~ ");
 		if (line && line[0] != '\0')
-			// FUNÇÕES DE PARSING E EXECUÇÃO AQUI
+		{
+			trate_input(line, env);
+			
+		}
 		if (line)
 			free(line);
 	}
