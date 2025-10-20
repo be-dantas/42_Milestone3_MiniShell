@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/20 10:58:36 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/20 13:36:40 by bedantas         ###   ########.fr       */
+/*   Created: 2025/10/20 11:41:55 by bedantas          #+#    #+#             */
+/*   Updated: 2025/10/20 14:11:17 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../utils/minishell.h"
 
-# include "collector.h"
-# include "../libft/libft.h"
-
-#endif
+int	main(int argc, char ** argv)
+{
+	(void)argc;
+	(void)argv;
+	return (0);
+}
