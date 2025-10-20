@@ -6,17 +6,13 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:58:17 by wedos-sa          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/20 15:07:59 by wedos-sa         ###   ########.fr       */
-=======
+/*   Updated: 2025/10/20 15:21:25 by wedos-sa         ###   ########.fr       */
 /*   Updated: 2025/10/20 13:46:27 by bedantas         ###   ########.fr       */
->>>>>>> 973cb93252fbe88bd2bf94c8b522afbc9cd94a26
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../utils/minishell.h"
 
-<<<<<<< HEAD
 t_collect	*create_item(void *data)
 {
 	t_collect	*ptr;
@@ -88,5 +84,3 @@ void	close_collect(t_collect *init)
 		init = temp;
 	}
 }
-=======
->>>>>>> 973cb93252fbe88bd2bf94c8b522afbc9cd94a26
