@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collector.h                                        :+:      :+:    :+:   */
+/*   garbage_collection.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 11:00:29 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/20 17:05:00 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:17:41 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLLECTOR_H
-# define COLLECTOR_H
+#ifndef GARBAGE_COLLECTION_H
+# define GARBAGE_COLLECTION_H
 
 #include "../libft/libft.h"
 
