@@ -6,8 +6,15 @@
 /*   By: wedos-sa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:58:36 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/20 10:58:38 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:18:12 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINISHELL_H
 
+# define MINISHELL_H
+
+# include "collector.h"
+# include "../libft/libft.h"
+
+#endif
