@@ -5,7 +5,7 @@
 
 char	*read_input(char *ppt)
 {
-	char	*line;
+	char		*line;
 
 	line = readline(ppt);
 	if (line == NULL)
@@ -18,12 +18,7 @@ char	*read_input(char *ppt)
 	return (line);
 }
 
-void	exec_line(char *line, char **env)
-{
-	char	**split_line;
-
-	split_line = split_minishell(line);
-	if (!split_line)
-		return (0);
-	
-}
+//void	exec_line(char *cmd, char **env)
+//{
+//
+//}
