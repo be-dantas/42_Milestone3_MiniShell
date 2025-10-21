@@ -9,10 +9,11 @@
 
 typedef struct  s_collect
 {
-    struct s_collect    *next;
-    void                *data;
-}   t_collect;
+	struct s_collect	*next;
+	void				*data;
+}	t_collect;
 
+// collection.c
 t_collect	*create_item(void *data);
 t_collect	*last_item(t_collect *begin_list);
 t_collect	*init_collect(void);
