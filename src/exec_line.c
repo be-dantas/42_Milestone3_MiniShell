@@ -18,7 +18,12 @@ char	*read_input(char *ppt)
 	return (line);
 }
 
-void	exec_line(char *cmd, char **env)
+void	exec_line(char *line, char **env)
 {
+	char	**split_line;
 
+	split_line = split_minishell(line);
+	if (!split_line)
+		return (0);
+	
 }
