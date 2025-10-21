@@ -1,3 +1,67 @@
+DICIONÁRIO DE FUNÇÕES PERMITIDAS:
+
+**readline** – lê uma linha digitada no terminal com suporte a edição e histórico; retorna uma string alocada dinamicamente.
+**rl_clear_history** – limpa toda a memória usada pelo histórico do `readline`.
+**rl_on_new_line** – avisa ao `readline` que o cursor deve ir para uma nova linha (geralmente após sinal).
+**rl_replace_line** – substitui o conteúdo atual da linha sendo editada por outro texto.
+**rl_redisplay** – redesenha o prompt e o texto atual da linha no terminal.
+**add_history** – adiciona uma linha ao histórico de comandos do `readline`.
+
+**printf** – imprime texto formatado na saída padrão.
+**malloc** – aloca dinamicamente uma área de memória e retorna seu ponteiro.
+**free** – libera a memória previamente alocada com `malloc`.
+**write** – escreve dados em um descritor de arquivo (como stdout).
+**access** – verifica permissões de acesso a um arquivo (leitura, escrita, execução).
+**open** – abre ou cria um arquivo e retorna seu descritor.
+**read** – lê bytes de um descritor de arquivo.
+**close** – fecha um descritor de arquivo.
+
+**fork** – cria um novo processo, duplicando o processo atual.
+**wait** – aguarda a finalização de um processo filho.
+**waitpid** – aguarda um processo filho específico terminar.
+**wait3 / wait4** – variantes de `wait` que também retornam informações de uso de recursos.
+
+**signal** – define uma função que será executada quando um sinal específico for recebido.
+**sigaction** – versão mais robusta e configurável de `signal`.
+**sigemptyset** – inicializa um conjunto de sinais vazio.
+**sigaddset** – adiciona um sinal a um conjunto de sinais.
+**kill** – envia um sinal a um processo (ex: terminar, parar, continuar).
+**exit** – encerra o processo atual liberando recursos e retornando um código de status.
+
+**getcwd** – obtém o diretório de trabalho atual.
+**chdir** – muda o diretório de trabalho atual.
+**stat / lstat / fstat** – obtém informações sobre um arquivo (tamanho, permissões, tipo).
+**unlink** – remove (deleta) um arquivo do sistema.
+**execve** – substitui o processo atual por outro programa executável.
+
+**dup** – duplica um descritor de arquivo.
+**dup2** – duplica um descritor de arquivo para um número específico (ex: redirecionamento).
+**pipe** – cria um canal de comunicação entre processos (leitura/escrita).
+
+**opendir** – abre um diretório para leitura.
+**readdir** – lê a próxima entrada de um diretório aberto.
+**closedir** – fecha um diretório aberto.
+
+**strerror** – retorna uma string descritiva de um código de erro (`errno`).
+**perror** – imprime automaticamente a mensagem de erro associada ao último erro.
+
+**isatty** – verifica se um descritor de arquivo é um terminal interativo.
+**ttyname** – retorna o nome do terminal associado a um descritor.
+**ttyslot** – retorna o número de slot do terminal atual.
+**ioctl** – realiza operações de controle direto sobre dispositivos (como terminais).
+
+**getenv** – obtém o valor de uma variável de ambiente.
+**tcsetattr / tcgetattr** – configuram ou obtêm atributos do terminal (modo canônico, eco, etc.).
+
+**tgetent** – inicializa o acesso à base de dados termcap (capacidade do terminal).
+**tgetflag** – lê uma flag booleana da base termcap.
+**tgetnum** – lê um valor numérico da base termcap.
+**tgetstr** – lê uma string de controle da base termcap.
+**tgoto** – gera uma string de controle para posicionar o cursor em uma coordenada.
+**tputs** – envia uma string de controle ao terminal (normalmente usada com `tgetstr`/`tgoto`).
+
+
+
 # 42_Milestone3_MiniShell
 # Estrutura
 
