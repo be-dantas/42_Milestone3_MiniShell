@@ -1,6 +1,8 @@
 
 #include "../utils/minishell.h"
 
+// funções para pegar cada comando da linha;
+
 char	*read_input(char *ppt)
 {
 	char	*line;
@@ -16,14 +18,7 @@ char	*read_input(char *ppt)
 	return (line);
 }
 
-void	trate_input(char *line, char **env)
+void	exec_line(char *cmd, char **env)
 {
-	// se ja for caminho
-	// 	K_OK... acess...
 
-	// se nao for
-	// 	split line
-	// 	split path
-	// 	join linha path + comando
-	// 	K_OK... acess...
 }

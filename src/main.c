@@ -9,10 +9,7 @@ int	main(int argc, char ** argv, char **env)
 	{
 		line = read_input("minishell ~ ");
 		if (line && line[0] != '\0')
-		{
-			trate_input(line, env);
-			
-		}
+			// exec_line(line, env);
 		if (line)
 			free(line);
 	}
