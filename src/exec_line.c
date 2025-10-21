@@ -5,7 +5,7 @@
 
 char	*read_input(char *ppt)
 {
-	char	*line;
+	char		*line;
 
 	line = readline(ppt);
 	if (line == NULL)
@@ -18,7 +18,7 @@ char	*read_input(char *ppt)
 	return (line);
 }
 
-void	exec_line(char *cmd, char **env)
-{
-
-}
+//void	exec_line(char *cmd, char **env)
+//{
+//
+//}

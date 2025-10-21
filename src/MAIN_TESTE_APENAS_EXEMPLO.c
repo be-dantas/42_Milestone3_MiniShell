@@ -15,15 +15,24 @@ int main()
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
+
+void	handle(int sig)
+{
+	if (sig == 2)
+		printf("\nminishell$ ");
+}
 
 int main(void)
 {
     char *input;
 
+	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
+		add_history(NULL);
     while (1)
     {
         input = readline("minishell$ ");
-        if (!input)
+		if (!input)
         {
             printf("exit\n");
             break;
