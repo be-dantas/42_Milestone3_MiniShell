@@ -3,21 +3,19 @@
 
 char	*malloc_array(char *line, int i, int count)
 {
-	char	**array;
+	char	*array;
 	int		x;
 
 	x = 0;
 	array = malloc((count + 1) * sizeof(char));
 	if (!array)
-		return (0);
-	array[count] = '\0';
-	while (count > 0)
+		return (NULL);
+	while (x < count)
 	{
-		array[x] = line[i];
+		array[x] = line[i + x];
 		x++;
-		i++;
-		count--;
 	}
+	array[count] = '\0';
 	return (array);
 }
 
@@ -64,6 +62,43 @@ char	*new_array_red(char *line, int i)
 	return (new_array);
 }
 
+char	*new_array_sifrao(char *line, int i)
+{
+	int		count;
+	char	*new_array;
+
+	count = 0;
+	while (line[i] != ' ')
+	{
+		count++;
+		i++;
+	}
+	i = i - count;
+	new_array = malloc_array(line, i, count);
+	if (!new_array)
+		return (0);
+	return (new_array);
+}
+
+char	*new_array(char *line, int i)
+{
+	int		count;
+	char	*new_array;
+
+	count = 0;
+	while (line[i] != '>' && line[i] != '<' && line[i] != '|' && line[i] != '"' && line[i] != '\'' && line[i] != '$')
+	{
+		count++;
+		i++;
+	}
+	i = i - count;
+	new_array = malloc_array(line, i, count);
+	if (!new_array)
+		return (0);
+	return (new_array);
+}
+
+
 char	**split_minishell(char *line)
 {
 	int		i;
@@ -74,15 +109,16 @@ char	**split_minishell(char *line)
 	while (line[i])
 	{
 		if (line[i] == '"')
-			array = new_array_aspas(line, i, '"');
+			array = new_array_aspas(line, &i, '"');
 		else if (line[i] == '\'')
-			array = new_array_aspas(line, i, '\'');
-		else if (line[i] == '<' || line[i] == '>' || line[i] == '|')
-			array = new_array_red(line, i);
+			array = new_array_aspas(line, &i, '\'');
+		else if (line[i] == '<' && line[i] == '>' && line[i] == '|')
+			array = new_array_red(line, &i);
+		else if (line[i] == '$')
+			array = new_array_sifrao(line, &i);
 		else
-			//nova funçao
+			array = new_array(line, &i);
 
 
-		i++;
 	}
 }
