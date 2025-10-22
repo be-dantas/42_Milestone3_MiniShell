@@ -1,9 +1,31 @@
 
 #include "../utils/minishell.h"
 
-int	main(int argc, char ** argv, char **env)
+//sigint = 2 - sigout = 3
+void	handle(int sig)
+{
+	if (sig == 2)
+		printf("\nminishell ~ ");
+}
+
+char	*read_input(char *ppt)
 {
 	char		*line;
+
+	line = readline(ppt);
+	if (line == NULL)
+	{
+		printf("exit\n");
+		exit(EXIT_SUCCESS);
+	}
+	if (line[0] != '\0')
+		add_history(line);
+	return (line);
+}
+
+int	main(int argc, char ** argv, char **env)
+{
+	char	*line;
 
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
