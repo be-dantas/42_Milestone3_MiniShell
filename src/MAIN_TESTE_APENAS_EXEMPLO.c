@@ -16,6 +16,7 @@ int main()
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <stdlib.h>
 
 void	handle(int sig)
 {
@@ -26,9 +27,12 @@ void	handle(int sig)
 int main(void)
 {
     char *input;
+	char *teste_arg_terminal;
 
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
+	teste_arg_terminal = getenv("PATH");
+	printf("%s", teste_arg_terminal);
     while (1)
     {
         input = readline("minishell$ ");
