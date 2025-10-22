@@ -20,6 +20,8 @@ t_collect	*last_item(t_collect *begin_list);
 t_collect	*init_collect(void);
 void		close_collect(t_collect *init);
 void		*put_item(t_collect **begin_list, void *data);
+
+// main.c
 char		*read_input(char *ppt);
 void		handle(int sig);
 
