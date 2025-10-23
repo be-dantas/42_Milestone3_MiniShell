@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/16 10:45:53 by bedantas          #+#    #+#              #
-#    Updated: 2025/10/20 14:27:21 by bedantas         ###   ########.fr        #
+#    Updated: 2025/10/23 11:30:57 by wedos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS      = -Wall -Wextra -Werror
 SRC_DIR     = src
 LIBFT_DIR   = libft
 LIBFT_LIB   = $(LIBFT_DIR)/libft.a
-INCLUDES    = -I$(LIBFT_DIR) -I$(SRC_DIR)
+INCLUDES    = -I$(LIBFT_DIR) -I$(SRC_DIR) -Iutils
 
 SRCS        = $(wildcard $(SRC_DIR)/*.c)
 OBJS        = $(SRCS:.c=.o)
@@ -38,7 +38,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_LIB)
 	$(SILENT)echo "$(GREEN)[MINISHELL]$(RESET) Compilado"
-	$(SILENT)$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $(NAME)
+	$(SILENT)$(CC) $(CFLAGS) $(OBJS) $(LIBFT_LIB) -o $(NAME) -lreadline
 
 $(LIBFT_LIB):
 	$(SILENT)echo "$(YELLOW)[LIBFT]$(RESET) Compilado"
