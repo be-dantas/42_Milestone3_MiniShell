@@ -25,18 +25,20 @@ char	*read_input(char *ppt)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	t_env	*ptr;
+	t_env	*new_env;
+	t_exp	*exp;
 	(void)argc;
 	(void)argv;
 
-	ptr = clone_env(envp);
+	new_env = clone_env(envp);
+	exp = creat_export(envp);
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
 	while (1)
 	{
 		line = read_input("minishell ~ ");
 		if (line && line[0] != '\0')
-			exec_line(line, ptr);
+			exec_line(line, new_env, exp);
 		if (*line)
 			free(line);
 	}

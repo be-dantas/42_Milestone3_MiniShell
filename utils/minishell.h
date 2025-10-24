@@ -35,16 +35,27 @@ void		*put_env(t_env **begin_list, char *string);
 t_env		*clone_env(char **string);
 void		print_env(t_env *ptr);
 char		**find_and_split(char *string);
+char		**split_env(char *string);
 
 //export
+typedef struct s_exp
+{
+	char			*key;
+	char			*value;
+	struct s_exp	*next;
+}	t_exp;
 
+char		*sort_env(char **envp);
+t_exp		*creat_export(char **envp);
+void		print_export(t_env *exp);
+void		export_arg(char *line, t_exp *exp);
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);
 void		free_array(char **array);
 
 //exec_line.c
-void		exec_line(char *string, t_env *ptr);
+void		exec_line(char *string, t_env *ptr, t_exp *exp);
 
 //main.c
 char		*read_input(char *ppt);
