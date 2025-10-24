@@ -21,7 +21,6 @@ t_collect	*init_collect(void);
 void		close_collect(t_collect *init);
 void		*put_item(t_collect **begin_list, void *data);
 
-//env
 typedef struct s_env
 {
 	char			*key;
@@ -29,6 +28,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+//env
 t_env		*create_env(char **string);
 t_env		*last_env(t_env *begin_list);
 void		*put_env(t_env **begin_list, char *string);
@@ -38,24 +38,17 @@ char		**find_and_split(char *string);
 char		**split_env(char *string);
 
 //export
-typedef struct s_exp
-{
-	char			*key;
-	char			*value;
-	struct s_exp	*next;
-}	t_exp;
-
-char		*sort_env(char **envp);
-t_exp		*creat_export(char **envp);
+char		**sort_env(char **envp);
+t_env		*creat_export(char **envp);
 void		print_export(t_env *exp);
-void		export_arg(char *line, t_exp *exp);
+void		export_arg(char *line, t_env *exp);
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);
 void		free_array(char **array);
 
 //exec_line.c
-void		exec_line(char *string, t_env *ptr, t_exp *exp);
+void		exec_line(char *string, t_env *ptr, t_env *exp);
 
 //main.c
 char		*read_input(char *ppt);

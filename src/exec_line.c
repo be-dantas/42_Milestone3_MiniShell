@@ -1,6 +1,6 @@
 #include "../utils/minishell.h"
 
-void	exec_line(char *line, t_env *new_env, t_exp *exp)
+void	exec_line(char *line, t_env *new_env, t_env *exp)
 {
 	//if (string == "echo")
 	//	;

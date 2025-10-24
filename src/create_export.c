@@ -1,6 +1,6 @@
 #include "../utils/minishell.h"
 
-char    *sort_env(char **envp)
+char    **sort_env(char **envp)
 {
 	int     i;
 	int     j;
@@ -10,7 +10,7 @@ char    *sort_env(char **envp)
 	j = i + 1;
 	while (envp[i])
 	{
-		while (envp[j] != '\0')
+		while (envp[j] != (void *)0)
 		{
 			if (ft_strcmp(envp[i], envp[j]) > 0)
 			{
@@ -24,12 +24,12 @@ char    *sort_env(char **envp)
 		}
 		i++;
 	}
-	return (envp);
+	return (envp);  //NÃO COLOCOU EM ORDEEEEEEEEEEEEEEEEEEEEEEEM
 }
 	
-t_exp	*creat_export(char **envp)
+t_env	*creat_export(char **envp)
 {
-	t_exp	*exp;
+	t_env	*exp;
 
 	exp = clone_env(sort_env(envp));
 	return(exp);

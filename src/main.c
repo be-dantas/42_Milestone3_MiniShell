@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_env	*new_env;
-	t_exp	*exp;
+	t_env	*exp;
 	(void)argc;
 	(void)argv;
 

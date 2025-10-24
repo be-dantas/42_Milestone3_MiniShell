@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 11:35:44 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/24 11:07:39 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/10/24 18:38:51 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int				ft_toupper(int ch);
 int				ft_tolower(int ch);
 int				ft_strncmp(const char *string1, const char *string2,
 					size_t count);
+int				ft_strcmp(const char *string1, const char *string2);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 int				ft_all_space(char *str);
 int				ft_isdouble(const char *str);

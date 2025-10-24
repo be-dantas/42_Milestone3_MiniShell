@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/16 10:45:53 by bedantas          #+#    #+#              #
-#    Updated: 2025/10/24 18:15:59 by bedantas         ###   ########.fr        #
+#    Updated: 2025/10/24 18:17:19 by bedantas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,21 +15,13 @@ NAME        = minishell
 CC          = cc
 CFLAGS      = -Wall -Wextra -Werror
 
-# SRC_DIR     = src
+SRC_DIR     = src
 LIBFT_DIR   = libft
 LIBFT_LIB   = $(LIBFT_DIR)/libft.a
 INCLUDES    = -I$(LIBFT_DIR) -I$(SRC_DIR) -Iutils
 
 SRCS        = $(wildcard $(SRC_DIR)/*.c)
-# OBJS        = $(SRCS:.c=.o)
-OBJS        = 	env.c \
-				split_env. \
-				create_export.c \
-				export.c \
-				collector.c \
-				error.c \
-				exec_line.c \
-				main.c
+OBJS        = $(SRCS:.c=.o)
 
 # ************************* COLORS & SILENCE ************************* #
 

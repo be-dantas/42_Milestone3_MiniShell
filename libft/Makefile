@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 11:17:28 by wedos-sa          #+#    #+#              #
-#    Updated: 2025/10/24 11:07:45 by bedantas         ###   ########.fr        #
+#    Updated: 2025/10/24 18:39:25 by bedantas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS =	ft_atoi.c			\
 	ft_tolower.c			\
 	ft_strlcpy.c			\
 	ft_strncmp.c			\
+	ft_strcmp.c				\
 	ft_strdup.c				\
 	ft_bzero.c				\
 	ft_memset.c				\
