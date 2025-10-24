@@ -8,8 +8,8 @@ void	exec_line(char *string, t_env *ptr)
 	//	;
 	//if (string == "pwd")
 	//	;
-	//if (string == "export")
-	//	;
+	if (ft_strncmp(string, "export", 6) == 0)
+		export_arg(string, ptr);
 	//if (string == "unset")
 	//	;
 	if (ft_strncmp(string, "env", ft_strlen(string)) == 0)

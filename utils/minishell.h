@@ -8,7 +8,7 @@
 #include <readline/history.h>
 #include <signal.h>
 
-// collection.c
+//collection.c
 typedef struct  s_collect
 {
 	struct s_collect	*next;
@@ -29,16 +29,24 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_env	*create_env(char **string);
-t_env   *last_env(t_env *begin_list);
-void    *put_env(t_env **begin_list, char *string);
-t_env   *clone_env(char **string);
-char    **find_and_split(char *string);
-char    **split_env(char *string);
-void    print_env(t_env *ptr);
-void    exec_line(char *string, t_env *ptr);
+t_env		*create_env(char **string);
+t_env		*last_env(t_env *begin_list);
+void		*put_env(t_env **begin_list, char *string);
+t_env		*clone_env(char **string);
+void		print_env(t_env *ptr);
+char		**find_and_split(char *string);
 
-// main.c
+//export
+
+
+//error.c
+void		putstr_exit(char *s, char **array, int x);
+void		free_array(char **array);
+
+//exec_line.c
+void		exec_line(char *string, t_env *ptr);
+
+//main.c
 char		*read_input(char *ppt);
 void		handle(int sig);
 
