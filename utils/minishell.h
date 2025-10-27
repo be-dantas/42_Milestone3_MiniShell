@@ -42,6 +42,7 @@ char		**sort_env(char **envp);
 t_env		*creat_export(char **envp);
 void		print_export(t_env *exp);
 void		export_arg(char *line, t_env *exp);
+void		check_to_put(char *string, t_env **begin_list);
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);
