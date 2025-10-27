@@ -1,6 +1,6 @@
 #include "../utils/minishell.h"
 
-void	exec_line(char *line, t_env *new_env, t_env *exp)
+void	exec_line(char *line, t_env *new_env)
 {
 	//if (string == "echo")
 	//	;
@@ -9,7 +9,7 @@ void	exec_line(char *line, t_env *new_env, t_env *exp)
 	//if (string == "pwd")
 	//	;
 	if (ft_strncmp(line, "export", 6) == 0)
-		export_arg(line, exp);
+		export_arg(line, new_env);
 	//if (string == "unset")
 	//	;
 	if (ft_strncmp(line, "env", ft_strlen(line)) == 0)

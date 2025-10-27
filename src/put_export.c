@@ -38,7 +38,7 @@ int	valid_arg_name(char *str)
 	return (1);
 }
 
-void	put_export(char *line, t_env *exp)
+void	put_export(char *line, t_env *env)
 {
 	int		i;
 	char	**split_line;

@@ -26,19 +26,17 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_env	*new_env;
-	t_env	*exp;
 	(void)argc;
 	(void)argv;
 
 	new_env = clone_env(envp);
-	exp = creat_export(envp);
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
 	while (1)
 	{
 		line = read_input("minishell ~ ");
 		if (line && line[0] != '\0')
-			exec_line(line, new_env, exp);
+			exec_line(line, new_env);
 		if (*line)
 			free(line);
 	}

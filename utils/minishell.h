@@ -48,7 +48,7 @@ void		putstr_exit(char *s, char **array, int x);
 void		free_array(char **array);
 
 //exec_line.c
-void		exec_line(char *string, t_env *ptr, t_env *exp);
+void		exec_line(char *string, t_env *new_env);
 
 //main.c
 char		*read_input(char *ppt);
