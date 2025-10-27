@@ -5,7 +5,7 @@ void	print_export(t_env *exp)
 	t_env	*temp;
 
 	temp = exp;
-	while (temp->next != NULL)
+	while (temp)
 	{
 		printf("declare -x ");
 		printf("%s", temp->key);

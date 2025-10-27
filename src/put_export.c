@@ -165,18 +165,9 @@ void	put_export(char *line, t_env *env)
 
 	i = 1;
 	split_line = split_with_quotes(line);
-
-	int j = 0;
-	while(split_line[j])
-	{
-		printf("%s\n", split_line[j]);
-		j++;
-	}
-
 	(void)env;
 	if (valid_arg(split_line))
 	{
-		printf("entrei aqui\n");
 		while (split_line[i])
 		{
 			check_to_put(split_line[i], &env);
