@@ -29,7 +29,7 @@ void	export_arg(char *line, t_env *exp)
 			i++;
 		if (line[i] == '\0')
 			print_export(exp);
-		// else
-			// put_export(line, exp);
+		else
+			put_export(line, exp);
 	}
 }

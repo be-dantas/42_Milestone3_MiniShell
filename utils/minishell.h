@@ -38,10 +38,16 @@ char		**find_and_split(char *string);
 char		**split_env(char *string);
 
 //export
-char		**sort_env(char **envp);
-t_env		*creat_export(char **envp);
 void		print_export(t_env *exp);
 void		export_arg(char *line, t_env *exp);
+void		check_to_put(char *string, t_env **begin_list);
+
+//put_export
+int			have_equal(char *str);
+int			valid_arg_value(char *str);
+int			valid_arg_name(char *str);
+int			valid_arg(char **split_line);
+void		put_export(char *line, t_env *env);
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);
