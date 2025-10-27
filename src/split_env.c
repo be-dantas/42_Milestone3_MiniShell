@@ -17,11 +17,11 @@ char	**find_and_split(char *string)
 	}
 	while (string[j] != '\0')
 		j++;
-	str1 = malloc(sizeof(char *) * (i + 1));
-	str2 = malloc(sizeof(char *) * (j - i + 1));
+	str1 = malloc(sizeof(*str1) * (i + 1));
+	str2 = malloc(sizeof(*str2) * (j - i + 1));
 	ft_strlcpy(str1, string, i + 1);
 	ft_strlcpy(str2, string + i + 1, j - i + 1);
-	str3 = malloc(sizeof(char **) * 3);
+	str3 = malloc(sizeof(*str3) * 3);
 	str3[0] = str1;
 	str3[1] = str2;
 	str3[2] = NULL;
