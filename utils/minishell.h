@@ -40,6 +40,17 @@ char		**split_env(char *string);
 //export
 void		print_export(t_env *exp);
 void		export_arg(char *line, t_env *exp);
+void		check_to_put(char *string, t_env **begin_list);
+<<<<<<< HEAD
+
+//put_export
+int			have_equal(char *str);
+int			valid_arg_value(char *str);
+int			valid_arg_name(char *str);
+int			valid_arg(char **split_line);
+void		put_export(char *line, t_env *env);
+=======
+>>>>>>> fbdb55e424257659149becf5ec462f977d724c2d
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);
