@@ -75,7 +75,7 @@ char	**split_with_quotes(char *line)
 		if (!line[start])
 			break ;
 		end = find_arg_end(line, start);
-		res[i] = ft_strndup(line + start, end - start);
+		res[i] = ft_strndup(line + start, end - start + 1);
 		i++;
 		start = end;
 	}
