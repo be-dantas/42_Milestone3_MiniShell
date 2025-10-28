@@ -28,7 +28,8 @@ int	valid_arg_value(char *str)
 	while (str[i] != '=')
 		i++;
 	i++;
-	if (str[i] == '\"' || str[i] == '\'' || str[len] == '\"' || str[len] == '\'')
+	if (str[i] == '\"' || str[i] == '\''
+		|| str[len] == '\"' || str[len] == '\'')
 	{
 		if (str[i] != str[len])
 			return (0);
@@ -47,14 +48,14 @@ int	valid_arg_value(char *str)
 int	valid_arg_name(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!have_equal(str))
 		return (0);
 	else
 	{
 		if (!ft_isalpha(str[0]))
-			return(0);
+			return (0);
 		while (str[i] != '=')
 		{
 			if (ft_isalnum(str[i]))
@@ -66,9 +67,9 @@ int	valid_arg_name(char *str)
 	return (1);
 }
 
-int valid_arg(char **split_line)
+int	valid_arg(char **split_line)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (split_line[i])

@@ -1,10 +1,10 @@
 #include "../utils/minishell.h"
 
-char    **sort_env(char **envp)
+char	**sort_env(char **envp)
 {
-	int     i;
-	int     j;
-	char    *temp;
+	int		i;
+	int		j;
+	char	*temp;
 
 	i = 0;
 	while (envp[i])
@@ -25,7 +25,7 @@ char    **sort_env(char **envp)
 	}
 	return (envp);
 }
-	
+
 void	creat_print_export(char **envp)
 {
 	t_env	*exp;

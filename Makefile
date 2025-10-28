@@ -1,24 +1,24 @@
-NAME        = minishell
+NAME		= minishell
 
-CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror
 
-SRC_DIR     = src
-LIBFT_DIR   = libft
-LIBFT_LIB   = $(LIBFT_DIR)/libft.a
-INCLUDES    = -I$(LIBFT_DIR) -I$(SRC_DIR) -Iutils
+SRC_DIR		= src
+LIBFT_DIR	= libft
+LIBFT_LIB	= $(LIBFT_DIR)/libft.a
+INCLUDES	= -I$(LIBFT_DIR) -I$(SRC_DIR) -Iutils
 
-SRCS        = $(shell find $(SRC_DIR) -name "*.c")
-OBJS        = $(SRCS:.c=.o)
+SRCS		= $(shell find $(SRC_DIR) -name "*.c")
+OBJS		= $(SRCS:.c=.o)
 
 # ************************* COLORS & SILENCE ************************* #
 
-RESET       = \033[0m
-GREEN       = \033[1;32m
-YELLOW      = \033[1;33m
-RED         = \033[1;31m
+RESET		= \033[0m
+GREEN		= \033[1;32m
+YELLOW		= \033[1;33m
+RED			= \033[1;31m
 
-SILENT 		= @
+SILENT		= @
 
 # ****************************** RULES ******************************* #
 

@@ -1,49 +1,49 @@
 #include "../utils/minishell.h"
 
-t_env   *create_env(char **string)
+t_env	*create_env(char **string)
 {
-    t_env   *ptr;
+	t_env	*ptr;
 
-    ptr = malloc(sizeof(t_env));
-    if (!ptr)
-        return (NULL);
-    if (ptr)
-    {
-        ptr->key = string[0];
+	ptr = malloc(sizeof(t_env));
+	if (!ptr)
+		return (NULL);
+	if (ptr)
+	{
+		ptr->key = string[0];
 		ptr->value = string[1];
-        ptr->next = NULL;
-    }
-    return (ptr);
+		ptr->next = NULL;
+	}
+	return (ptr);
 }
 
-t_env *last_env(t_env *begin_list)
+t_env	*last_env(t_env *begin_list)
 {
-    while (begin_list->next != NULL)
-        begin_list = begin_list->next;
-    return (begin_list);
+	while (begin_list->next != NULL)
+		begin_list = begin_list->next;
+	return (begin_list);
 }
 
-void    *put_env(t_env **begin_list, char *string)
+void	*put_env(t_env **begin_list, char *string)
 {
-    t_env   *last;
-    t_env   *item;
+	t_env	*last;
+	t_env	*item;
 
-    if (!begin_list)
-        return (NULL);
-    item = create_env(split_env(string));
-    if (!item)
-        return (NULL);
-    if (!*begin_list)
-    {
-        *begin_list = item;
-        return (NULL);
-    }
-    last = last_env(*begin_list);
-    if (last)
-        last->next = item;
-    else
-        *begin_list = item;
-    return (string);
+	if (!begin_list)
+		return (NULL);
+	item = create_env(split_env(string));
+	if (!item)
+		return (NULL);
+	if (!*begin_list)
+	{
+		*begin_list = item;
+		return (NULL);
+	}
+	last = last_env(*begin_list);
+	if (last)
+		last->next = item;
+	else
+		*begin_list = item;
+	return (string);
 }
 
 t_env	*clone_env(char **string)

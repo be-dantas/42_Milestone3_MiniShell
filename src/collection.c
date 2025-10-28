@@ -1,4 +1,3 @@
-
 #include "../utils/minishell.h"
 
 t_collect	*create_item(void *data)
@@ -16,7 +15,7 @@ t_collect	*create_item(void *data)
 	return (ptr);
 }
 
-t_collect *last_item(t_collect *begin_list)
+t_collect	*last_item(t_collect *begin_list)
 {
 	while (begin_list->next != NULL)
 		begin_list = begin_list->next;

@@ -1,4 +1,3 @@
-
 #include "../utils/minishell.h"
 
 void	handle(int sig)
@@ -44,9 +43,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_env	*new_env;
+
 	(void)argc;
 	(void)argv;
-
 	new_env = clone_env(envp);
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
@@ -58,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		if (*line)
 			free(line);
 		if (line == NULL)
-			break;
+			break ;
 	}
 	free_list(&new_env);
 	rl_clear_history();

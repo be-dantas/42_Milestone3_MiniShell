@@ -10,7 +10,7 @@
 void	putstr_exit(char *s, char **array, int x)
 {
 	ft_putstr_fd(s, 2);
-	free_array(array); //gc
+	free_array(array);
 	exit(x);
 }
 
@@ -27,7 +27,7 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
-} //nao vai precisar depois do gc
+}
 
 void	free_list(t_env **begin_list)
 {
