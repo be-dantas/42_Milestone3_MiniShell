@@ -28,14 +28,17 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+//free
+void		free_list(t_env **begin_list);
+
 //env
 t_env		*create_env(char **string);
 t_env		*last_env(t_env *begin_list);
 void		*put_env(t_env **begin_list, char *string);
 t_env		*clone_env(char **string);
 void		print_env(t_env *ptr);
-char		**find_and_split(char *string);
 char		**split_env(char *string);
+char		**find_and_split(char *string, size_t i, size_t j, char **str3);
 
 //export
 void		print_export(t_env *exp);
@@ -48,6 +51,7 @@ int			valid_arg_value(char *str);
 int			valid_arg_name(char *str);
 int			valid_arg(char **split_line);
 void		put_export(char *line, t_env *env);
+void		update_value(char *string, t_env *pointer);
 
 //error.c
 void		putstr_exit(char *s, char **array, int x);

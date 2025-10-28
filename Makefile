@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/16 10:45:53 by bedantas          #+#    #+#              #
-#    Updated: 2025/10/24 18:17:19 by bedantas         ###   ########.fr        #
+#    Updated: 2025/10/27 15:43:27 by wedos-sa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT_DIR   = libft
 LIBFT_LIB   = $(LIBFT_DIR)/libft.a
 INCLUDES    = -I$(LIBFT_DIR) -I$(SRC_DIR) -Iutils
 
-SRCS        = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(shell find $(SRC_DIR) -name "*.c")
 OBJS        = $(SRCS:.c=.o)
 
 # ************************* COLORS & SILENCE ************************* #
