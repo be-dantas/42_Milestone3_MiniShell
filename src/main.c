@@ -39,7 +39,10 @@ int	main(int argc, char **argv, char **envp)
 			exec_line(line, new_env);
 		if (*line)
 			free(line);
+		if (line == NULL)
+			break;
 	}
+	free_list(&new_env);
 	rl_clear_history();
 	return (0);
 }
