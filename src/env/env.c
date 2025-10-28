@@ -1,4 +1,4 @@
-#include "../utils/minishell.h"
+#include "../../utils/minishell.h"
 
 t_env	*create_env(char **string)
 {

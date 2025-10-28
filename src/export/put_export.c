@@ -1,4 +1,4 @@
-#include "../utils/minishell.h"
+#include "../../utils/minishell.h"
 
 int	have_equal(char *str)
 {

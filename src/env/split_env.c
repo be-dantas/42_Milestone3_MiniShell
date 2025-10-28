@@ -1,4 +1,4 @@
-#include "../utils/minishell.h"
+#include "../../utils/minishell.h"
 
 char	**find_and_split(char *string, size_t i, size_t j, char **str3)
 {
@@ -29,7 +29,7 @@ char	**split_env(char *string)
 	size_t	j;
 	char	**str3;
 
-	str3 = malloc(sizeof(*str3) * 3);
+	str3 = malloc(sizeof(char *) * 3);
 	i = 0;
 	j = 0;
 	splited = find_and_split(string, i, j, str3);

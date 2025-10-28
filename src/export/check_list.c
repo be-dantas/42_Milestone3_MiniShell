@@ -1,4 +1,4 @@
-#include "../utils/minishell.h"
+#include "../../utils/minishell.h"
 
 void	check_to_put(char *split_line, t_env **new_env)
 {
