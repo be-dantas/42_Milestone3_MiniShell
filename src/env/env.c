@@ -13,6 +13,7 @@ t_env	*create_env(char **string)
 		ptr->value = string[1];
 		ptr->next = NULL;
 	}
+	free(string);
 	return (ptr);
 }
 

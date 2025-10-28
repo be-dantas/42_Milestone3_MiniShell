@@ -97,6 +97,7 @@ void	put_export(char *line, t_env *new_env)
 			check_to_put(split_line[i], &new_env);
 			i++;
 		}
+		free_array(split_line);
 	}
 	else
 		putstr_exit("ARG invalid", split_line, 1); //ainda nao limpa todo env criado, etc...

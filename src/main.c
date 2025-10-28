@@ -6,13 +6,14 @@ void	handle(int sig)
 		printf("\nminishell ~ ");
 }
 
-char	*read_input(char *ppt)
+char	*read_input(char *ppt, t_env *new_env)
 {
 	char		*line;
 
 	line = readline(ppt);
 	if (line == NULL)
 	{
+		free_list(&new_env);
 		printf("exit\n");
 		exit(EXIT_SUCCESS);
 	}
@@ -51,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(NULL);
 	while (1)
 	{
-		line = read_input("minishell ~ ");
+		line = read_input("minishell ~ ", new_env);
 		if (line && line[0] != '\0')
 			exec_line(line, new_env);
 		if (*line)
@@ -59,7 +60,6 @@ int	main(int argc, char **argv, char **envp)
 		if (line == NULL)
 			break ;
 	}
-	free_list(&new_env);
 	rl_clear_history();
 	return (0);
 }
