@@ -81,19 +81,19 @@ int valid_arg(char **split_line)
 	return (1);
 }
 
-void	put_export(char *line, t_env *env)
+void	put_export(char *line, t_env *new_env)
 {
 	int		i;
 	char	**split_line;
 
 	i = 1;
 	split_line = split_with_quotes(line);
-	(void)env;
+	(void)new_env;
 	if (valid_arg(split_line))
 	{
 		while (split_line[i])
 		{
-			check_to_put(split_line[i], &env);
+			check_to_put(split_line[i], &new_env);
 			i++;
 		}
 	}

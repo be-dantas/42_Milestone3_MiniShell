@@ -1,21 +1,5 @@
 #include "../utils/minishell.h"
 
-void	print_export(t_env *exp)
-{
-	t_env	*temp;
-
-	temp = exp;
-	while (temp)
-	{
-		printf("declare -x ");
-		printf("%s", temp->key);
-		printf("=\"");
-		printf("%s", temp->value);
-		printf("\"\n");
-		temp = temp->next;
-	}
-}
-
 char    **sort_env(char **envp)
 {
 	int     i;
@@ -56,23 +40,23 @@ void	creat_print_export(char **envp)
 		printf("\"\n");
 		exp = exp->next;
 	}
+	free_list(exp);
 }
 
-
-void	export_arg(char *line, t_env *exp)
+void	export_arg(char *line, t_env *new_env, char **envp)
 {
 	int	i;
 
 	i = 6;
 	if (line[i] == '\0')
-		print_export(exp);
+		creat_print_export(envp);
 	else if (line[i] == ' ')
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
-			print_export(exp);
+			creat_print_export(envp);
 		else
-			put_export(line, exp);
+			put_export(line, new_env);
 	}
 }

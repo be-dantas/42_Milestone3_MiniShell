@@ -22,6 +22,24 @@ char	*read_input(char *ppt)
 	return (line);
 }
 
+void	exec_line(char *line, t_env *new_env, char **envp)
+{
+	//if (string == "echo")
+	//	;
+	//if (string == "cd")
+	//	;
+	//if (string == "pwd")
+	//	;
+	if (ft_strncmp(line, "export", 6) == 0)
+		export_arg(line, new_env, envp);
+	//if (string == "unset")
+	//	;
+	if (ft_strncmp(line, "env", ft_strlen(line)) == 0)
+		print_env(new_env);
+	//if (string == "exit")
+	//	;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -36,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = read_input("minishell ~ ");
 		if (line && line[0] != '\0')
-			exec_line(line, new_env);
+			exec_line(line, new_env, envp);
 		if (*line)
 			free(line);
 		if (line == NULL)

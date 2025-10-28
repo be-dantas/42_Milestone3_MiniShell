@@ -1,6 +1,6 @@
 #include "../utils/minishell.h"
 
-static void	handle_quote_state(char c, int *in_quotes, char *quote_char)
+void	handle_quote_state(char c, int *in_quotes, char *quote_char)
 {
 	if (c == '\'' || c == '"')
 	{
@@ -14,7 +14,7 @@ static void	handle_quote_state(char c, int *in_quotes, char *quote_char)
 	}
 }
 
-static int	count_args(char *str)
+int	count_args(char *line)
 {
 	int		count;
 	int		in_quotes;
@@ -22,23 +22,23 @@ static int	count_args(char *str)
 
 	count = 0;
 	in_quotes = 0;
-	while (*str)
+	while (*line)
 	{
-		while (*str == ' ' && !in_quotes)
-			str++;
-		if (!*str)
+		while (*line == ' ' && !in_quotes)
+			line++;
+		if (!*line)
 			break ;
 		count++;
-		while (*str && (in_quotes || *str != ' '))
+		while (*line && (in_quotes || *line != ' '))
 		{
-			handle_quote_state(*str, &in_quotes, &quote_char);
-			str++;
+			handle_quote_state(*line, &in_quotes, &quote_char);
+			line++;
 		}
 	}
 	return (count);
 }
 
-static int	find_arg_end(char *str, int start)
+int	find_arg_end(char *line, int start)
 {
 	int		i;
 	int		in_quotes;
@@ -46,15 +46,15 @@ static int	find_arg_end(char *str, int start)
 
 	i = start;
 	in_quotes = 0;
-	while (str[i] && (in_quotes || str[i] != ' '))
+	while (line[i] && (in_quotes || line[i] != ' '))
 	{
-		handle_quote_state(str[i], &in_quotes, &quote_char);
+		handle_quote_state(line[i], &in_quotes, &quote_char);
 		i++;
 	}
 	return (i);
 }
 
-char	**split_with_quotes(char *str)
+char	**split_with_quotes(char *line)
 {
 	int		start;
 	int		end;
@@ -62,20 +62,20 @@ char	**split_with_quotes(char *str)
 	int		count;
 	char	**res;
 
-	count = count_args(str);
+	count = count_args(line);
 	res = malloc((count + 1) * sizeof(char *));
 	if (!res)
 		return (NULL);
 	start = 0;
 	i = 0;
-	while (str[start])
+	while (line[start])
 	{
-		while (str[start] == ' ')
+		while (line[start] == ' ')
 			start++;
-		if (!str[start])
+		if (!line[start])
 			break ;
-		end = find_arg_end(str, start);
-		res[i] = ft_strndup(str + start, end - start);
+		end = find_arg_end(line, start);
+		res[i] = ft_strndup(line + start, end - start);
 		i++;
 		start = end;
 	}
