@@ -29,9 +29,9 @@ char		**split_env(char *string);
 void		check_to_put(char *split_line, t_env **new_env); //25 linhas
 void		update_value(char *split_line, t_env *pointer);
 
-char		**sort_env(char **envp);
-void		creat_print_export(char **envp);
-void		export_arg(char *line, t_env *new_env, char **envp);
+t_env		*sort_list(t_env *head);
+void		creat_print_export(t_env *new_env);
+void		export_arg(char *line, t_env *new_env);
 
 int			have_equal(char *str);
 int			valid_arg_value(char *str);
@@ -52,7 +52,7 @@ void		free_list(t_env **begin_list);
 //main.c
 void		handle(int sig);
 char		*read_input(char *ppt);
-void		exec_line(char *line, t_env *new_env, char **envp);
+void		exec_line(char *line, t_env *new_env);
 int			main(int argc, char **argv, char **envp);
 
 
