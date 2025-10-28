@@ -60,4 +60,11 @@ void		exec_line(char *string, t_env *new_env);
 char		*read_input(char *ppt);
 void		handle(int sig);
 
+//split_exp
+// static void	handle_quote_state(char c, int *in_quotes, char *quote_char);
+// static int	count_args(char *str);
+// static int	find_arg_end(char *str, int start);
+char	**split_with_quotes(char *str);
+
+
 #endif
