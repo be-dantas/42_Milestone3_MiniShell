@@ -1,36 +1,14 @@
 #include "../utils/minishell.h"
 
-// char	**sort_env(char **env)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*temp;
-
-// 	i = 0;
-// 	while (env[i])
-// 	{
-// 		j = i + 1;
-// 		while (env[j])
-// 		{
-// 			if (ft_strcmp(env[i], env[j]) > 0)
-// 			{
-// 				temp = env[i];
-// 				env[i] = env[j];
-// 				env[j] = temp;
-// 			}
-// 			else
-// 				j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (env);
-// }
-
-t_env	*sort_list(t_env *exp)
+t_env	*sort_list(t_env *head)
 {
 	t_env	*cmp;
+	t_env	*exp;
 	char	*temp;
 
+	if (!head)
+		return (NULL);
+	exp = head;
 	while (exp)
 	{
 		cmp = exp->next;
@@ -41,18 +19,15 @@ t_env	*sort_list(t_env *exp)
 				temp = exp->key;
 				exp->key = cmp->key;
 				cmp->key = temp;
-
 				temp = exp->value;
 				exp->value = cmp->value;
 				cmp->value = temp;
-				free(temp);
 			}
-			else
-				cmp = cmp->next;
+			cmp = cmp->next;
 		}
 		exp = exp->next;
 	}
-	return (exp);
+	return (head);
 }
 
 void	creat_print_export(t_env *new_env)

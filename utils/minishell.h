@@ -29,7 +29,7 @@ char		**split_env(char *string);
 void		check_to_put(char *split_line, t_env **new_env); //25 linhas
 void		update_value(char *split_line, t_env *pointer);
 
-// char		**sort_env(char **envp);
+t_env		*sort_list(t_env *head);
 void		creat_print_export(t_env *new_env);
 void		export_arg(char *line, t_env *new_env);
 
