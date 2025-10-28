@@ -1,36 +1,65 @@
 #include "../utils/minishell.h"
 
-char	**sort_env(char **envp)
+// char	**sort_env(char **env)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*temp;
+
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		j = i + 1;
+// 		while (env[j])
+// 		{
+// 			if (ft_strcmp(env[i], env[j]) > 0)
+// 			{
+// 				temp = env[i];
+// 				env[i] = env[j];
+// 				env[j] = temp;
+// 			}
+// 			else
+// 				j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (env);
+// }
+
+t_env	*sort_list(t_env *exp)
 {
-	int		i;
-	int		j;
+	t_env	*cmp;
 	char	*temp;
 
-	i = 0;
-	while (envp[i])
+	while (exp)
 	{
-		j = i + 1;
-		while (envp[j])
+		cmp = exp->next;
+		while (cmp)
 		{
-			if (ft_strcmp(envp[i], envp[j]) > 0)
+			if (ft_strcmp(exp->key, cmp->key) > 0)
 			{
-				temp = envp[i];
-				envp[i] = envp[j];
-				envp[j] = temp;
+				temp = exp->key;
+				exp->key = cmp->key;
+				cmp->key = temp;
+
+				temp = exp->value;
+				exp->value = cmp->value;
+				cmp->value = temp;
+				free(temp);
 			}
 			else
-				j++;
+				cmp = cmp->next;
 		}
-		i++;
+		exp = exp->next;
 	}
-	return (envp);
+	return (exp);
 }
 
-void	creat_print_export(char **envp)
+void	creat_print_export(t_env *new_env)
 {
 	t_env	*exp;
 
-	exp = clone_env(sort_env(envp));
+	exp = sort_list(new_env);
 	while (exp)
 	{
 		printf("declare -x ");
@@ -43,19 +72,19 @@ void	creat_print_export(char **envp)
 	free_list(&exp);
 }
 
-void	export_arg(char *line, t_env *new_env, char **envp)
+void	export_arg(char *line, t_env *new_env)
 {
 	int	i;
 
 	i = 6;
 	if (line[i] == '\0')
-		creat_print_export(envp);
+		creat_print_export(new_env);
 	else if (line[i] == ' ')
 	{
 		while (line[i] == ' ')
 			i++;
 		if (line[i] == '\0')
-			creat_print_export(envp);
+			creat_print_export(new_env);
 		else
 			put_export(line, new_env);
 	}
