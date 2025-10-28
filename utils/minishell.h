@@ -55,11 +55,8 @@ char		*read_input(char *ppt);
 void		exec_line(char *line, t_env *new_env);
 int			main(int argc, char **argv, char **envp);
 
-
-
-
-
-
+//unset.c
+void		unset_env(t_env **begin_list, char *string);
 
 // collection.c
 typedef struct s_collect
