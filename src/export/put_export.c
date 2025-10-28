@@ -23,11 +23,11 @@ int	valid_arg_value(char *str)
 
 	i = 0;
 	count = 0;
-	x = str[0];
 	len = ((int)ft_strlen(str) - 1);
 	while (str[i] != '=')
 		i++;
 	i++;
+	x = str[i];
 	if (str[i] == '\"' || str[i] == '\''
 		|| str[len] == '\"' || str[len] == '\'')
 	{
