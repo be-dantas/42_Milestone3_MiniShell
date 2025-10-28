@@ -11,8 +11,7 @@ void	check_to_put(char *split_line, t_env **new_env)
 	temp = split_env(split_line);
 	while (*new_env)
 	{
-		if (ft_strncmp((*new_env)->key, temp[0],
-				ft_strlen((*new_env)->key)) == 0)
+		if (ft_strncmp((*new_env)->key, temp[0], ft_strlen((*new_env)->key)) == 0)
 		{
 			//(*new_env)->value = temp[1];
 			update_value(temp[1], (*new_env));

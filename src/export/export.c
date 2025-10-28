@@ -40,7 +40,7 @@ void	creat_print_export(char **envp)
 		printf("\"\n");
 		exp = exp->next;
 	}
-	free_list(exp);
+	free_list(&exp);
 }
 
 void	export_arg(char *line, t_env *new_env, char **envp)
