@@ -27,6 +27,10 @@ char		**split_env(char *string);
 
 //expander
 char		*expand_arg(t_env *begin_list, char *string);
+char		*expanded(t_env *begin_list, char *key);
+char		*expand_arg(t_env *begin_list, char *string);
+
+
 
 //export
 void		check_to_put(char *split_line, t_env **new_env); //25 linhas
