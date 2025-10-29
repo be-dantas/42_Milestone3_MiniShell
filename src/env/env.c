@@ -53,6 +53,8 @@ t_env	*clone_env(char **string)
 	t_env	*ptr;
 
 	i = 0;
+	if (!string || !string[0])
+		return (NULL);
 	ptr = create_env(split_env(string[i]));
 	i++;
 	while (string[i] != NULL)
