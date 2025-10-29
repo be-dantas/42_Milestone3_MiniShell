@@ -1,19 +1,5 @@
 #include "../utils/minishell.h"
 
-// void	perror_exit(char *s, char **array, int x)
-// {
-// 	perror(s);
-// 	free_array(array); //gc
-// 	exit(x);
-// }
-
-void	putstr_exit(char *s, char **array, int x)
-{
-	ft_putstr_fd(s, 2);
-	free_array(array);
-	exit(x);
-}
-
 void	free_array(char **array)
 {
 	int	i;

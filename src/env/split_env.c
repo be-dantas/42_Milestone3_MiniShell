@@ -13,9 +13,17 @@ char	**find_and_split(char *string, size_t i, size_t j, char **str3)
 	while (string[j] != '\0')
 		j++;
 	str1 = malloc(sizeof(*str1) * (i + 1));
-	str2 = malloc(sizeof(*str2) * (j - i + 1));
 	ft_strlcpy(str1, string, i + 1);
-	ft_strlcpy(str2, string + i + 1, j - i + 1);
+	if (string[j - 1] == '\'' || string[j - 1] == '\"')
+	{
+		str2 = malloc(sizeof(*str2) * (j - i - 1));
+		ft_strlcpy(str2, (string + i + 2), (j - i - 2));
+	}
+	else
+	{
+		str2 = malloc(sizeof(*str2) * (j - i + 1));
+		ft_strlcpy(str2, (string + i + 1), (j - i + 1));
+	}
 	str3[0] = str1;
 	str3[1] = str2;
 	str3[2] = NULL;

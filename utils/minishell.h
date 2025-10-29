@@ -45,7 +45,6 @@ int			find_arg_end(char *line, int start);
 char		**split_with_quotes(char *line);
 
 //error_free.c
-void		putstr_exit(char *s, char **array, int x);
 void		free_array(char **array);
 void		free_list(t_env **begin_list);
 

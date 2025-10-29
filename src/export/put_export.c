@@ -100,5 +100,8 @@ void	put_export(char *line, t_env *new_env)
 		free_array(split_line);
 	}
 	else
-		putstr_exit("ARG invalid", split_line, 1); //ainda nao limpa todo env criado, etc...
+	{
+		ft_putstr_fd("ARG invalid\n", 2);
+		free_array(split_line);
+	}
 }
