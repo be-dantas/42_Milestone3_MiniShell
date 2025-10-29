@@ -22,15 +22,13 @@ void		*put_env(t_env **begin_list, char *string);
 t_env		*clone_env(char **string);
 void		print_env(t_env *ptr);
 
-char		**find_and_split(char *string, size_t i, size_t j, char **str3);
+char		*find_and_split(char *string);
 char		**split_env(char *string);
 
 //expander
 char		*expand_arg(t_env *begin_list, char *string);
 char		*expanded(t_env *begin_list, char *key);
 char		*expand_arg(t_env *begin_list, char *string);
-
-
 
 //export
 void		check_to_put(char *split_line, t_env **new_env); //25 linhas
