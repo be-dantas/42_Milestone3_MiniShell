@@ -1,7 +1,5 @@
 #include "../../utils/minishell.h"
 
-char    *expanded(t_env *begin_list, char *key);
-
 char	*expand_arg(t_env *begin_list, char *string)
 {
 	int		i;
@@ -13,8 +11,10 @@ char	*expand_arg(t_env *begin_list, char *string)
 	result = NULL;
 	j = 1;
 	i = 0;
-	while (string[i] != '$')
+	while (string[i] != '$' && string[i] != '\0')
 		i++;
+	if (string[i] != '$')
+		return (NULL);
 	if (i == 0)
 	{
 		while (string[j] != '\0')
@@ -29,6 +29,8 @@ char	*expand_arg(t_env *begin_list, char *string)
 		ft_strlcpy(temp, string, i + 1);
 		result = ft_strjoin(temp, expanded(begin_list, string + i + 1)); //malloc
 	}
+	if (temp != NULL)
+		free(temp);
 	return (result);
 }
 
