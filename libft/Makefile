@@ -6,7 +6,7 @@
 #    By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/15 11:17:28 by wedos-sa          #+#    #+#              #
-#    Updated: 2025/10/31 15:56:56 by bedantas         ###   ########.fr        #
+#    Updated: 2025/10/31 17:08:00 by bedantas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,8 @@ SRCS =	ft_atoi.c			\
 	ft_all_space.c			\
 	ft_atof.c				\
 	ft_isdouble.c			\
-	ft_countchar.c
+	ft_countchar.c			\
+	ft_chars_until.c
 
 OBJS = $(SRCS:.c=.o)
 

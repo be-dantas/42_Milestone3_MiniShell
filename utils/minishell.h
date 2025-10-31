@@ -32,7 +32,7 @@ char		*expanded(t_env *begin_list, char *key);
 char		*expand_arg(t_env *begin_list, char *string);
 
 //export
-void		check_to_put(char *split_line, t_env **new_env); //25 linhas
+void		check_to_put(char *split_line, t_env **new_env);
 void		update_value(char *split_line, t_env *pointer);
 
 t_env		*sort_list(t_env *head);
@@ -41,7 +41,7 @@ void		export_arg(char *line, t_env *new_env);
 
 int			valid_arg_value(char *str);
 int			valid_arg_name(char *str);
-int			valid_arg(char **split_line); //25 linhas
+int			valid_arg(char **split_line);
 void		put_export(char *line, t_env *new_env);
 
 void		handle_quote_state(char c, int *in_quotes, char *quote_char);

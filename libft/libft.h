@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 11:35:44 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/31 15:56:42 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/10/31 17:07:51 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				ft_memcmp(const void *s1, const void *s2, size_t n);
 int				ft_all_space(char *str);
 int				ft_isdouble(const char *str);
 int				ft_countchar(char *str, char c);
+int				ft_chars_until(char *s, char c);
 
 long long int	ft_atoi(const char *string);
 double			ft_atof(char *string);
