@@ -22,7 +22,8 @@ void		*put_env(t_env **begin_list, char *string);
 t_env		*clone_env(char **string);
 void		print_env(t_env *ptr);
 
-char		*find_and_split(char *string);
+char		*remove_quotation(char *string);
+char		*split_env_value(char *new_append1);
 char		**split_env(char *string);
 
 //expander
@@ -38,7 +39,6 @@ t_env		*sort_list(t_env *head);
 void		creat_print_export(t_env *new_env);
 void		export_arg(char *line, t_env *new_env);
 
-int			have_equal(char *str);
 int			valid_arg_value(char *str);
 int			valid_arg_name(char *str);
 int			valid_arg(char **split_line); //25 linhas

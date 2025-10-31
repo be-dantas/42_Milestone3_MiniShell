@@ -2,8 +2,6 @@
 
 void	unset_env(t_env **env, char *cmd)
 {
-	t_env	*curr;
-	t_env	*prev;
 	char	*key;
 
 	key = ft_strchr(cmd, ' ');
@@ -12,6 +10,14 @@ void	unset_env(t_env **env, char *cmd)
 		printf("unset: not enough arguments\n");
 		return ;
 	}
+	unsetting(env, key);
+}
+
+void	unsetting(t_env **env, char *key)
+{
+	t_env	*curr;
+	t_env	*prev;
+
 	curr = *env;
 	prev = NULL;
 	while (curr)
