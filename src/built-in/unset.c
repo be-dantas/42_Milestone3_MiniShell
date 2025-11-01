@@ -1,18 +1,5 @@
 #include "../../utils/minishell.h"
 
-void	unset_env(t_env **env, char *cmd)
-{
-	char	*key;
-
-	key = ft_strchr(cmd, ' ');
-	if (!key || !*(++key))
-	{
-		printf("unset: not enough arguments\n");
-		return ;
-	}
-	unsetting(env, key);
-}
-
 void	unsetting(t_env **env, char *key)
 {
 	t_env	*curr;
@@ -36,4 +23,17 @@ void	unsetting(t_env **env, char *key)
 		prev = curr;
 		curr = curr->next;
 	}
+}
+
+void	unset_env(t_env **env, char *cmd)
+{
+	char	*key;
+
+	key = ft_strchr(cmd, ' ');
+	if (!key || !*(++key))
+	{
+		printf("unset: not enough arguments\n");
+		return ;
+	}
+	unsetting(env, key);
 }

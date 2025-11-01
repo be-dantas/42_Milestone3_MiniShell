@@ -1,36 +1,28 @@
-#include "../../utils/minishell.h"
+#include "../../../utils/minishell.h"
 
-// ajustar validação de value
-// ajustar printagem do env
-// ajustar printagem do export
+ int	valid_arg_value(char *str)
+ {
+ 	int		i;
+ 	int		count;
+ 	int		len;
 
-// int	valid_arg_value(char *str)
-// {
-// 	int		i;
-// 	int		count;
-// 	char	x;
-// 	int		len;
-
-// 	i = ft_chars_until(str, "=") + 1;
-// 	if (valid_arg_name(str) && !str[i])
-// 		return (1);
-// 	len = ((int)ft_strlen(str) - 1);
-// 	if (str[i] == '\"' || str[i] == '\'' || str[len] == '\"' || str[len] == '\'')
-// 	{
-// 		x = str[i];
-// 		if (str[i] != str[len])
-// 			return (0);
-// 		while (str[i])
-// 		{
-// 			if (str[i] == x)
-// 				count++;
-// 			i++;
-// 		}
-// 		if (count % 2 != 0)
-// 			return (0);
-// 	}
-// 	return (1);
-// }
+ 	i = ft_chars_until(str, "=") + 1;
+ 	len = ft_strlen(str) - 1;
+ 	if (str[i] == '\"' || str[i] == '\'' || str[len] == '\"' || str[len] == '\'')
+ 	{
+ 		if (str[i] != str[len])
+ 			return (0);
+ 		while (str[i])
+ 		{
+ 			if (str[i] == str[0])
+ 				count++;
+ 			i++;
+ 		}
+ 		if (count % 2 != 0)
+ 			return (0);
+ 	}
+ 	return (1);
+}
 
 int	valid_arg_name(char *str)
 {

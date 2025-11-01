@@ -1,10 +1,21 @@
-#include "../../utils/minishell.h"
+#include "../../../utils/minishell.h"
+
+void	swap_key_value(t_env *exp, t_env *cmp)
+{
+	char	*temp;
+
+	temp = exp->key;
+	exp->key = cmp->key;
+	cmp->key = temp;
+	temp = exp->value;
+	exp->value = cmp->value;
+	cmp->value = temp;
+}
 
 t_env	*sort_list(t_env *head)
 {
 	t_env	*cmp;
 	t_env	*exp;
-	char	*temp;
 
 	if (!head)
 		return (NULL);
@@ -15,14 +26,7 @@ t_env	*sort_list(t_env *head)
 		while (cmp)
 		{
 			if (ft_strcmp(exp->key, cmp->key) > 0)
-			{
-				temp = exp->key;
-				exp->key = cmp->key;
-				cmp->key = temp;
-				temp = exp->value;
-				exp->value = cmp->value;
-				cmp->value = temp;
-			}
+				swap_key_value(exp, cmp)
 			cmp = cmp->next;
 		}
 		exp = exp->next;
@@ -37,11 +41,19 @@ void	creat_print_export(t_env *new_env)
 	exp = sort_list(new_env);
 	while (exp)
 	{
-		printf("declare -x ");
-		printf("%s", exp->key);
-		printf("=\"");
-		printf("%s", exp->value);
-		printf("\"\n");
+		if (exp->value == NULL)
+		{
+			printf("declare -x ");
+			printf("%s\n", exp->key);
+		}
+		else
+		{
+			printf("declare -x ");
+			printf("%s", exp->key);
+			printf("=\"");
+			printf("%s", exp->value);
+			printf("\"\n");
+		}
 		exp = exp->next;
 	}
 	free_list(&exp);

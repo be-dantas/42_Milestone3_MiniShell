@@ -8,33 +8,14 @@
 # include <readline/history.h>
 # include <signal.h>
 
-//env
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
-
-t_env		*create_env(char **string);
-t_env		*last_env(t_env *begin_list);
-void		*put_env(t_env **begin_list, char *string);
-t_env		*clone_env(char **string);
-void		print_env(t_env *ptr);
-
-char		*remove_quotation(char *string);
-char		*split_env_value(char *new_append1);
-char		**split_env(char *string);
-
-//expander
-char		*expand_arg(t_env *begin_list, char *string);
-char		*expanded(t_env *begin_list, char *key);
-char		*expand_arg(t_env *begin_list, char *string);
+/****************************** BUILT-IN ******************************/
 
 //export
-void		check_to_put(char *split_line, t_env **new_env);
+char		*remove_quotation(char *string);
 void		update_value(char *split_line, t_env *pointer);
+void		check_to_put(char *split_line, t_env **new_env); // 25 linhas
 
+void		swap_key_value(t_env *exp, t_env *cmp);
 t_env		*sort_list(t_env *head);
 void		creat_print_export(t_env *new_env);
 void		export_arg(char *line, t_env *new_env);
@@ -44,22 +25,37 @@ int			valid_arg_name(char *str);
 int			valid_arg(char **split_line);
 void		put_export(char *line, t_env *new_env);
 
-void		handle_quote_state(char c, int *in_quotes, char *quote_char);
-int			count_args(char *line);
-int			find_arg_end(char *line, int start);
-char		**split_with_quotes(char *line);
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+//env.c
+void		print_env(t_env *ptr);
+char		**split_env(char *line);
+t_env		*create_env(char *line);
+void		put_env(t_env **list, char *line);
+t_env		*clone_env(char **envp);
+
+//unset.c
+void		unsetting(t_env **env, char *key);
+void		unset_env(t_env **env, char *cmd);
+
+/**********************************************************************/
 
 //error_free.c
 void		free_array(char **array);
 void		free_list(t_env **begin_list);
+
+//expander.c
+char		*expanded(t_env *begin_list, char *key);
 
 //main.c
 void		handle(int sig);
 char		*read_input(char *ppt, t_env *new_env);
 void		exec_line(char *line, t_env *new_env);
 int			main(int argc, char **argv, char **envp);
-
-//unset.c
-void		unset_env(t_env **begin_list, char *string);
 
 #endif
