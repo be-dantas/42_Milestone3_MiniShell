@@ -1,4 +1,5 @@
 #include "../../../utils/minishell.h"
+#include "check_var.h"
 
 char	*remove_quotation(char *string)
 {
@@ -37,40 +38,39 @@ void	update_value(char *split_line, t_env *pointer)
 	pointer->value = result;
 }
 
-void	check_to_put(char *split_line, t_env **new_env)
+void	free_all_temp(char **temp, char *temp_expand)
 {
-	int		flag;
-	t_env	*list_reset;
-	char	*temp_expand;
-	char	**temp;
-
-	flag = 0;
-	list_reset = *new_env;
-	temp_expand = expand_arg(*new_env, split_line); //devolve a string toda expandida, ex arg=my_$USER = arg=my_bedantas
-	temp = split_env(temp_expand);
-    while (*new_env)
-    {
-        if (ft_strncmp((*new_env)->key, temp[0], ft_strlen((*new_env)->key) + 1) == 0)
-        {
-            update_value(temp[1], (*new_env));
-            flag = 1;
-            break;
-        }
-        (*new_env) = (*new_env)->next;
-    }
-	if (!flag)
-	{
-		(*new_env) = list_reset;
-		put_env(new_env, temp_expand);
-		free(temp_expand);
-		free(temp[0]);
-		free(temp[1]);
-		free(temp);
-		return ;
-	}
-	(*new_env) = list_reset;
 	free(temp_expand);
 	free(temp[0]);
 	free(temp[1]);
 	free(temp);
+}
+
+void	check_to_put(char *split_line, t_env **new_env)
+{
+	t_init	ptr;
+
+	ptr.flag = 0;
+	ptr.list_reset = *new_env;
+	ptr.temp_expand = expand_arg(*new_env, split_line, 0);
+	ptr.temp = split_env(ptr.temp_expand);
+    while (*new_env)
+    {
+        if (ft_strcmp((*new_env)->key, ptr.temp[0]) == 0)
+		{
+            update_value(ptr.temp[1], (*new_env));
+            ptr.flag = 1;
+            break;
+        }
+        (*new_env) = (*new_env)->next;
+    }
+	if (!ptr.flag)
+	{
+		(*new_env) = ptr.list_reset;
+		put_env(new_env, ptr.temp_expand);
+		free_all_temp(ptr.temp, ptr.temp_expand);
+		return ;
+	}
+	(*new_env) = ptr.list_reset;
+	free_all_temp(ptr.temp, ptr.temp_expand);
 }
