@@ -52,7 +52,12 @@ void	put_exp(char **temp, t_env **new_env)
 	char	*tmp;
 	char	*result;
 
-	if (temp[1][0] == '\'' || temp[1][0] == '\"')
+	if (temp[1] == NULL)
+	{
+		put_env(new_env, temp[0]);
+		return ;
+	}
+	if (temp[1] && (temp[1][0] == '\'' || temp[1][0] == '\"'))
 		value = remove_quotation(temp[1]);
 	else
 		value = ft_strdup(temp[1]);
