@@ -50,7 +50,8 @@ int	valid_arg(char **split_line)
 			i++;
 		else
 		{
-			if (!valid_arg_name(split_line[i]) && valid_arg_value(split_line[i]))
+			if (!valid_arg_name(split_line[i])
+				&& valid_arg_value(split_line[i]))
 				printf("export: `%s': not a valid identifier\n", split_line[i]);
 			else if (!valid_arg_name(split_line[i]))
 				printf("unexpected EOF while looking for matching `\"\'\n");

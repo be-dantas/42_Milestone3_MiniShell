@@ -54,16 +54,16 @@ void	check_to_put(char *split_line, t_env **new_env)
 	ptr.list_reset = *new_env;
 	ptr.temp_expand = expand_arg(*new_env, split_line, 0);
 	ptr.temp = split_env(ptr.temp_expand);
-    while (*new_env)
-    {
-        if (ft_strcmp((*new_env)->key, ptr.temp[0]) == 0)
+	while (*new_env)
+	{
+		if (ft_strcmp((*new_env)->key, ptr.temp[0]) == 0)
 		{
-            update_value(ptr.temp[1], (*new_env));
-            ptr.flag = 1;
-            break;
-        }
-        (*new_env) = (*new_env)->next;
-    }
+			update_value(ptr.temp[1], (*new_env));
+			ptr.flag = 1;
+			break ;
+		}
+		(*new_env) = (*new_env)->next;
+	}
 	if (!ptr.flag)
 	{
 		(*new_env) = ptr.list_reset;
