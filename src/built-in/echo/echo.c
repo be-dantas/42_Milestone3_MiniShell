@@ -2,56 +2,66 @@
 
 int	print_without_n(char **result, t_env *begin_list, int i, int j)
 {
-		if (!result[i])
+	char *expanded;
+
+	expanded = NULL;
+	if (!result[i])
+	{
+		printf("");
+		return (0);
+	}
+	while (result[i] != NULL)
+	{
+		j = 0;
+		while (result[i][j] != '\0')
 		{
-			printf("");
-			return (0);
-		}
-		while (result[i] != NULL)
-		{
-			j = 0;
-			while (result[i][j] != '\0')
+			if (result[i][j] == '$')
 			{
-				if (result[i][j] == '$')
-				{
-					result[i] = expand_arg(begin_list, result[i], 0);
-					break ;
-				}
-				j++;
+				expanded = expand_arg(begin_list, result[i], 0);
+				free(result[i]);
+				result[i] = expanded;
+				break ;
 			}
-			printf("%s", result[i]);
-			if (result[i + 1] != NULL)
-				printf(" ");
-			i++;
+			j++;
 		}
+		printf("%s", result[i]);
+		if (result[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
 	return (1);
 }
 
 int	print_with_n(char **result, t_env *begin_list, int i, int j)
 {
-		if (!result[i])
+	char *expanded;
+
+	expanded = NULL;
+	if (!result[i])
+	{
+		printf("");
+		return (0);
+	}
+	while (result[i] != NULL)
+	{
+		j = 0;
+		while (result[i][j] != '\0')
 		{
-			printf("");
-			return (0);
-		}
-		while (result[i] != NULL)
-		{
-			j = 0;
-			while (result[i][j] != '\0')
+			if (result[i][j] == '$')
 			{
-				if (result[i][j] == '$')
-				{
-					result[i] = expand_arg(begin_list, result[i], 0);
-					break ;
-				}
-				j++;
+				expanded = expand_arg(begin_list, result[i], 0);
+				free(result[i]);
+				result[i] = expanded;
+				break ;
 			}
-			printf("%s", result[i]);
-			if (result[i + 1] != NULL)
-				printf(" ");
-			i++;
+			j++;
 		}
-		printf("\n");
+		printf("%s", result[i]);
+		if (result[i + 1] != NULL)
+			printf(" ");
+		i++;
+	}
+	printf("\n");
 	return (1);
 }
 
@@ -83,16 +93,16 @@ char	*echo(char *line, t_env *begin_list)
 	{
 		if (print_without_n(result, begin_list, 2, 0) == 0)
 		{
-			return (NULL);
 			free_split(result);
+			return (NULL);
 		}
 	}
 	else
 	{
 		if (print_with_n(result, begin_list, 1, 0) == 0)
 		{
-			return (NULL);
 			free_split(result);
+			return (NULL);
 		}
 	}
 	free_split(result);
