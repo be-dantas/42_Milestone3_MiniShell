@@ -1,6 +1,6 @@
 #include "../../../utils/minishell.h"
 
-void	handle_quote_state(char c, int *in_quotes, char *quote_char)
+static void	handle_quote_state(char c, int *in_quotes, char *quote_char)
 {
 	if (c == '\'' || c == '"')
 	{
@@ -14,7 +14,7 @@ void	handle_quote_state(char c, int *in_quotes, char *quote_char)
 	}
 }
 
-int	count_args(char *line)
+static int	count_args(char *line)
 {
 	int		count;
 	int		in_quotes;
@@ -38,7 +38,7 @@ int	count_args(char *line)
 	return (count);
 }
 
-int	find_arg_end(char *line, int start)
+static int	find_arg_end(char *line, int start)
 {
 	int		i;
 	int		in_quotes;

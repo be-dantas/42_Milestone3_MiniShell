@@ -10,6 +10,13 @@
 
 /****************************** BUILT-IN ******************************/
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 //export
 char		*remove_quotation(char *string);
 void		update_value(char *split_line, t_env *pointer);
@@ -25,12 +32,7 @@ int			valid_arg_name(char *str);
 int			valid_arg(char **split_line);
 void		put_export(char *line, t_env *new_env);
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
+char		**split_with_quotes(char *line);
 
 //env.c
 void		print_env(t_env *ptr);
@@ -50,6 +52,7 @@ void		free_array(char **array);
 void		free_list(t_env **begin_list);
 
 //expander.c
+char		*expand_arg(t_env *begin_list, char *str);
 char		*expanded(t_env *begin_list, char *key);
 
 //main.c

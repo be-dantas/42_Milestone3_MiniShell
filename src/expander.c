@@ -1,6 +1,5 @@
 #include "../utils/minishell.h"
 
-/*
 static char	*get_key(char *str)
 {
 	int		i;
@@ -67,7 +66,7 @@ char	*expand_arg(t_env *begin_list, char *str)
         i++;
     }
     return (result);
-} */
+}
 
 char	*expanded(t_env *begin_list, char *key)
 {

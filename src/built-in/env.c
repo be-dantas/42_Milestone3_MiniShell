@@ -18,12 +18,12 @@ char	**split_env(char *line)
 	int		equal;
 
 	split_line = malloc(sizeof(char *) * 3);
-	equal = ft_chars_until(line, "=");
+	equal = ft_chars_until(line, '=');
 	if (equal == 0)
 	{
-		split_exp[0] = ft_substr(line, 0, equal);
-		split_exp[1] = NULL;
-		split_exp[2] = NULL;
+		split_line[0] = ft_substr(line, 0, equal);
+		split_line[1] = NULL;
+		split_line[2] = NULL;
 	}
 	else if (line[equal + 1] == '\0')
 	{

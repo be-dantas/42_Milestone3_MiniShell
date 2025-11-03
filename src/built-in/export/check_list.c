@@ -62,6 +62,7 @@ void	check_to_put(char *split_line, t_env **new_env)
 	{
 		(*new_env) = list_reset;
 		put_env(new_env, temp_expand);
+		free(temp_expand);
 		free(temp[0]);
 		free(temp[1]);
 		free(temp);

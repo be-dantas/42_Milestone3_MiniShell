@@ -26,7 +26,7 @@ t_env	*sort_list(t_env *head)
 		while (cmp)
 		{
 			if (ft_strcmp(exp->key, cmp->key) > 0)
-				swap_key_value(exp, cmp)
+				swap_key_value(exp, cmp);
 			cmp = cmp->next;
 		}
 		exp = exp->next;
