@@ -6,9 +6,12 @@ int	valid_arg_value(char *str)
 	int	single_q;
 	int	double_q;
 
-	i = 0;
+	i = ft_chars_until(str, '=');
 	single_q = 0;
 	double_q = 0;
+	if (i == 0)
+		return (1);
+	i++;
 	while (str[i])
 	{
 		if (str[i] == '\'' && double_q == 0)
@@ -80,4 +83,5 @@ void	put_export(char *line, t_env *new_env)
 	}
 	else
 		free_array(split_line);
+
 }

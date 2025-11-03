@@ -21,7 +21,7 @@ char	**split_env(char *line)
 	equal = ft_chars_until(line, '=');
 	if (equal == 0)
 	{
-		split_line[0] = ft_substr(line, 0, equal);
+		split_line[0] = ft_strdup(line);
 		split_line[1] = NULL;
 		split_line[2] = NULL;
 	}

@@ -1,6 +1,14 @@
 #include "../../../utils/minishell.h"
 #include "check_var.h"
 
+void	free_all_temp(char **temp, char *temp_expand)
+{
+	free(temp_expand);
+	free(temp[0]);
+	free(temp[1]);
+	free(temp);
+}
+
 char	*remove_quotation(char *string)
 {
 	int		i;
@@ -38,12 +46,22 @@ void	update_value(char *split_line, t_env *pointer)
 	pointer->value = result;
 }
 
-void	free_all_temp(char **temp, char *temp_expand)
+void	put_exp(char **temp, t_env **new_env)
 {
-	free(temp_expand);
-	free(temp[0]);
-	free(temp[1]);
-	free(temp);
+	char	*value;
+	char	*tmp;
+	char	*result;
+
+	if (temp[1][0] == '\'' || temp[1][0] == '\"')
+		value = remove_quotation(temp[1]);
+	else
+		value = ft_strdup(temp[1]);
+	tmp = ft_strjoin(temp[0], "=");
+	result = ft_strjoin(tmp, value);
+	free(value);
+	free(tmp);
+	put_env(new_env, result);
+	free(result);
 }
 
 void	check_to_put(char *split_line, t_env **new_env)
@@ -67,7 +85,7 @@ void	check_to_put(char *split_line, t_env **new_env)
 	if (!ptr.flag)
 	{
 		(*new_env) = ptr.list_reset;
-		put_env(new_env, ptr.temp_expand);
+		put_exp(ptr.temp, new_env);
 		free_all_temp(ptr.temp, ptr.temp_expand);
 		return ;
 	}

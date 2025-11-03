@@ -20,7 +20,8 @@ typedef struct s_env
 //export
 char		*remove_quotation(char *string);
 void		update_value(char *split_line, t_env *pointer);
-void		check_to_put(char *split_line, t_env **new_env); // 25 linhas
+void		put_exp(char **temp, t_env **new_env);
+void		check_to_put(char *split_line, t_env **new_env);
 
 void		swap_key_value(t_env *exp, t_env *cmp);
 t_env		*sort_list(t_env *head);

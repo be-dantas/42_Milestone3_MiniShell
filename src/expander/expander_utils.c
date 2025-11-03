@@ -51,7 +51,7 @@ char	*expand_variable(t_env *begin_list, char *str, int *i)
 	value = expanded(begin_list, key);
 	if (!value)
 		value = "";
-	*i += ft_strlen(key);
+	*i += ft_strlen(key) + 1;
 	free(key);
 	return (ft_strdup(value));
 }
