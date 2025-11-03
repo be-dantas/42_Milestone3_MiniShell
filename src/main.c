@@ -24,8 +24,8 @@ char	*read_input(char *ppt, t_env *new_env)
 
 void	exec_line(char *line, t_env *new_env)
 {
-	//if (string == "echo")
-	//	;
+	if (ft_strncmp(line, "echo", 4) == 0)
+		echo(line, new_env);
 	//if (string == "cd")
 	//	;
 	//if (string == "pwd")
