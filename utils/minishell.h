@@ -67,4 +67,7 @@ char		*read_input(char *ppt, t_env *new_env);
 void		exec_line(char *line, t_env *new_env);
 int			main(int argc, char **argv, char **envp);
 
+//echo
+char    *echo(char *line, t_env *begin_list);
+
 #endif
