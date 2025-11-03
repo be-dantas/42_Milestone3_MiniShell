@@ -45,15 +45,21 @@ t_env		*clone_env(char **envp);
 void		unsetting(t_env **env, char *key);
 void		unset_env(t_env **env, char *cmd);
 
+/****************************** EXPANDER ******************************/
+
+char		*expand_arg(t_env *begin_list, char *str);
+
+char		*join_and_free(char *s1, const char *s2);
+char		*expanded(t_env *begin_list, char *key);
+char		*get_key(char *str);
+char		*expand_variable(t_env *begin_list, char *str, int *i);
+char		*expand_literal(char *str, int *i);
+
 /**********************************************************************/
 
 //error_free.c
 void		free_array(char **array);
 void		free_list(t_env **begin_list);
-
-//expander.c
-char		*expand_arg(t_env *begin_list, char *str);
-char		*expanded(t_env *begin_list, char *key);
 
 //main.c
 void		handle(int sig);
