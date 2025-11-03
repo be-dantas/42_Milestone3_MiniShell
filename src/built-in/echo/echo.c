@@ -1,72 +1,100 @@
 #include "../../../utils/minishell.h"
 
+int	print_without_n(char **result, t_env *begin_list, int i, int j)
+{
+		if (!result[i])
+		{
+			printf("");
+			return (0);
+		}
+		while (result[i] != NULL)
+		{
+			j = 0;
+			while (result[i][j] != '\0')
+			{
+				if (result[i][j] == '$')
+				{
+					result[i] = expand_arg(begin_list, result[i], 0);
+					break ;
+				}
+				j++;
+			}
+			printf("%s", result[i]);
+			if (result[i + 1] != NULL)
+				printf(" ");
+			i++;
+		}
+	return (1);
+}
+
+int	print_with_n(char **result, t_env *begin_list, int i, int j)
+{
+		if (!result[i])
+		{
+			printf("");
+			return (0);
+		}
+		while (result[i] != NULL)
+		{
+			j = 0;
+			while (result[i][j] != '\0')
+			{
+				if (result[i][j] == '$')
+				{
+					result[i] = expand_arg(begin_list, result[i], 0);
+					break ;
+				}
+				j++;
+			}
+			printf("%s", result[i]);
+			if (result[i + 1] != NULL)
+				printf(" ");
+			i++;
+		}
+		printf("\n");
+	return (1);
+}
+
+void	free_split(char **string)
+{
+	int i;
+
+	i = 0;
+	while (string[i] != NULL)
+	{
+		free(string[i]);
+		i++;
+	}
+	free(string);
+}
+
 char	*echo(char *line, t_env *begin_list)
 {
 	char	**result;
-	(void)	begin_list;
-	int		i;
-	int		j;
 
-	j = 0;
-	i = 0;
 	result = ft_split(line, ' ');
 	if (!result[1])
 	{
 		printf("\n");
+		free_split(result);
 		return (NULL);
 	}
 	if (ft_strcmp(result[1], "-n") == 0)
 	{
-		i = 2;
-		if (!result[i])
+		if (print_without_n(result, begin_list, 2, 0) == 0)
 		{
-			printf("");
 			return (NULL);
-		}
-		while (result[i] != NULL)
-		{
-			j = 0;
-			while (result[i][j] != '\0')
-			{
-				if (result[i][j] == '$')
-				{
-					result[i] = expand_arg(begin_list, result[i], 0);
-					break ;
-				}
-				j++;
-			}
-			printf("%s", result[i]);
-			if (result[i + 1] != NULL)
-				printf(" ");
-			i++;
+			free_split(result);
 		}
 	}
 	else
 	{
-		i = 1;
-		if (!result[i])
+		if (print_with_n(result, begin_list, 1, 0) == 0)
 		{
-			printf("");
 			return (NULL);
+			free_split(result);
 		}
-		while (result[i] != NULL)
-		{
-			j = 0;
-			while (result[i][j] != '\0')
-			{
-				if (result[i][j] == '$')
-				{
-					result[i] = expand_arg(begin_list, result[i], 0);
-					break ;
-				}
-				j++;
-			}
-			printf("%s", result[i]);
-			if (result[i + 1] != NULL)
-				printf(" ");
-			i++;
-		}
-		printf("\n");
 	}
-	return (result[1]);
+	free_split(result);
+	return (line);
 }
