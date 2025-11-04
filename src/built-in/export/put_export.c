@@ -64,24 +64,29 @@ int	valid_arg(char **split_line)
 	return (1);
 }
 
-void	put_export(char *line, t_env *new_env)
+void	put_export(char **line_tokens, t_env *new_env)
 {
 	int		i;
-	char	**split_line;
+	char	*expand;
+	char	**line_tokens;
 
 	i = 1;
-	split_line = split_with_quotes(line);
 	(void)new_env;
-	if (valid_arg(split_line) == 1)
+	while (line_tokens[i])
 	{
-		while (split_line[i])
+		line_tokens[i] = expand_arg(new_env, line_tokens[i]);
+		i++;
+	}
+	if (valid_arg(line_tokens) == 1)
+	{
+		while (line_tokens[i])
 		{
-			check_to_put(split_line[i], &new_env, split_line);
+			check_to_put(line_tokens[i], &new_env, line_tokens);
 			i++;
 		}
-		free_array(split_line);
+		free_array(line_tokens);
 	}
 	else
-		free_array(split_line);
+		free_array(line_tokens);
 
 }

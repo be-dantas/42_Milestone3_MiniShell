@@ -22,19 +22,19 @@ char	*read_input(char *ppt, t_env *new_env)
 	return (line);
 }
 
-void	exec_line(char *line, t_env *new_env)
+void	exec_line(char **line_tokens, t_env *new_env)
 {
-	if (ft_strncmp(line, "echo", 4) == 0)
-		echo(line, new_env);
+	if (ft_strncmp(line_tokens[0], "echo", 4) == 0)
+		echo(line_tokens, new_env);
 	//if (string == "cd")
 	//	;
 	//if (string == "pwd")
 	//	;
-	if (ft_strncmp(line, "export", 6) == 0)
-		export_arg(line, new_env);
-	if (ft_strncmp(line, "unset", 5) == 0)
-		unset_env(&new_env, line);
-	if (ft_strncmp(line, "env", ft_strlen(line)) == 0)
+	if (ft_strncmp(line_tokens[0], "export", 6) == 0)
+		export_arg(line_tokens, new_env);
+	if (ft_strncmp(line_tokens[0], "unset", 5) == 0)
+		// unset_env(&new_env, line_tokens);
+	if (ft_strncmp(line_tokens[0], "env", 3) == 0)
 		print_env(new_env);
 	//if (string == "exit")
 	//	;
@@ -43,6 +43,7 @@ void	exec_line(char *line, t_env *new_env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	char	**line_tokens;
 	t_env	*new_env;
 
 	(void)argc;
@@ -53,12 +54,15 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = read_input("minishell ~ ", new_env);
-		if (line && line[0] != '\0')
-			exec_line(line, new_env);
-		if (*line)
+		line_tokens = split_with_quotes(line);
+		if (line_tokens && line_tokens[0] && line_tokens[0][0] != '\0')
+			exec_line(line_tokens, new_env);
+		if (line)
 			free(line);
-		if (line == NULL)
-			break ;
+		if (line_tokens)
+			free_array(line_tokens);
+		// if (line == NULL)
+		// 	break ;
 	}
 	rl_clear_history();
 	return (0);
