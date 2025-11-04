@@ -7,6 +7,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 /****************************** BUILT-IN ******************************/
 
