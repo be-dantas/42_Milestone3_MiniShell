@@ -1,5 +1,18 @@
-// #include "../../../utils/minishell.h"
+#include "../../../utils/minishell.h"
 
+char	*echo(char **token, t_env *begin_list)
+{
+	int	i;
+	(void)token;
+	(void)begin_list;
+	i = 0;
+	while (token[i] != NULL)
+	{
+		printf("%s\n", token[i]);
+		i++;
+	}
+	return (token[i]);
+}
 // int	print_without_n(char **result, t_env *begin_list, int i, int j)
 // {
 // 	char *expanded;
