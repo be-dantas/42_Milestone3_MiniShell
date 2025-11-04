@@ -1,14 +1,6 @@
 #include "../../../utils/minishell.h"
 #include "check_var.h"
 
-void	free_all_temp(char **temp, char *temp_expand)
-{
-	free(temp_expand);
-	free(temp[0]);
-	free(temp[1]);
-	free(temp);
-}
-
 char	*remove_quotation(char *string)
 {
 	int		i;
@@ -34,6 +26,29 @@ char	*remove_quotation(char *string)
 	return (str2);
 }
 
+void	put_exp(char **temp, t_env **new_env)
+{
+	char	*value;
+	char	*tmp;
+	char	*result;
+	
+	if (temp[1] == NULL)
+	{
+		put_env(new_env, temp[0]);
+		return ;
+	}
+	if (temp[1] && (temp[1][0] == '\'' || temp[1][0] == '\"'))
+	value = remove_quotation(temp[1]);
+	else
+	value = ft_strdup(temp[1]);
+	tmp = ft_strjoin(temp[0], "=");
+	result = ft_strjoin(tmp, value);
+	free(value);
+	free(tmp);
+	put_env(new_env, result);
+	free(result);
+}
+
 void	update_value(char *split_line, t_env *pointer)
 {
 	char	*result;
@@ -46,37 +61,13 @@ void	update_value(char *split_line, t_env *pointer)
 	pointer->value = result;
 }
 
-void	put_exp(char **temp, t_env **new_env)
-{
-	char	*value;
-	char	*tmp;
-	char	*result;
-
-	if (temp[1] == NULL)
-	{
-		put_env(new_env, temp[0]);
-		return ;
-	}
-	if (temp[1] && (temp[1][0] == '\'' || temp[1][0] == '\"'))
-		value = remove_quotation(temp[1]);
-	else
-		value = ft_strdup(temp[1]);
-	tmp = ft_strjoin(temp[0], "=");
-	result = ft_strjoin(tmp, value);
-	free(value);
-	free(tmp);
-	put_env(new_env, result);
-	free(result);
-}
-
-void	check_to_put(char *split_line, t_env **new_env, char **split)
+void	check_to_put(char *split_line, t_env **new_env)
 {
 	t_init	ptr;
 
 	ptr.flag = 0;
 	ptr.list_reset = *new_env;
-	ptr.temp_expand = expand_arg(*new_env, split_line, split, 0);
-	ptr.temp = split_env(ptr.temp_expand);
+	ptr.temp = split_env(split_line);
 	while (*new_env)
 	{
 		if (ft_strcmp((*new_env)->key, ptr.temp[0]) == 0)
@@ -91,9 +82,9 @@ void	check_to_put(char *split_line, t_env **new_env, char **split)
 	{
 		(*new_env) = ptr.list_reset;
 		put_exp(ptr.temp, new_env);
-		free_all_temp(ptr.temp, ptr.temp_expand);
+		free_array(ptr.temp);
 		return ;
 	}
 	(*new_env) = ptr.list_reset;
-	free_all_temp(ptr.temp, ptr.temp_expand);
+	free_array(ptr.temp);
 }

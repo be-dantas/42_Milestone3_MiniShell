@@ -59,20 +59,15 @@ void	creat_print_export(t_env *new_env)
 	free_list(&exp);
 }
 
-void	export_arg(char *line, t_env *new_env)
+void	export_arg(char **line, t_env *new_env)
 {
 	int	i;
 
 	i = 6;
-	if (line[i] == '\0')
+	if (line[0][i] == '\0' && !line[1])
 		creat_print_export(new_env);
-	else if (line[i] == ' ')
-	{
-		while (line[i] == ' ')
-			i++;
-		if (line[i] == '\0')
-			creat_print_export(new_env);
-		else
-			put_export(line, new_env);
-	}
+	else if (line[0][i] == '\0' && line[1])
+		put_export(line, new_env);
+	else
+		printf("Command not found");
 }

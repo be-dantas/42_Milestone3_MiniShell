@@ -23,17 +23,17 @@ typedef struct s_env
 char		*remove_quotation(char *string);
 void		update_value(char *split_line, t_env *pointer);
 void		put_exp(char **temp, t_env **new_env);
-void		check_to_put(char *split_line, t_env **new_env, char **split);
+void		check_to_put(char *split_line, t_env **new_env);
 
 void		swap_key_value(t_env *exp, t_env *cmp);
 t_env		*sort_list(t_env *head);
 void		creat_print_export(t_env *new_env);
-void		export_arg(char *line, t_env *new_env);
+void		export_arg(char **line, t_env *new_env);
 
 int			valid_arg_value(char *str);
 int			valid_arg_name(char *str);
 int			valid_arg(char **split_line);
-void		put_export(char *line, t_env *new_env);
+void		put_export(char **line, t_env *new_env);
 
 char		**split_with_quotes(char *line);
 
@@ -67,10 +67,10 @@ void		free_list(t_env **begin_list);
 //main.c
 void		handle(int sig);
 char		*read_input(char *ppt, t_env *new_env);
-void		exec_line(char *line, t_env *new_env);
+void		exec_line(char **line, t_env *new_env);
 int			main(int argc, char **argv, char **envp);
 
 //echo
-char    *echo(char *line, t_env *begin_list);
+char		*echo(char *line, t_env *begin_list);
 
 #endif

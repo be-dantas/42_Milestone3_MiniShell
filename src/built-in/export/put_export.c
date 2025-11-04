@@ -66,27 +66,23 @@ int	valid_arg(char **split_line)
 
 void	put_export(char **line_tokens, t_env *new_env)
 {
-	int		i;
-	char	*expand;
-	char	**line_tokens;
+	int	i;
 
 	i = 1;
 	(void)new_env;
-	while (line_tokens[i])
-	{
-		line_tokens[i] = expand_arg(new_env, line_tokens[i]);
-		i++;
-	}
 	if (valid_arg(line_tokens) == 1)
 	{
 		while (line_tokens[i])
 		{
-			check_to_put(line_tokens[i], &new_env, line_tokens);
+			line_tokens[i] = expand_arg(new_env, line_tokens[i], 0);
+			i++;
+		}
+		i = 1;
+		while (line_tokens[i])
+		{
+			check_to_put(line_tokens[i], &new_env);
 			i++;
 		}
 		free_array(line_tokens);
 	}
-	else
-		free_array(line_tokens);
-
 }
