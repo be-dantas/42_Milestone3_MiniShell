@@ -55,14 +55,20 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = read_input("minishell ~ ", new_env);
 		line_tokens = split_with_quotes(line);
+		
+		// int x = 0;
+		// while(line_tokens[x])
+		// {
+		// 	printf("%s\n", line_tokens[x]);
+		// 	x++;
+		// }
+
 		if (line_tokens && line_tokens[0] && line_tokens[0][0] != '\0')
 			exec_line(line_tokens, new_env);
 		if (line)
 			free(line);
 		if (line_tokens)
 			free_array(line_tokens);
-		// if (line == NULL)
-		// 	break ;
 	}
 	rl_clear_history();
 	return (0);
