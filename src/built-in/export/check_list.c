@@ -69,13 +69,13 @@ void	put_exp(char **temp, t_env **new_env)
 	free(result);
 }
 
-void	check_to_put(char *split_line, t_env **new_env)
+void	check_to_put(char *split_line, t_env **new_env, char **split)
 {
 	t_init	ptr;
 
 	ptr.flag = 0;
 	ptr.list_reset = *new_env;
-	ptr.temp_expand = expand_arg(*new_env, split_line, 0);
+	ptr.temp_expand = expand_arg(*new_env, split_line, split, 0);
 	ptr.temp = split_env(ptr.temp_expand);
 	while (*new_env)
 	{

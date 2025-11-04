@@ -42,24 +42,22 @@ char	*get_key(char *str)
 	return (key);
 }
 
-char	*expand_variable(t_env *begin_list, char *str, int *i)
+int	arg_in_line(char *key, char **split)
 {
-	char	*key;
-	char	*value;
+	int		i;
+	char	*key_split;
 
-	key = get_key(&str[*i + 1]);
-	value = expanded(begin_list, key);
-	if (!value)
-		value = "";
-	*i += ft_strlen(key) + 1;
-	free(key);
-	return (ft_strdup(value));
-}
-
-char	*expand_literal(char *str, int *i)
-{
-	char	*literal;
-
-	literal = ft_substr(str, *i, 1);
-	return (literal);
+	i = 0;
+	while (split[i])
+	{
+		key_split = get_key(split[i]);
+		if (ft_strequal(key, key_split))
+		{
+			free(key_split);
+			return (1);
+		}
+		free(key_split);
+		i++;
+	}
+	return (0);
 }

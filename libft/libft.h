@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 11:35:44 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/10/31 17:07:51 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:20:18 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int				ft_all_space(char *str);
 int				ft_isdouble(const char *str);
 int				ft_countchar(char *str, char c);
 int				ft_chars_until(char *s, char c);
+int				ft_strequal(char const *s1, char const *s2);
 
 long long int	ft_atoi(const char *string);
 double			ft_atof(char *string);

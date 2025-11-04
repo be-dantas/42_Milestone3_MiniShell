@@ -23,7 +23,7 @@ typedef struct s_env
 char		*remove_quotation(char *string);
 void		update_value(char *split_line, t_env *pointer);
 void		put_exp(char **temp, t_env **new_env);
-void		check_to_put(char *split_line, t_env **new_env);
+void		check_to_put(char *split_line, t_env **new_env, char **split);
 
 void		swap_key_value(t_env *exp, t_env *cmp);
 t_env		*sort_list(t_env *head);
@@ -50,12 +50,13 @@ void		unset_env(t_env **env, char *cmd);
 
 /****************************** EXPANDER ******************************/
 
-char		*expand_arg(t_env *begin_list, char *str, int i);
+char		*expand_variable(t_env *begin_list, char *str, char **split, int *i);
+char		*expand_literal(char *str, int *i);
+char		*expand_arg(t_env *begin_list, char *str, char **split, int i);
 char		*join_and_free(char *s1, const char *s2);
 char		*expanded(t_env *begin_list, char *key);
 char		*get_key(char *str);
-char		*expand_variable(t_env *begin_list, char *str, int *i);
-char		*expand_literal(char *str, int *i);
+int			arg_in_line(char *key, char **split);
 
 /**********************************************************************/
 

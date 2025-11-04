@@ -76,7 +76,7 @@ void	put_export(char *line, t_env *new_env)
 	{
 		while (split_line[i])
 		{
-			check_to_put(split_line[i], &new_env);
+			check_to_put(split_line[i], &new_env, split_line);
 			i++;
 		}
 		free_array(split_line);
