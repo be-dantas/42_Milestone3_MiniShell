@@ -43,6 +43,7 @@ char	**tokens(t_env *new_env, char *line)
 		free(expand);
 		if (temp)
 			free(temp);
+		free_array(split_tokens);
 		return (NULL);
 	}
 	free(split_tokens[0]);
