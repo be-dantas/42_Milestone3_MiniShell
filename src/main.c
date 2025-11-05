@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		line = read_input("minishell ~ ", new_env);
 		if (line[0] != '\0')
-			line_tokens = tokens(new_env, line);		
+			line_tokens = tokens(new_env, line);
 		if (line_tokens)
 			exec_line(line_tokens, new_env);
 		if (*line)
