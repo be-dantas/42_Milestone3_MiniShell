@@ -1,30 +1,54 @@
 #include "../../../utils/minishell.h"
+#include "echo.h"
 
 char    *join_all(char **string, unsigned int start);
 char    *split_to_line(char **token);
+
+char	*check_line(char *line, t_env *begin_list)
+{
+	int		i;
+	int		flag;
+
+	flag = 0;
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if ((line[i] == '>' && line[i + 1] != '>') && flag == 0)
+			flag = 1;
+		else if ((line[i] == '>' && line[i + 1] == '>') && flag == 0)
+			flag = 2;
+		if (line[i] == '$')
+			line = expanded(begin_list, line);
+		i++;
+	}
+	if (flag == 2)
+		;//concatenar
+	if (flag == 1)
+		;//sobrescrever
+	if (flag == 0)
+		return (line);//simplesmente escrever
+	return (NULL);
+}
 
 char	*echo(char **token, t_env *begin_list)
 {
 	char	*result;
 	char	*line;
 
-	(void)token;
-	(void)begin_list;
 	line = split_to_line(token);
-	result = NULL;
+	result = check_line(line, begin_list);
 
-	printf("%s\n", line);
+	printf("%s", line);
 	return (result);
 }
 
 char	*split_to_line(char **token)
 {
-	int		flag;
 	char	*result;
+	char	*temp;
 
+	temp = NULL;
 	result = NULL;
-	flag = 0;
-
 	if (token[1][0] == '-' && token[1][1] == 'n')
 	{
 		if (token[1][2] != '\0')
@@ -38,6 +62,9 @@ char	*split_to_line(char **token)
 	else
 	{
 		result = join_all(token, 1);
+		temp = result;
+		free(result);
+		ft_strjoin(temp, "\n");
 	}	//chamo a função de concatenar split a partir do token[1]
 	return (result);
 }
