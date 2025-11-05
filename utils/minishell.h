@@ -22,6 +22,7 @@ typedef struct s_env
 //echo
 
 //export
+void		update_value(char *split_line, t_env *pointer);
 void		check_to_put(char *split_line, t_env **new_env);
 void		export_arg(char **line_tokens, t_env *new_env);
 int			valid_arg(char **split_line);
@@ -31,6 +32,9 @@ void		print_env(t_env *ptr);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
+
+//pwd.c
+void		pwd(t_env *new_env);
 
 //unset.c
 void		unset_env(t_env **env, char **cmd);

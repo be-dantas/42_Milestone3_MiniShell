@@ -48,7 +48,7 @@ static void	put_exp(char **temp, t_env **new_env)
 	free(result);
 }
 
-static void	update_value(char *split_line, t_env *pointer)
+void	update_value(char *split_line, t_env *pointer)
 {
 	char	*result;
 
