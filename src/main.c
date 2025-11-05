@@ -30,16 +30,16 @@ static void	exec_line(char **line_tokens, t_env *new_env)
 	//	;
 	//if (string == "pwd")
 	//	;
-	if (ft_strncmp(line_tokens[0], "export", 6) == 0)
+	if (ft_strncmp(line_tokens[0], "export", 7) == 0)
 		export_arg(line_tokens, new_env);
-	else if (ft_strncmp(line_tokens[0], "unset", 5) == 0)
+	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
 		unset_env(&new_env, line_tokens);
-	else if (ft_strncmp(line_tokens[0], "env", 3) == 0)
+	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
 		print_env(new_env);
 	//if (string == "exit")
 	//	;
 	else
-		return ;
+		printf("Command not found\n"); //VOCÊ VAI REMOVER NO FUTURO E SUBSTUIR PELA FUNÇÃO QUE FAZ O EXECVE
 }
 
 int	main(int argc, char **argv, char **envp)
