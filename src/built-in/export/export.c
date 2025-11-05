@@ -1,6 +1,6 @@
 #include "../../../utils/minishell.h"
 
-void	swap_key_value(t_env *exp, t_env *cmp)
+static void	swap_key_value(t_env *exp, t_env *cmp)
 {
 	char	*temp;
 
@@ -12,7 +12,7 @@ void	swap_key_value(t_env *exp, t_env *cmp)
 	cmp->value = temp;
 }
 
-t_env	*sort_list(t_env *head)
+static t_env	*sort_list(t_env *head)
 {
 	t_env	*cmp;
 	t_env	*exp;
@@ -34,7 +34,7 @@ t_env	*sort_list(t_env *head)
 	return (head);
 }
 
-void	creat_print_export(t_env *new_env)
+static void	creat_print_export(t_env *new_env)
 {
 	t_env	*exp;
 
@@ -59,15 +59,20 @@ void	creat_print_export(t_env *new_env)
 	free_list(&exp);
 }
 
-void	export_arg(char **line, t_env *new_env)
+void	export_arg(char **line_tokens, t_env *new_env)
 {
 	int	i;
 
-	i = 6;
-	if (line[0][i] == '\0' && !line[1])
+	i = 1;
+	if (!line[1])
 		creat_print_export(new_env);
-	else if (line[0][i] == '\0' && line[1])
-		put_export(line, new_env);
-	else
-		printf("Command not found");
+	else if (valid_arg(line_tokens) == 1)
+	{
+		while (line_tokens[i])
+		{
+			check_to_put(line_tokens[i], &new_env);
+			i++;
+		}
+		free_array(line_tokens);
+	}
 }

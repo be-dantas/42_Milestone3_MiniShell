@@ -1,6 +1,6 @@
 #include "../../../utils/minishell.h"
 
-int	valid_arg_value(char *str)
+static int	valid_arg_value(char *str)
 {
 	int	i;
 	int	single_q;
@@ -25,7 +25,7 @@ int	valid_arg_value(char *str)
 	return (1);
 }
 
-int	valid_arg_name(char *str)
+static int	valid_arg_name(char *str)
 {
 	int	i;
 
@@ -53,36 +53,12 @@ int	valid_arg(char **split_line)
 			i++;
 		else
 		{
-			if (!valid_arg_name(split_line[i])
-				&& valid_arg_value(split_line[i]))
-				printf("export: `%s': not a valid identifier\n", split_line[i]);
-			else if (!valid_arg_name(split_line[i]))
+			if (!valid_arg_value(split_line[i]))
 				printf("unexpected EOF while looking for matching `\"\'\n");
+			else if (!valid_arg_name(split_line[i]))
+				printf("export: `%s': not a valid identifier\n", split_line[i]);
 			return (0);
 		}
 	}
 	return (1);
-}
-
-void	put_export(char **line_tokens, t_env *new_env)
-{
-	int	i;
-
-	i = 1;
-	(void)new_env;
-	if (valid_arg(line_tokens) == 1)
-	{
-		while (line_tokens[i])
-		{
-			line_tokens[i] = expand_arg(new_env, line_tokens[i], 0);
-			i++;
-		}
-		i = 1;
-		while (line_tokens[i])
-		{
-			check_to_put(line_tokens[i], &new_env);
-			i++;
-		}
-		free_array(line_tokens);
-	}
 }

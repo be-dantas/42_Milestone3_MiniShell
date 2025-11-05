@@ -3,6 +3,7 @@
 char	*echo(char **token, t_env *begin_list)
 {
 	int	i;
+
 	(void)token;
 	(void)begin_list;
 	i = 0;
@@ -13,6 +14,7 @@ char	*echo(char **token, t_env *begin_list)
 	}
 	return (token[i]);
 }
+
 // int	print_without_n(char **result, t_env *begin_list, int i, int j)
 // {
 // 	char *expanded;

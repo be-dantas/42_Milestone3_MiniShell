@@ -1,6 +1,6 @@
 #include "../../utils/minishell.h"
 
-char	*expand_variable(t_env *begin_list, char *str, int *i)
+static char	*expand_variable(t_env *begin_list, char *str, int *i)
 {
 	char	*key;
 	char	*value;
@@ -14,7 +14,7 @@ char	*expand_variable(t_env *begin_list, char *str, int *i)
 	return (ft_strdup(value));
 }
 
-char	*expand_literal(char *str, int *i)
+static char	*expand_literal(char *str, int *i)
 {
 	char	*literal;
 

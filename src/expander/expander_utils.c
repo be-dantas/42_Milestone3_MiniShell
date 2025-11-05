@@ -1,6 +1,6 @@
 #include "../../utils/minishell.h"
 
-char	*join_and_free(char *s1, const char *s2)
+static char	*join_and_free(char *s1, const char *s2)
 {
 	char	*res;
 
@@ -40,24 +40,4 @@ char	*get_key(char *str)
 		return (NULL);
 	ft_strlcpy(key, str, i + 1);
 	return (key);
-}
-
-int	arg_in_line(char *key, char **split)
-{
-	int		i;
-	char	*key_split;
-
-	i = 0;
-	while (split[i])
-	{
-		key_split = get_key(split[i]);
-		if (ft_strequal(key, key_split))
-		{
-			free(key_split);
-			return (1);
-		}
-		free(key_split);
-		i++;
-	}
-	return (0);
 }

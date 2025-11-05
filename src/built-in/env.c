@@ -39,7 +39,7 @@ char	**split_env(char *line)
 	return (split_line);
 }
 
-t_env	*create_env(char *line)
+static t_env	*create_env(char *line)
 {
 	t_env	*node;
 	char	**split;
