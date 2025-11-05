@@ -32,6 +32,8 @@ static int	valid_arg_name(char *str)
 	i = 0;
 	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (0);
+	if (str[0] == '_' && (str[1] == ' ' || str[1] == '=' || str[1] == '\0'))
+		return (0);
 	while (str[i] != '=' && str[i] != ' ' && str[i] != '\0')
 	{
 		if (ft_isalnum(str[i]) || str[i] == '_')

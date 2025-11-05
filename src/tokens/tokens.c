@@ -12,7 +12,7 @@ static char	*remove_quotes(char *string, int i, int j)
 	count2 = ft_countchar(string, '\"');
 	if (count1 % 2 != 0 || count2 % 2 != 0)
 		return (NULL);
-	str2 = malloc(sizeof(char) * (len - (count1 + count2 ) + 1));
+	str2 = malloc(sizeof(char) * (len - (count1 + count2) + 1));
 	while (string[i])
 	{
 		if (string[i] != '\'' && string[i] != '\"')
@@ -34,9 +34,7 @@ char	**tokens(t_env *new_env, char *line)
 
 	expand = expand_arg(new_env, line, 0);
 	split_tokens = split_with_quotes(expand);
-	temp = remove_quotes(split_tokens[0], 0 , 0);
-	printf("%s\n", split_tokens[0]);
-	printf("%s\n", temp);
+	temp = remove_quotes(split_tokens[0], 0, 0);
 	if (ft_countchar(split_tokens[0], ' ') != 0 || temp == NULL)
 	{
 		printf("Command not found\n");
