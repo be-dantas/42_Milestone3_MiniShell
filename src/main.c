@@ -32,12 +32,14 @@ static void	exec_line(char **line_tokens, t_env *new_env)
 	//	;
 	if (ft_strncmp(line_tokens[0], "export", 6) == 0)
 		export_arg(line_tokens, new_env);
-	if (ft_strncmp(line_tokens[0], "unset", 5) == 0)
+	else if (ft_strncmp(line_tokens[0], "unset", 5) == 0)
 		unset_env(&new_env, line_tokens);
-	if (ft_strncmp(line_tokens[0], "env", 3) == 0)
+	else if (ft_strncmp(line_tokens[0], "env", 3) == 0)
 		print_env(new_env);
 	//if (string == "exit")
 	//	;
+	else
+		return ;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -49,16 +51,17 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	new_env = clone_env(envp);
+	line_tokens = NULL;
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
 	while (1)
 	{
 		line = read_input("minishell ~ ", new_env);
 		if (line[0] != '\0')
-			line_tokens = tokens(line);
+			line_tokens = tokens(new_env, line);
 		if (line_tokens)
 			exec_line(line_tokens, new_env);
-		if (line)
+		if (*line)
 			free(line);
 		if (line_tokens)
 			free_array(line_tokens);

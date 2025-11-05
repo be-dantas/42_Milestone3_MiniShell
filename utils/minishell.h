@@ -33,19 +33,19 @@ void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
 
 //unset.c
-void		unset_env(t_env **env, char *cmd);
+void		unset_env(t_env **env, char **cmd);
 
 /****************************** EXPANDER ******************************/
 
+char		*join_and_free(char *s1, const char *s2);
 char		*expanded(t_env *begin_list, char *key);
 char		*get_key(char *str);
-char		*expand_arg(t_env *begin_list, char *str, int i);
+char		*expand_arg(t_env *new_env, char *line, int i);
 
 /******************************* TOKENS *******************************/
 
 char		**split_with_quotes(char *line);
-char		**tokens(char *line);
-char		*remove_quotes(char *string);
+char		**tokens(t_env *new_env, char *line);
 
 /**********************************************************************/
 

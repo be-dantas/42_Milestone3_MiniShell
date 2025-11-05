@@ -64,7 +64,7 @@ void	export_arg(char **line_tokens, t_env *new_env)
 	int	i;
 
 	i = 1;
-	if (!line[1])
+	if (!line_tokens[1])
 		creat_print_export(new_env);
 	else if (valid_arg(line_tokens) == 1)
 	{
@@ -73,6 +73,5 @@ void	export_arg(char **line_tokens, t_env *new_env)
 			check_to_put(line_tokens[i], &new_env);
 			i++;
 		}
-		free_array(line_tokens);
 	}
 }

@@ -1,6 +1,6 @@
 #include "../../utils/minishell.h"
 
-static char	*join_and_free(char *s1, const char *s2)
+char	*join_and_free(char *s1, const char *s2)
 {
 	char	*res;
 

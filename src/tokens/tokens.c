@@ -1,45 +1,52 @@
 #include "../../utils/minishell.h"
 
-char	*remove_quotes(char *string)
+static char	*remove_quotes(char *string, int i, int j)
 {
-	int		i;
 	int		len;
-	int		count;
+	int		count1;
+	int		count2;
 	char	*str2;
 
-	i = 0;
 	len = ft_strlen(string);
-	count = ft_countchar(string, string[0]);
-	str2 = malloc(sizeof(char) * (len - count + 1));
-	count = 0;
+	count1 = ft_countchar(string, '\'');
+	count2 = ft_countchar(string, '\"');
+	if (count1 % 2 != 0 || count2 % 2 != 0)
+		return (NULL);
+	str2 = malloc(sizeof(char) * (len - (count1 + count2 ) + 1));
 	while (string[i])
 	{
-		if (string[i] != string[0])
+		if (string[i] != '\'' && string[i] != '\"')
 		{
-			str2[count] = string[i];
-			count++;
+			str2[j] = string[i];
+			j++;
 		}
 		i++;
 	}
-	str2[count] = '\0';
+	str2[j] = '\0';
 	return (str2);
 }
 
-char	**tokens(char *line)
+char	**tokens(t_env *new_env, char *line)
 {
 	char	*expand;
 	char	**split_tokens;
+	char	*temp;
 
-	expand = expand_arg(line);
+	expand = expand_arg(new_env, line, 0);
 	split_tokens = split_with_quotes(expand);
-	if (ft_countchar(split_tokens[0], ' ') != 0)
+	temp = remove_quotes(split_tokens[0], 0 , 0);
+	printf("%s\n", split_tokens[0]);
+	printf("%s\n", temp);
+	if (ft_countchar(split_tokens[0], ' ') != 0 || temp == NULL)
 	{
-		printf("Command not found");
+		printf("Command not found\n");
 		free(expand);
-		free_array(split_tokens);
+		if (temp)
+			free(temp);
 		return (NULL);
 	}
-	remove_quotes(split_tokens[0]);
+	free(split_tokens[0]);
+	split_tokens[0] = temp;
 	free(expand);
 	return (split_tokens);
 }
