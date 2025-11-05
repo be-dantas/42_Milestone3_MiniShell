@@ -1,19 +1,109 @@
 #include "../../../utils/minishell.h"
 
+char    *join_all(char **string, unsigned int start);
+char    *split_to_line(char **token);
+
 char	*echo(char **token, t_env *begin_list)
 {
-	int	i;
+	char	*result;
+	char	*line;
 
 	(void)token;
 	(void)begin_list;
-	i = 0;
-	while (token[i] != NULL)
-	{
-		printf("%s\n", token[i]);
-		i++;
-	}
-	return (token[i]);
+	line = split_to_line(token);
+	result = NULL;
+
+	printf("%s\n", line);
+	return (result);
 }
+
+char	*split_to_line(char **token)
+{
+	int		flag;
+	char	*result;
+
+	result = NULL;
+	flag = 0;
+
+	if (token[1][0] == '-' && token[1][1] == 'n')
+	{
+		if (token[1][2] != '\0')
+		{
+			printf("Command not found\n");
+			return (NULL);
+		}
+		//chamo a função de concatenar split a partir do token[2]
+		result = join_all(token, 2);
+	}
+	else
+	{
+		result = join_all(token, 1);
+	}	//chamo a função de concatenar split a partir do token[1]
+	return (result);
+}
+
+char	*join_all(char **string, unsigned int start)
+{
+	char	*result;
+	char	*temp;
+
+	temp = NULL;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (string[start] != NULL)
+	{
+		temp = ft_strjoin(result, string[start]);
+		free(result);
+		result = temp;
+		if (string[start + 1])
+		{
+			temp = ft_strjoin(result, " ");
+			free(result);
+			result = temp;
+		}
+		start++;
+	}
+	return (result);
+}
+/*
+int main()
+{
+	char **token = malloc(sizeof(char *) * 7);
+	t_env	*ptr;
+
+	ptr = NULL;
+	//token = NULL;
+	token[0] = "echo";
+	token[1] = "palavra0";
+	token[2] = "palavra1";
+	token[3] = ">palavra2.txt";
+	token[4] = "palavra3";
+	token[5] = "palavra4";
+	token[6] = NULL;
+	echo(token, ptr);
+	free(token);
+	
+	return (0);
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************************************************************************/
+
+
 
 // int	print_without_n(char **result, t_env *begin_list, int i, int j)
 // {
