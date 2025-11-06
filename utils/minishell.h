@@ -20,6 +20,7 @@ typedef struct s_env
 }	t_env;
 
 //echo
+char    *echo(char **token, t_env *begin_list);
 
 //export
 void		check_to_put(char *split_line, t_env **new_env);

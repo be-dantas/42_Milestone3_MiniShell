@@ -9,13 +9,13 @@ char	*get_file_name(char *line)
 	char	*file_name;
 	char	**to_free1;
 	char	*to_free2;
-
+										//palavra, palavra1.txt palavra2 palavra3 ....
 	to_free1 = NULL;
 	to_free2 = NULL;
 	file_name = NULL;
-	to_free1 = ft_split(line, '>');
-	to_free2 = ft_split(to_free1[1], ' ')[0];
-	file_name = to_free2;
+	to_free1 = ft_split(line, '>'); // nessa parte
+	to_free2 = ft_split(to_free1[1], ' ')[0]; //palavra.txt, palavra2, palavra3, ... 
+	file_name = ft_strdup(to_free2);
 	free_array(to_free1);
 	free(to_free2);
 	return (file_name);
@@ -23,16 +23,35 @@ char	*get_file_name(char *line)
 
 char	*concatenate_file(char *line)
 {
-	(void)line;
+	int		fd;
+	char	*file_name;
+
+	file_name = get_file_name(line);
+	fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	char **to_free1 = ft_split(line, '>');//teste>teste teste - split no ">"
+	char *string_antes_do_sinal = ft_strdup(to_free1[0]);//valor splitado = teste teste sdfasdasdasd [0], ajskdhkajshd kajshd kaksjd hkakajshd [1]
+	char *new_string_antes_do_sinal = ft_strjoin(string_antes_do_sinal, " ");
+	char **to_free2 = ft_split(to_free1[1], ' ');//valor  = split do primeiro = ajskdhkajshd,[0] kajshd[1] kaksjd[2] hkakajshd[3]
+	char *result = ft_strjoin(new_string_antes_do_sinal, join_all(to_free2, 1));//join_all(split so primeiro 1)
+	write(fd, result, ft_strlen(result));
+	free(file_name);
 	return (NULL);
 }
 
 char	*overwrite_file(char *line)
 {
-	int	fd;
+	int		fd;
+	char	*file_name;
 
-	fd = open(get_file_name(line), O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	write(fd, line, ft_strlen(line));
+	file_name = get_file_name(line);
+	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	char **to_free1 = ft_split(line, '>');//teste>teste teste - split no ">"
+	char *string_antes_do_sinal = ft_strdup(to_free1[0]);//valor splitado = teste teste sdfasdasdasd [0], ajskdhkajshd kajshd kaksjd hkakajshd [1]
+	char *new_string_antes_do_sinal = ft_strjoin(string_antes_do_sinal, " ");
+	char **to_free2 = ft_split(to_free1[1], ' ');//valor  = split do primeiro = ajskdhkajshd,[0] kajshd[1] kaksjd[2] hkakajshd[3]
+	char *result = ft_strjoin(new_string_antes_do_sinal, join_all(to_free2, 1));//join_all(split so primeiro 1)
+	write(fd, result, ft_strlen(result));
+	free(file_name);
 	return (NULL);
 }
 
@@ -68,7 +87,7 @@ char	*echo(char **token, t_env *begin_list)
 	char	*line;
 
 	line = split_to_line(token);
-	printf("%s = line\n", line);
+	//printf("%s = line\n", line);
 	result = check_line(line, begin_list);
 	printf("%s", line);
 	return (result);
