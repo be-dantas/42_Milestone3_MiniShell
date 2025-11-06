@@ -8,7 +8,7 @@ static void	handle(int sig)
 
 static char	*read_input(char *ppt, t_env *new_env)
 {
-	char		*line;
+	char	*line;
 
 	line = readline(ppt);
 	if (line == NULL || ft_strncmp(line, "exit", 5) == 0)
