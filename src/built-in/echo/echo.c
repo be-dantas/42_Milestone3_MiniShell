@@ -4,6 +4,38 @@
 char    *join_all(char **string, unsigned int start);
 char    *split_to_line(char **token);
 
+char	*get_file_name(char *line)
+{
+	char	*file_name;
+	char	**to_free1;
+	char	*to_free2;
+
+	to_free1 = NULL;
+	to_free2 = NULL;
+	file_name = NULL;
+	to_free1 = ft_split(line, '>');
+	to_free2 = ft_split(to_free1[1], ' ')[0];
+	file_name = to_free2;
+	free_array(to_free1);
+	free(to_free2);
+	return (file_name);
+}
+
+char	*concatenate_file(char *line)
+{
+	(void)line;
+	return (NULL);
+}
+
+char	*overwrite_file(char *line)
+{
+	int	fd;
+
+	fd = open(get_file_name(line), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	write(fd, line, ft_strlen(line));
+	return (NULL);
+}
+
 char	*check_line(char *line, t_env *begin_list)
 {
 	int		i;
@@ -22,11 +54,11 @@ char	*check_line(char *line, t_env *begin_list)
 		i++;
 	}
 	if (flag == 2)
-		;//concatenar
+		return (concatenate_file(line));
 	if (flag == 1)
-		;//sobrescrever
+		return (overwrite_file(line));
 	if (flag == 0)
-		return (line);//simplesmente escrever
+		return (line);
 	return (NULL);
 }
 
@@ -36,8 +68,8 @@ char	*echo(char **token, t_env *begin_list)
 	char	*line;
 
 	line = split_to_line(token);
+	printf("%s = line\n", line);
 	result = check_line(line, begin_list);
-
 	printf("%s", line);
 	return (result);
 }
@@ -56,16 +88,10 @@ char	*split_to_line(char **token)
 			printf("Command not found\n");
 			return (NULL);
 		}
-		//chamo a função de concatenar split a partir do token[2]
 		result = join_all(token, 2);
 	}
 	else
-	{
-		result = join_all(token, 1);
-		temp = result;
-		free(result);
-		ft_strjoin(temp, "\n");
-	}	//chamo a função de concatenar split a partir do token[1]
+		result = ft_strjoin(join_all(token, 1), "\n");
 	return (result);
 }
 
