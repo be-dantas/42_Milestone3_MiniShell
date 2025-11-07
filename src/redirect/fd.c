@@ -1,7 +1,5 @@
 #include "../../utils/minishell.h"
 
-#include "../../utils/minishell.h"
-
 static void	func_flag(char *line, int *i, int quote[2])
 {
 	while (line[*i] && line[*i] != '<' && line[*i] != '>')
