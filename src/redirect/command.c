@@ -25,30 +25,31 @@ static int	skip_redirection(char *line, int i, int flag[2])
 	return (i);
 }
 
-char	*command(char *line)
+//command(str, 0, 0, ft_strdup(""));
+char	*command(char *line, int i, int len, char *result)
 {
-	int		i = 0;
-	int		flag[2] = {0, 0};
-	char	*result = ft_strdup("");
+	int	flag[2];
 
+	flag[0] = 0;
+	flag[1] = 0;
 	while (line[i])
 	{
 		update_quotes(line[i], flag);
 		if ((line[i] == '>' || line[i] == '<') && flag[0] == 0 && flag[1] == 0)
 		{
 			i = skip_redirection(line, i, flag);
-			continue;
+			continue ;
 		}
 		if (line[i] == ' ' && (result[0] == '\0'
 				|| result[ft_strlen(result) - 1] == ' '))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		result = ft_strjoin_char(result, line[i]);
 		i++;
 	}
-	int len = ft_strlen(result);
+	len = ft_strlen(result);
 	while (len > 0 && result[len - 1] == ' ')
 		result[--len] = '\0';
 	return (result);

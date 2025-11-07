@@ -25,11 +25,9 @@ static int	open_write_fd(char *line, int i)
 		i++;
 	while (line[i] == ' ')
 		i++;
-
 	start = i;
 	while (line[i] && !ft_isspace(line[i]) && line[i] != '<' && line[i] != '>')
 		i++;
-
 	file = ft_substr(line, start, i - start);
 	if (line[start - 2] == '>')
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -51,7 +49,6 @@ static int	open_read_fd(char *line, int i)
 	start = i;
 	while (line[i] && !ft_isspace(line[i]) && line[i] != '<' && line[i] != '>')
 		i++;
-
 	file = ft_substr(line, start, i - start);
 	fd = open(file, O_RDONLY, 0444);
 	free(file);
