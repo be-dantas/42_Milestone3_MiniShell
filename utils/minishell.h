@@ -43,6 +43,12 @@ char		*expanded(t_env *begin_list, char *key);
 char		*get_key(char *str);
 char		*expand_arg(t_env *new_env, char *line, int i);
 
+/****************************** REDIRECT ******************************/
+
+char		*command(char *line, int i, int len, char *result);
+int			*parse_fd(char *line);
+void		exec_line(char **line_tokens, t_env *new_env);
+
 /******************************* TOKENS *******************************/
 
 char		**split_with_quotes(char *line);
@@ -53,5 +59,8 @@ char		**tokens(t_env *new_env, char *line);
 //free.c
 void		free_array(char **array);
 void		free_list(t_env **begin_list);
+
+//main.c
+char		*read_input(char *ppt, t_env *new_env);
 
 #endif
