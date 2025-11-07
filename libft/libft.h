@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 11:35:44 by wedos-sa          #+#    #+#             */
-/*   Updated: 2025/11/07 14:31:20 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:49:29 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int				ft_isascii(int c);
 int				ft_isprint(int c);
 int				ft_toupper(int ch);
 int				ft_tolower(int ch);
+int				ft_isspace(int ch);
 int				ft_strncmp(const char *string1, const char *string2,
 					size_t count);
 int				ft_strcmp(const char *string1, const char *string2);
