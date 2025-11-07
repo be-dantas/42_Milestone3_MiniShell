@@ -19,8 +19,8 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-//echo
-char    *echo(char **token, t_env *begin_list);
+//echo.c
+char		*echo(char **token, t_env *begin_list);
 
 //export
 void		check_to_put(char *split_line, t_env **new_env);
@@ -47,7 +47,7 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 
 char		*command(char *line, int i, int len, char *result);
 int			*parse_fd(char *line);
-void		exec_line(char **line_tokens, t_env *new_env);
+void		redirect_and_command(char *line, t_env *new_env);
 
 /******************************* TOKENS *******************************/
 
