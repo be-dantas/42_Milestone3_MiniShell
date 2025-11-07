@@ -1,65 +1,55 @@
-void	func_flag(char *line, int *end, int flag[2])
+#include "../../utils/minishell.h"
+
+static void	update_quotes(char c, int flag[2])
 {
-	while (line[*end] && line[*end] != '<' && line[*end] != '>')
+	if (c == '\'' && flag[1] == 0)
+		flag[0] = !flag[0];
+	else if (c == '"' && flag[0] == 0)
+		flag[1] = !flag[1];
+}
+
+static int	skip_redirection(char *line, int i, int flag[2])
+{
+	while (line[i] == '>' || line[i] == '<')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	while (line[i] && !(line[i] == ' ' && flag[0] == 0 && flag[1] == 0)
+		&& line[i] != '<' && line[i] != '>')
 	{
-		if (line[*end] == '\'')
-		{
-			if (flag[0] == 1)
-				flag[0] = 0;
-			else
-				flag[0] = 1;
-		}
-		else if (line[*end] == '\"')
-		{
-			if (flag[1] == 1)
-				flag[1] = 0;
-			else
-				flag[1] = 1;
-		}
-		(*end)++;
+		update_quotes(line[i], flag);
+		i++;
 	}
-	if (line[*end] == '<' || line[*end] == '>')
-		(*end)++;
+	while (line[i] == ' ')
+		i++;
+	return (i);
 }
 
 char	*command(char *line)
 {
-	int		start;
-	int		end;
-	int		flag[2];
-	char	*palavra;
-	char	*command;
+	int		i = 0;
+	int		flag[2] = {0, 0};
+	char	*result = ft_strdup("");
 
-	start = 0;
-	end = 0;
-	command = ft_strdup("");
-	while (line[end])
+	while (line[i])
 	{
-		while (line[end] && (flag[0] == 1 || flag[1] == 1))
-			func_flag(line, &end, flag);
-		if (!command)
+		update_quotes(line[i], flag);
+		if ((line[i] == '>' || line[i] == '<') && flag[0] == 0 && flag[1] == 0)
 		{
-			palavra = ft_substr(line, start, (end - start));
-			command = ft_strdup(palavra);
+			i = skip_redirection(line, i, flag);
+			continue;
 		}
-		else
+		if (line[i] == ' ' && (result[0] == '\0'
+				|| result[ft_strlen(result) - 1] == ' '))
 		{
-			while (!ft_isalnum(line[end])) //?
-				end++;
-			while (ft_isalnum(line[end])) //?
-				end++;
-			while (line[end] == ' ')
-				end++;
-			if (line[end] == '<' && line[end] == '>')
-				;
-			else
-				palavra = ft_substr(line, start, end - start);
-				command = ft_strjoin(command, palavra);
+			i++;
+			continue;
 		}
-		if (palavra)
-			free(palavra);
-		end++;
-		start = end;
+		result = ft_strjoin_char(result, line[i]);
+		i++;
 	}
-	return (command);
+	int len = ft_strlen(result);
+	while (len > 0 && result[len - 1] == ' ')
+		result[--len] = '\0';
+	return (result);
 }
