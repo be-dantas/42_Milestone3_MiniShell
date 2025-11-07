@@ -55,12 +55,12 @@ char    *echo(char **token, t_env *begin_list)
 	if (flag)
 	{
 		result = ft_join_all(token, 2); //concatena do item 2 pra cima ou seja echo, -n, descartado
-		printf("%s", result);
+		ft_printf("%s", result);
 	}
 	else
 	{
 		result = ft_join_all(token, 1);
-		printf("%s\n", result);
+		ft_printf("%s\n", result);
 	}
 	return (result);
 }
