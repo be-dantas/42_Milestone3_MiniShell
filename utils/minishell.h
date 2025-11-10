@@ -40,6 +40,9 @@ void		unset_env(t_env **env, char **cmd);
 //pwd.c
 void		pwd(t_env *new_env);
 
+//cd.c
+void		cd(char **line, t_env **begin_list);
+
 /****************************** EXPANDER ******************************/
 
 char		*join_and_free(char *s1, const char *s2);
