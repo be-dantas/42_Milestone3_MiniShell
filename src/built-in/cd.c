@@ -4,29 +4,43 @@ void	update_pwd(t_env **begin_list)
 {
 	t_env	*list_reset;
 	t_env	*ptr;
-
+	char	*pwd;
+	char	*temp;
+	
+	temp = NULL;
+	pwd = NULL;
 	list_reset = *begin_list;
 	ptr = NULL;
-	while (*begin_list)
+	while (list_reset)
 	{
-		if (ft_strcmp((*begin_list)->key, "OLDPWD") == 0)
+		if (list_reset->key && ft_strcmp(list_reset->key, "OLDPWD") == 0)
 		{
-			(*begin_list)->value = expanded(*begin_list, "PWD");
-			(*begin_list) = list_reset;
+			//free(list_reset->value);
+			//list_reset->value = ft_strdup("");
+			temp=list_reset->value;
+			list_reset->value = expanded(list_reset, "PWD");
+			free(temp);
+			list_reset = (*begin_list);
 			break ;
 		}
-		(*begin_list) = (*begin_list)->next;
+		list_reset = list_reset->next;
 	}
-	while (*begin_list)
+	while (list_reset)
 	{
-		if (ft_strcmp((*begin_list)->key, "PWD") == 0)
+		if (list_reset->key && ft_strcmp(list_reset->key, "PWD") == 0)
 		{
-			(*begin_list)->value = getcwd(NULL, 0);
-			(*begin_list) = list_reset;
+			//free(list_reset->value);
+			//list_reset->value = ft_strdup("");
+			pwd = getcwd(NULL, 0);
+			list_reset->value = ft_strdup(pwd);
+			list_reset = (*begin_list);
 			break ;
 		}
-		(*begin_list) = (*begin_list)->next;
+		list_reset = list_reset->next;
 	}
+	(*begin_list) = list_reset;
+	if (pwd)
+		free(pwd);
 }
 
 void	cd(char **line, t_env **begin_list)
