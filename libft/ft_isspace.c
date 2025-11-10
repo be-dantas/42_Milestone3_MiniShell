@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_countchar.c                                     :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wedos-sa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/31 15:54:25 by bedantas          #+#    #+#             */
-/*   Updated: 2025/10/31 15:56:28 by bedantas         ###   ########.fr       */
+/*   Created: 2025/11/07 14:41:32 by wedos-sa          #+#    #+#             */
+/*   Updated: 2025/11/07 14:47:47 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_countchar(char *str, char c)
+int	ft_isspace(int ch)
 {
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			count++;
-		i++;
-	}
-	return (count);
+	return ((ch >= 9 && ch <= 13) || ch == 32);
 }

@@ -19,13 +19,14 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-//echo
-
 //export
 void		update_value(char *split_line, t_env *pointer);
 void		check_to_put(char *split_line, t_env **new_env);
 void		export_arg(char **line_tokens, t_env *new_env);
 int			valid_arg(char **split_line);
+
+//echo.c
+char		*echo(char **token, t_env *begin_list);
 
 //env.c
 void		print_env(t_env *ptr);
@@ -39,12 +40,21 @@ void		pwd(t_env *new_env);
 //unset.c
 void		unset_env(t_env **env, char **cmd);
 
+//pwd.c
+void		pwd(t_env *new_env);
+
 /****************************** EXPANDER ******************************/
 
 char		*join_and_free(char *s1, const char *s2);
 char		*expanded(t_env *begin_list, char *key);
 char		*get_key(char *str);
 char		*expand_arg(t_env *new_env, char *line, int i);
+
+/****************************** REDIRECT ******************************/
+
+char		*command(char *line, int i, int len, char *result);
+int			*parse_fd(char *line);
+void		redirect_and_command(char *line, t_env *new_env);
 
 /******************************* TOKENS *******************************/
 
@@ -56,5 +66,8 @@ char		**tokens(t_env *new_env, char *line);
 //free.c
 void		free_array(char **array);
 void		free_list(t_env **begin_list);
+
+//main.c
+char		*read_input(char *ppt, t_env *new_env);
 
 #endif

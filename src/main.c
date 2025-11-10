@@ -6,7 +6,7 @@ static void	handle(int sig)
 		printf("\nminishell ~ ");
 }
 
-static char	*read_input(char *ppt, t_env *new_env)
+char	*read_input(char *ppt, t_env *new_env)
 {
 	char	*line;
 
@@ -22,50 +22,65 @@ static char	*read_input(char *ppt, t_env *new_env)
 	return (line);
 }
 
-static void	exec_line(char **line_tokens, t_env *new_env)
-{
-	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
-		;	// 	echo(line_tokens, new_env);
-	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
-		;
-	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
-		pwd(new_env);
-	else if (ft_strncmp(line_tokens[0], "export", 7) == 0)
-		export_arg(line_tokens, new_env);
-	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
-		unset_env(&new_env, line_tokens);
-	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
-		print_env(new_env);
-	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input("exit", new_env);
-	else
-		printf("Command not found\n"); //VOCÊ VAI REMOVER NO FUTURO E SUBSTUIR PELA FUNÇÃO QUE FAZ O EXECVE
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char	**line_tokens;
 	t_env	*new_env;
 
 	(void)argc;
 	(void)argv;
 	new_env = clone_env(envp);
-	line_tokens = NULL;
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
 	while (1)
 	{
 		line = read_input("minishell ~ ", new_env);
 		if (line[0] != '\0')
-			line_tokens = tokens(new_env, line);
-		if (line_tokens)
-			exec_line(line_tokens, new_env);
-		if (*line)
-			free(line);
-		if (line_tokens)
-			free_array(line_tokens);
+			redirect_and_command(line, new_env);
+		free(line);
 	}
 	rl_clear_history();
 	return (0);
 }
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	*line;
+// 	char	**line_tokens;
+// 	t_env	*new_env;
+
+// 	int fd[2] = {0, 0};
+// 	int	*parsed_fd;
+// 	int fd_in = dup(STDIN_FILENO);
+// 	int fd_out = dup(STDOUT_FILENO);
+// 	char *comando;
+
+// 	(void)argc;
+// 	(void)argv;
+// 	new_env = clone_env(envp);
+// 	line_tokens = NULL;
+// 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
+// 		add_history(NULL);
+// 	while (1)
+// 	{
+// 		line = read_input("minishell ~ ", new_env);
+// 		if (line[0] != '\0')
+// 		{
+// 			parsed_fd = parse_fd(line);
+// 			fd[0] = parsed_fd[0];
+// 			fd[1] = parsed_fd[1];
+// 			free(parsed_fd); 
+// 			comando = command(line, 0, 0, ft_strdup(""));
+// 			dup2(fd[0], STDIN_FILENO);
+// 			dup2(fd[1], STDOUT_FILENO);
+// 			line_tokens = tokens(new_env, comando);
+// 			exec_line(line_tokens, new_env);
+// 			dup2(fd_in, STDIN_FILENO);
+// 			dup2(fd_out, STDOUT_FILENO);
+// 		}
+// 		if (*line)
+// 			free(line);
+// 	}
+// 	rl_clear_history();
+// 	return (0);
+// }
