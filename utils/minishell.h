@@ -26,6 +26,7 @@ char		*echo(char **token, t_env *begin_list);
 void		check_to_put(char *split_line, t_env **new_env);
 void		export_arg(char **line_tokens, t_env *new_env);
 int			valid_arg(char **split_line);
+void		update_value(char *split_line, t_env *pointer);
 
 //env.c
 void		print_env(t_env *ptr);
@@ -35,6 +36,9 @@ t_env		*clone_env(char **envp);
 
 //unset.c
 void		unset_env(t_env **env, char **cmd);
+
+//pwd.c
+void		pwd(t_env *new_env);
 
 /****************************** EXPANDER ******************************/
 

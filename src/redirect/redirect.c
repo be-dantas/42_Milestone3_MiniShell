@@ -8,7 +8,7 @@ static void	exec_line(char **line_tokens, t_env *new_env)
 	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
 		;
 	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
-		;
+		pwd(new_env);
 	else if (ft_strncmp(line_tokens[0], "export", 7) == 0)
 		export_arg(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
