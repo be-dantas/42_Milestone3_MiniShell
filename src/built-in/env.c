@@ -1,12 +1,7 @@
 #include "../../utils/minishell.h"
 
-void	print_env(t_env *ptr, char **line_tokens)
+void	print_env(t_env *ptr)
 {
-	if (line_tokens[1][0] != '\0')
-	{
-		printf("Command not found\n");
-		return ;
-	}
 	while (ptr != NULL)
 	{
 		if (ptr->value == NULL)

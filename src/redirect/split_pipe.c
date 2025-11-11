@@ -1,6 +1,6 @@
 #include "../../utils/minishell.h"
 
-void	func_flag(char *line, int *i, int quote[2])
+static void	func_flag(char *line, int *i, int quote[2])
 {
 	while (line[*i])
 	{
@@ -14,7 +14,7 @@ void	func_flag(char *line, int *i, int quote[2])
 	}
 }
 
-size_t	count_pipe(char *line)
+static size_t	count_pipe(char *line)
 {
 	int	i;
 	int	count;

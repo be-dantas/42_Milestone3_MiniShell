@@ -30,13 +30,13 @@ int			valid_arg(char **split_line);
 char		*echo(char **token, t_env *begin_list);
 
 //env.c
-void		print_env(t_env *ptr, char **line_tokens);
+void		print_env(t_env *ptr);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
 
 //pwd.c
-void		pwd(t_env *new_env, char **line_tokens);					 //+25 linhas
+void		pwd(t_env *new_env);
 
 //unset.c
 void		unset_env(t_env **env, char **cmd);
@@ -53,7 +53,8 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 char		*command(char *line, int i, int len, char *result);
 int			*parse_fd(char *line);										 //+25 linhas
 void		redirect_and_command(char *line, t_env *new_env);
-char		**split_pipe(char *line);
+char		**split_pipe(char *line, int i, int j);
+int			valid_input(char *line);
 
 /******************************* TOKENS *******************************/
 
