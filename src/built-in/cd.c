@@ -15,8 +15,6 @@ void	update_pwd(t_env **begin_list)
 	{
 		if (list_reset->key && ft_strcmp(list_reset->key, "OLDPWD") == 0)
 		{
-			//free(list_reset->value);
-			//list_reset->value = ft_strdup("");
 			temp=list_reset->value;
 			list_reset->value = expanded(list_reset, "PWD");
 			free(temp);
@@ -29,8 +27,6 @@ void	update_pwd(t_env **begin_list)
 	{
 		if (list_reset->key && ft_strcmp(list_reset->key, "PWD") == 0)
 		{
-			//free(list_reset->value);
-			//list_reset->value = ft_strdup("");
 			pwd = getcwd(NULL, 0);
 			list_reset->value = ft_strdup(pwd);
 			list_reset = (*begin_list);
@@ -49,7 +45,10 @@ void	cd(char **line, t_env **begin_list)
 
 	flag = 0;
 	if (line[1] == NULL || line[1][0] == '~')
+	{
 		chdir(expanded(*begin_list, "HOME"));
+		return ;
+	}
 	if (line[2] != NULL)
 		printf("cd: too many arguments\n");
 	if (line[1])

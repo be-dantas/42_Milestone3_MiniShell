@@ -3,7 +3,7 @@
 static void	handle(int sig)
 {
 	if (sig == 2)
-		printf("\nminishell ~ ");
+		printf("\n%s@minishell ~ ", getenv("USER"));
 }
 
 char	*read_input(char *ppt, t_env *new_env)
@@ -26,7 +26,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_env	*new_env;
+	char	*user;
 
+	user = ft_strjoin(getenv("USER"), "@minishell ~ ");
 	(void)argc;
 	(void)argv;
 	new_env = clone_env(envp);
@@ -34,11 +36,12 @@ int	main(int argc, char **argv, char **envp)
 		add_history(NULL);
 	while (1)
 	{
-		line = read_input("minishell ~ ", new_env);
+		line = read_input(user, new_env);
 		if (line[0] != '\0')
 			redirect_and_command(line, new_env);
 		free(line);
 	}
+	free(user);
 	rl_clear_history();
 	return (0);
 }
