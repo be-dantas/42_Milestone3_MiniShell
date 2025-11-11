@@ -9,6 +9,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 /****************************** BUILT-IN ******************************/
 
@@ -29,19 +30,16 @@ int			valid_arg(char **split_line);
 char		*echo(char **token, t_env *begin_list);
 
 //env.c
-void		print_env(t_env *ptr);
+void		print_env(t_env *ptr, char **line_tokens);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
 
 //pwd.c
-void		pwd(t_env *new_env);
+void		pwd(t_env *new_env, char **line_tokens);
 
 //unset.c
 void		unset_env(t_env **env, char **cmd);
-
-//pwd.c
-void		pwd(t_env *new_env);
 
 /****************************** EXPANDER ******************************/
 
@@ -55,6 +53,7 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 char		*command(char *line, int i, int len, char *result);
 int			*parse_fd(char *line);
 void		redirect_and_command(char *line, t_env *new_env);
+char		**split_pipe(char *line);
 
 /******************************* TOKENS *******************************/
 
@@ -68,6 +67,6 @@ void		free_array(char **array);
 void		free_list(t_env **begin_list);
 
 //main.c
-char		*read_input(char *ppt, t_env *new_env);
+char		*read_input(char *ppt, t_env *new_env, char **line_tokens);
 
 #endif

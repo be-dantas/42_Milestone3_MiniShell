@@ -6,11 +6,13 @@ static void	handle(int sig)
 		printf("\nminishell ~ ");
 }
 
-char	*read_input(char *ppt, t_env *new_env)
+char	*read_input(char *ppt, t_env *new_env, char **line_tokens)
 {
 	char	*line;
 
 	line = readline(ppt);
+	if (*line_tokens && line_tokens[1][0] != '\0')
+		return ("Command not found\n");
 	if (line == NULL || ft_strncmp(line, "exit", 5) == 0)
 	{
 		free_list(&new_env);
@@ -34,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(NULL);
 	while (1)
 	{
-		line = read_input("minishell ~ ", new_env);
+		line = read_input("minishell ~ ", new_env, NULL);
 		if (line[0] != '\0')
 			redirect_and_command(line, new_env);
 		free(line);

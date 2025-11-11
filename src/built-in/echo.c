@@ -1,4 +1,4 @@
-#include "../../../utils/minishell.h"
+#include "../../utils/minishell.h"
 
 int	check_flag(char **token)
 {
@@ -47,10 +47,15 @@ char    *ft_join_all(char **string, unsigned int start)
 
 char    *echo(char **token, t_env *begin_list)
 {
-	char    *result;
+	char	*result;
+	int		flag;
 	(void)begin_list;
-	int	flag;
 
+	if (token[1][0] == '\0')
+	{
+		printf("Command not found\n");
+		return (NULL);
+	}
 	flag = check_flag(token); //if flag == 1 não printa \n
 	if (flag)
 	{

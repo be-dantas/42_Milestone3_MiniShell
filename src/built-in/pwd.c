@@ -20,12 +20,17 @@ static t_env	*get_value_by_name(t_env **new_env)
 	return (NULL);
 }
 
-void	pwd(t_env *new_env)
+void	pwd(t_env *new_env, char **line_tokens)
 {
 	t_env	*pointer;
 	char	*pwd;
 	char	*join_pwd;
 
+	if (line_tokens[1][0] != '\0')
+	{
+		printf("Command not found\n");
+		return ;
+	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
