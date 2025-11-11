@@ -3,8 +3,11 @@
 
 static void	exec_line(char **line_tokens, t_env *new_env)
 {
+	char	*to_free;
+
+	to_free = NULL;
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
-		echo(line_tokens, new_env);
+		to_free = echo(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
 		cd (line_tokens, &new_env);
 	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
@@ -18,7 +21,8 @@ static void	exec_line(char **line_tokens, t_env *new_env)
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
 		read_input("exit", new_env);
 	else
-		printf("Command not found\n"); //VOCÊ VAI REMOVER NO FUTURO E SUBSTUIR PELA FUNÇÃO QUE FAZ O EXECVE
+		printf("Command not found\n");
+	free(to_free);
 }
 
 void	redirect_and_command(char *line, t_env *new_env)

@@ -2,41 +2,30 @@
 
 void	update_pwd(t_env **begin_list)
 {
-	t_env	*list_reset;
-	t_env	*ptr;
-	char	*pwd;
-	char	*temp;
-	
-	temp = NULL;
-	pwd = NULL;
-	list_reset = *begin_list;
-	ptr = NULL;
-	while (list_reset)
+	t_env	*begin;
+	char	*temp_1;
+	char	*temp_2;
+
+	temp_1 = NULL;
+	temp_2 = NULL;
+	begin = (*begin_list);
+	while ((*begin_list) != NULL)
 	{
-		if (list_reset->key && ft_strcmp(list_reset->key, "OLDPWD") == 0)
+		if (ft_strcmp((*begin_list)->key, "OLDPWD") == 0)
 		{
-			temp=list_reset->value;
-			list_reset->value = expanded(list_reset, "PWD");
-			free(temp);
-			list_reset = (*begin_list);
-			break ;
+			temp_2 = ft_strdup(expanded((*begin_list), "PWD"));
+			free((*begin_list)->value);
+			(*begin_list)->value = temp_2;
 		}
-		list_reset = list_reset->next;
-	}
-	while (list_reset)
-	{
-		if (list_reset->key && ft_strcmp(list_reset->key, "PWD") == 0)
+		if (ft_strcmp((*begin_list)->key, "PWD") == 0)
 		{
-			pwd = getcwd(NULL, 0);
-			list_reset->value = ft_strdup(pwd);
-			list_reset = (*begin_list);
-			break ;
+			temp_1 = getcwd(NULL, 0);
+			free((*begin_list)->value);
+			(*begin_list)->value = temp_1;
 		}
-		list_reset = list_reset->next;
+		(*begin_list) = (*begin_list)->next;
 	}
-	(*begin_list) = list_reset;
-	if (pwd)
-		free(pwd);
+	(*begin_list) = begin;
 }
 
 void	cd(char **line, t_env **begin_list)
@@ -47,6 +36,7 @@ void	cd(char **line, t_env **begin_list)
 	if (line[1] == NULL || line[1][0] == '~')
 	{
 		chdir(expanded(*begin_list, "HOME"));
+		update_pwd(begin_list);
 		return ;
 	}
 	if (line[2] != NULL)

@@ -51,6 +51,11 @@ char    *echo(char **token, t_env *begin_list)
 	(void)begin_list;
 	int	flag;
 
+	if (token[1] == NULL)
+	{
+		printf("\n");
+		return (NULL);
+	}
 	flag = check_flag(token); //if flag == 1 não printa \n
 	if (flag)
 	{
