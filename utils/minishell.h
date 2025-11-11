@@ -51,7 +51,7 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 /****************************** REDIRECT ******************************/
 
 char		*command(char *line, int i, int len, char *result);
-int			*parse_fd(char *line);										 //+25 linhas
+int			*parse_fd(char *line, int fd_in, int fd_out);				 //+25 linhas
 void		redirect_and_command(char *line, t_env *new_env);
 char		**split_pipe(char *line, int i, int j);
 int			valid_input(char *line);

@@ -59,32 +59,38 @@ static int	open_read_fd(char *line, int i)
 	return (fd);
 }
 
-int	*parse_fd(char *line)
+int	*parse_fd(char *line, int fd_in, int fd_out)
 {
 	int		i;
 	int		quote[2];
 	int		*fd;
 
+	i = 0;
 	fd = malloc(sizeof(int) * 2);
-	fd[0] = STDIN_FILENO;
-	fd[1] = STDOUT_FILENO;
+	fd[0] = fd_in;
+	fd[1] = fd_out;
 	quote[0] = 0;
 	quote[1] = 0;
-	i = 0;
 	while (line[i])
 	{
 		func_flag(line, &i, quote);
 		if (!quote[0] && !quote[1])
 		{
-			if (line[i] == '<')
+			if (line[i] == '<' && line[i] != '<')
 			{
-				if (fd[0] != STDIN_FILENO)
+				if (fd[0] != fd_in)
 					close(fd[0]);
 				fd[0] = open_read_fd(line, i);
 			}
+			if (line[i] == '<' && line[i] == '<')
+			{
+			// 	if (fd[0] != fd_in)
+			// 		close(fd[0]);
+			// 	fd[0] = open_read_fd(line, i); aqui funcao para <<
+			}
 			else if (line[i] == '>')
 			{
-				if (fd[1] != STDOUT_FILENO)
+				if (fd[1] != fd_out)
 					close(fd[1]);
 				fd[1] = open_write_fd(line, i);
 			}
