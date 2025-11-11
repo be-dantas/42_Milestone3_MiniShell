@@ -35,17 +35,13 @@ size_t	count_pipe(char *line)
 	return (count);
 }
 
-char	**split_pipe(char *line)
+char	**split_pipe(char *line, int i, int j)
 {
-	int		i;
-	int		j;
 	int		start;
 	int		i_pipe;
 	char	**res;
 	int		quote[2];
 
-	i = 0;
-	j = 0;
 	i_pipe = count_pipe(line);
 	res = malloc(sizeof(char *) * (i_pipe + 2));
 	quote[0] = 0;

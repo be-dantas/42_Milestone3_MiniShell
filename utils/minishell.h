@@ -36,7 +36,7 @@ void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
 
 //pwd.c
-void		pwd(t_env *new_env, char **line_tokens);
+void		pwd(t_env *new_env, char **line_tokens);					 //+25 linhas
 
 //unset.c
 void		unset_env(t_env **env, char **cmd);
@@ -51,7 +51,7 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 /****************************** REDIRECT ******************************/
 
 char		*command(char *line, int i, int len, char *result);
-int			*parse_fd(char *line);
+int			*parse_fd(char *line);										 //+25 linhas
 void		redirect_and_command(char *line, t_env *new_env);
 char		**split_pipe(char *line);
 

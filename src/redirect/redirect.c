@@ -78,7 +78,7 @@ static t_redirect	init_redirect_vars(char *line)
 	rd.fd_in = dup(STDIN_FILENO);
 	rd.fd_out = dup(STDOUT_FILENO);
 	rd.prev_fd = rd.fd_in;
-	rd.s_pipe = split_pipe(line);
+	rd.s_pipe = split_pipe(line, 0, 0);
 	rd.count_pipe = 0;
 	while (rd.s_pipe[rd.count_pipe])
 		rd.count_pipe++;
@@ -103,7 +103,7 @@ static void	redirect_fd(char *line)
 
 	fd_temp = parse_fd(line);
 	if (!fd_temp)
-		return;
+		return ;
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];
 	free(fd_temp);
