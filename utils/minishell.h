@@ -9,6 +9,7 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 /****************************** BUILT-IN ******************************/
 
@@ -25,6 +26,9 @@ void		check_to_put(char *split_line, t_env **new_env);
 void		export_arg(char **line_tokens, t_env *new_env);
 int			valid_arg(char **split_line);
 
+//cd.c
+void		cd(char **line, t_env **begin_list);
+
 //echo.c
 char		*echo(char **token, t_env *begin_list);
 
@@ -40,9 +44,6 @@ void		pwd(t_env *new_env);
 //unset.c
 void		unset_env(t_env **env, char **cmd);
 
-//pwd.c
-void		pwd(t_env *new_env);
-
 /****************************** EXPANDER ******************************/
 
 char		*join_and_free(char *s1, const char *s2);
@@ -53,13 +54,26 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 /****************************** REDIRECT ******************************/
 
 char		*command(char *line, int i, int len, char *result);
-int			*parse_fd(char *line);
+int			*parse_fd(char *line, int fd_in, int fd_out);				 //+25 linhas
+
+char		*heredoc(t_env *begin_list, char *line);
+
+int			is_builtin(char *cmd);
+void		redirect_fd(char *line, int fd_in, int fd_out);
+// void		exec_external(char **tokens, t_env *env);
+void		exec_line(char **line_tokens, t_env *new_env);
+
+void		process_one_split(char *line, t_env *env, int fd_in, int fd_out);
+void		process_pipes(char **pipes, t_env *env);
+
 void		redirect_and_command(char *line, t_env *new_env);
+char		**split_pipe(char *line, int i, int j);
+int			valid_input(char *line);
 
 /******************************* TOKENS *******************************/
 
 char		**split_with_quotes(char *line);
-char		**tokens(t_env *new_env, char *line);
+char		**tokens(char *line);
 
 /**********************************************************************/
 
