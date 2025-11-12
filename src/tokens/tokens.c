@@ -26,19 +26,16 @@ static char	*remove_quotes(char *string, int i, int j)
 	return (str2);
 }
 
-char	**tokens(t_env *new_env, char *line)
+char	**tokens(char *line)
 {
-	char	*expand;
 	char	**split_tokens;
 	char	*temp;
 
-	expand = expand_arg(new_env, line, 0);
-	split_tokens = split_with_quotes(expand);
+	split_tokens = split_with_quotes(line);
 	temp = remove_quotes(split_tokens[0], 0, 0);
 	if (ft_countchar(split_tokens[0], ' ') != 0 || temp == NULL)
 	{
 		printf("Command not found\n");
-		free(expand);
 		if (temp)
 			free(temp);
 		free_array(split_tokens);
@@ -46,6 +43,5 @@ char	**tokens(t_env *new_env, char *line)
 	}
 	free(split_tokens[0]);
 	split_tokens[0] = temp;
-	free(expand);
 	return (split_tokens);
 }

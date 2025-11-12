@@ -76,13 +76,13 @@ int	*parse_fd(char *line, int fd_in, int fd_out)
 		func_flag(line, &i, quote);
 		if (!quote[0] && !quote[1])
 		{
-			if (line[i] == '<' && line[i] != '<')
+			if (line[i] == '<' && line[i + 1] != '<')
 			{
 				if (fd[0] != fd_in)
 					close(fd[0]);
 				fd[0] = open_read_fd(line, i);
 			}
-			if (line[i] == '<' && line[i] == '<')
+			if (line[i] == '<' && line[i + 1] == '<')
 			{
 			// 	if (fd[0] != fd_in)
 			// 		close(fd[0]);
