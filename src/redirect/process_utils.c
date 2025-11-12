@@ -19,7 +19,6 @@ void	redirect_fd(char *line, int fd_in, int fd_out)
 	int	fd[2];
 	int	*fd_temp;
 
-	printf("10\n");
 	fd_temp = parse_fd(line, fd_in, fd_out);
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];

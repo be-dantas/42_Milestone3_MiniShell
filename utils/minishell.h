@@ -56,6 +56,8 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 char		*command(char *line, int i, int len, char *result);
 int			*parse_fd(char *line, int fd_in, int fd_out);				 //+25 linhas
 
+char		*heredoc(t_env *begin_list, char *line);
+
 int			is_builtin(char *cmd);
 void		redirect_fd(char *line, int fd_in, int fd_out);
 // void		exec_external(char **tokens, t_env *env);
