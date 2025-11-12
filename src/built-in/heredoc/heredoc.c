@@ -1,13 +1,13 @@
-//#include "../../../utils/minishell.h"
-#include "../../../libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdio.h>
+#include "../../../utils/minishell.h"
+//#include "../../../libft/libft.h"
+//# include <readline/readline.h>
+//# include <readline/history.h>
+//# include <signal.h>
+//#include <string.h>
+//#include <stdio.h>
+//#include <stdio.h>
 
-char	*heredoc(char *line)
+char	*heredoc(t_env *begin_list, char *line)
 {
 	//procurar a palavra que vai dar stop no heredoc
 	//o primeiro passo será percorrer a lista de here enviada
@@ -60,13 +60,13 @@ char	*heredoc(char *line)
 			|| (eof[0] == '\"' && eof[ft_strlen(eof)] == '\"'))
 		printf("%s", result);
 	else
-		eof = expanded(eof);
+		eof = expanded(begin_list, eof);
 	return(eof);
 }
-
+/*
 int main()
 {
 	char *str = heredoc("COMANDO_1 <<'HERE' PALAVRAS_APÓS");
 	free(str);
 	return (0);
-}
+}*/
