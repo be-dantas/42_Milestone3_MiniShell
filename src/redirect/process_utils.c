@@ -19,14 +19,21 @@ void	redirect_fd(char *line, int fd_in, int fd_out)
 	int	fd[2];
 	int	*fd_temp;
 
+	printf("10\n");
 	fd_temp = parse_fd(line, fd_in, fd_out);
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];
 	free(fd_temp);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[1], STDOUT_FILENO);
-	close(fd[0]);
-	close(fd[1]);
+	if (fd[0] != fd_in)
+	{
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	if (fd[1] != fd_out)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+	}
 }
 
 // void	exec_external(char **tokens, t_env *env)
@@ -58,7 +65,7 @@ void	exec_line(char **line_tokens, t_env *new_env)
 	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
 		print_env(new_env);
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input("exit", new_env, line_tokens);
+		read_input("exit", new_env);
 	else
 		printf("Command not found\n"); //VOCÊ VAI REMOVER NO FUTURO E SUBSTUIR PELA FUNÇÃO QUE FAZ O EXECVE
 } // vai mudar tudo pq não deve receber o comando splitado no começo

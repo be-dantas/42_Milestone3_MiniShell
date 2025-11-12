@@ -26,6 +26,9 @@ void		check_to_put(char *split_line, t_env **new_env);
 void		export_arg(char **line_tokens, t_env *new_env);
 int			valid_arg(char **split_line);
 
+//cd.c
+void		cd(char **line, t_env **begin_list);
+
 //echo.c
 char		*echo(char **token, t_env *begin_list);
 
@@ -77,6 +80,6 @@ void		free_array(char **array);
 void		free_list(t_env **begin_list);
 
 //main.c
-char		*read_input(char *ppt, t_env *new_env, char **line_tokens);
+char		*read_input(char *ppt, t_env *new_env);
 
 #endif
