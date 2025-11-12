@@ -1,4 +1,4 @@
-#include "../../../utils/minishell.h"
+#include "../../utils/minishell.h"
 //#include "../../../libft/libft.h"
 //# include <readline/readline.h>
 //# include <readline/history.h>
@@ -7,7 +7,7 @@
 //#include <stdio.h>
 //#include <stdio.h>
 
-char	*heredoc(t_env *begin_list, char *line)
+void	heredoc(t_env *begin_list, char *line)
 {
 	//procurar a palavra que vai dar stop no heredoc
 	//o primeiro passo será percorrer a lista de here enviada
@@ -19,9 +19,6 @@ char	*heredoc(t_env *begin_list, char *line)
 	//após, verifico se o valor [1] está com aspas simples, caso esteja, não expande nada
 	//caso contrário, expande tudo
 	//CASO seja encontrado aspas no EOF, todas as variáveis não serão expandidas
-	int		i;
-	int		j;
-	int		k;
 	char	*eof;
 	char	*to_free1;
 	char	*to_free2;
@@ -36,9 +33,6 @@ char	*heredoc(t_env *begin_list, char *line)
 	to_free_s2 = NULL;
 	to_free1 = NULL;
 	to_free2 = NULL;
-	i = 0;
-	j = i;
-	k = j;
 	eof = strstr(line, "<<");
 	to_free_s1 = ft_split(eof, ' ');
 	to_free1 = to_free_s1[0];
@@ -61,7 +55,6 @@ char	*heredoc(t_env *begin_list, char *line)
 		printf("%s", result);
 	else
 		eof = expanded(begin_list, eof);
-	return(eof);
 }
 /*
 int main()

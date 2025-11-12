@@ -20,18 +20,20 @@ static t_env	*get_value_by_name(t_env **new_env)
 	return (NULL);
 }
 
-void	pwd(t_env *new_env)
+void	pwd(char **line_tokens, t_env *new_env)
 {
 	t_env	*pointer;
 	char	*pwd;
 	char	*join_pwd;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	if (line_tokens[1] != NULL)
 	{
-		perror("pwd");
+		printf("pwd: too many arguments\n");
 		return ;
 	}
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (perror("pwd"));
 	printf("%s\n", pwd);
 	pointer = get_value_by_name(&new_env);
 	if (pointer)

@@ -52,11 +52,11 @@ void	redirect_fd(char *line, int fd_in, int fd_out)
 void	exec_line(char **line_tokens, t_env *new_env)
 {
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
-		echo(line_tokens, new_env);
+		echo(line_tokens);
 	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
-		;
+		cd(line_tokens, &new_env);
 	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
-		pwd(new_env);
+		pwd(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "export", 7) == 0)
 		export_arg(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)

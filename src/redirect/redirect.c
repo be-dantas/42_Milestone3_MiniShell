@@ -16,11 +16,9 @@ static t_redirect	init_redirect_vars(char *line)
 
 void	redirect_and_command(char *input, t_env *env)
 {
-	int			i;
 	char		*line;
 	t_redirect	rd;
 
-	i = 0;
 	line = expand_arg(env, input, 0);
 	if (!valid_input(line))
 	{

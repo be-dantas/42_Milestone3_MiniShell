@@ -20,17 +20,13 @@ static int	check_flag(char **token)
 	return (1);
 }
 
-char    *echo(char **token, t_env *begin_list)
+void	echo(char **token)
 {
 	char    *result;
-	(void)begin_list;
 	int	flag;
 
 	if (token[1] == NULL)
-	{
 		printf("\n");
-		return (NULL);
-	}
 	flag = check_flag(token);
 	if (flag)
 	{
@@ -42,5 +38,5 @@ char    *echo(char **token, t_env *begin_list)
 		result = ft_join_all(token, 1);
 		ft_printf("%s\n", result);
 	}
-	return (result);
+	free(result);
 }
