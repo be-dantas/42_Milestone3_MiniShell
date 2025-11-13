@@ -1,5 +1,5 @@
 #include "../../utils/minishell.h"
-#include "redirect.h"
+#include "process.h"
 
 /*
 static void	process_one_fork(char **line_tokens, t_env *env)

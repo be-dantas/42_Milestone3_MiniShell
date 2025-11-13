@@ -1,5 +1,5 @@
 #include "../../utils/minishell.h"
-#include "redirect.h"
+#include "process.h"
 
 int	is_builtin(char *cmd)
 {

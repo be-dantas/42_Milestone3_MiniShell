@@ -1,4 +1,5 @@
 #include "../../utils/minishell.h"
+#include "process.h"
 
 static void	update_quotes(char c, int flag[2])
 {

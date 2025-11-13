@@ -1,4 +1,5 @@
 #include "../../utils/minishell.h"
+#include "redirect.h"
 
 static void	func_flag(char *line, int *i, int quote[2])
 {
