@@ -1,0 +1,42 @@
+#include "../../../utils/minishell.h"
+
+static int	list_size(t_env *env)
+{
+	int	count;
+
+	count = 0;
+	while (env)
+	{
+		count++;
+		env = env->next;
+	}
+	return (count);
+}
+
+// env_list_to_array(env, 0, ft_strdup(""), ft_strdup(""));
+char	**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2)
+{
+	int		size;
+	char	**array;
+
+	size = list_size(env);
+	array = malloc(sizeof(char *) * (size + 1));
+	if (!array)
+		return (NULL);
+	while (env)
+	{
+		tmp1 = ft_strjoin(env->key, "=");
+		if (env->value)
+		{
+			tmp2 = ft_strjoin(tmp2, env->value);
+			free(tmp1);
+			array[i] = tmp2;
+		}
+		else
+			array[i] = tmp1;
+		i++;
+		env = env->next;
+	}
+	array[i] = NULL;
+	return (array);
+}

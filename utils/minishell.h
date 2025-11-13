@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../src/redirect/redirect.h"
+# include "../src/redirect/redirect.h"
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -33,6 +33,7 @@ void		print_env(t_env *ptr);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
+t_env		*get_value_by_name(t_env **new_env, char *str);
 void		pwd(char **line_tokens, t_env *new_env);
 void		unset_env(t_env **env, char **cmd);
 
@@ -45,17 +46,24 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 
 /****************************** PROCESS *******************************/
 
+//exec
+char		**path(t_env *env);
+char		*command_valid(char **tokens, char **path_split);
+void		cmd_bar(char **tokens, t_env *env);
+void		cmd_not_bar(char **tokens, t_env *env);
+char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
+
 //tokens
 char		**split_with_quotes(char *line);
 char		**tokens(char *line);
 
 char		*command(char *line);
-int			is_builtin(char *cmd);
-void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
-// void		exec_external(char **tokens, t_env *env);
-void		exec_line(char **line_tokens, t_env *new_env);
 void		process_one_split(char *line, t_env *env, int fd_in, int fd_out);
 void		process_pipes(char **pipes, t_env *env);
+int			is_builtin(char *cmd);
+void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
+void		exec_external(char **tokens, t_env *env);
+void		exec_line(char **line_tokens, t_env *new_env);
 
 /****************************** REDIRECT ******************************/
 

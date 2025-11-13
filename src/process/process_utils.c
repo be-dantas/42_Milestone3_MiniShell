@@ -38,19 +38,24 @@ void	redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
 	}
 }
 
-// void	exec_external(char **tokens, t_env *env)
-// {
-// 	char *path = find_in_path(tokens[0], env);
+void	exec_external(char **tokens, t_env *env)
+{
+	int	i;
+	int	flag;
 
-// 	if (!path)
-// 	{
-// 		write(2, "Command not found\n", 18);
-// 		exit(127);
-// 	}
-// 	execve(path, tokens, env_to_array(env));
-// 	perror("execve");
-// 	exit(EXIT_FAILURE);
-// }
+	i = 0;
+	flag = 0;
+	while (tokens[0][i])
+	{
+		if (tokens[0][i] == '/')
+			flag = 1;
+		i++;
+	}
+	if (flag == 1)
+		cmd_bar(tokens, env);
+	else
+		cmd_not_bar(tokens, env);
+}
 
 void	exec_line(char **line_tokens, t_env *new_env)
 {
