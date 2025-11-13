@@ -9,7 +9,7 @@
 //#include <stdio.h>
 //#include <stdio.h>
 
-void	heredoc(t_env *begin_list, char *line)
+static void	heredoc(t_env *begin_list, char *line)
 {
 	//procurar a palavra que vai dar stop no heredoc
 	//o primeiro passo será percorrer a lista de here enviada
@@ -58,6 +58,36 @@ void	heredoc(t_env *begin_list, char *line)
 	else
 		eof = expanded(begin_list, eof);
 }
+
+int	red_heredoc(t_env *begin_list, char *line)
+{
+	int		fd[2];
+	pid_t	pid;
+
+	if (pipe(fd) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
+	{
+		// Filho: escreve no pipe
+		// colocar aqui a tratativa para receber sinais e tratar eles no heredoc
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		heredoc(begin_list, line);
+		exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		// Pai: lê do pipe
+		close(fd[1]);
+		waitpid(pid, NULL, 0);
+		return (fd[0]);
+	}
+}
+
 /*
 int main()
 {

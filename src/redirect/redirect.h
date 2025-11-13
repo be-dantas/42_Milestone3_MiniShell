@@ -17,4 +17,12 @@ typedef struct s_valid
 	int	found_char;
 }	t_valid;
 
+typedef struct s_fd
+{
+	int	i;
+	int	tmp;
+	int	quote[2];
+	int	*fd;
+}	t_fd;
+
 #endif

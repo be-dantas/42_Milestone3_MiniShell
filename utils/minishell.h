@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include "../src/redirect/redirect.h"
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
@@ -58,8 +59,9 @@ void		process_pipes(char **pipes, t_env *env);
 
 /****************************** REDIRECT ******************************/
 
-int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);	 //+25 linhas
-void		heredoc(t_env *begin_list, char *line);
+void		char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
+int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
+int			red_heredoc(t_env *begin_list, char *line);
 void		redirect_and_command(char *line, t_env *new_env);
 char		**split_pipe(char *line, int i, int j);
 int			valid_input(char *line);

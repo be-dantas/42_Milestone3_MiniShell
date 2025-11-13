@@ -42,58 +42,50 @@ static int	open_write_fd(char *line, int i)
 	return (fd);
 }
 
-static int	open_read_fd(char *line, int i)
+static t_fd	init_parse_fd(int fd_in, int fd_out)
 {
-	int		start;
-	char	*file;
-	int		fd;
+	t_fd	fd;
 
-	i++;
-	while (line[i] == ' ')
-		i++;
-	start = i;
-	while (line[i] && !ft_isspace(line[i]) && line[i] != '<' && line[i] != '>')
-		i++;
-	file = ft_substr(line, start, i - start);
-	fd = open(file, O_RDONLY, 0444);
-	free(file);
+	fd.i = 0;
+	fd.tmp = 0;
+	fd.fd = malloc(sizeof(int) * 2);
+	if (!fd.fd)
+	{
+		fd.fd = NULL;
+		return (fd);
+	}
+	fd.fd[0] = fd_in;
+	fd.fd[1] = fd_out;
+	fd.quote[0] = 0;
+	fd.quote[1] = 0;
 	return (fd);
 }
 
 int	*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
 {
-	int		i;
-	int		quote[2];
-	int		*fd;
+	t_fd	fd;
 
-	i = 0;
-	fd = malloc(sizeof(int) * 2);
-	fd[0] = fd_in;
-	fd[1] = fd_out;
-	quote[0] = 0;
-	quote[1] = 0;
-	while (line[i])
+	fd = init_parse_fd(fd_in, fd_out);
+	while (line[fd.i])
 	{
-		func_flag(line, &i, quote);
-		if (!quote[0] && !quote[1])
+		func_flag(line, &fd.i, fd.quote);
+		if (!fd.quote[0] && !fd.quote[1])
 		{
-			if (line[i] == '<' && line[i + 1] != '<')
+			if (line[fd.i] == '<')
+				char_read(line, fd_in, &fd, begin_list);
+			else if (line[fd.i] == '>')
 			{
-				if (fd[0] != fd_in)
-					close(fd[0]);
-				fd[0] = open_read_fd(line, i);
-			}
-			if (line[i] == '<' && line[i + 1] == '<')
-				heredoc(begin_list, line);
-			else if (line[i] == '>')
-			{
-				if (fd[1] != fd_out)
-					close(fd[1]);
-				fd[1] = open_write_fd(line, i);
+				fd.tmp = open_write_fd(line, fd.i);
+				if (fd.tmp != -1)
+				{
+					if (fd.fd[1] != fd_out)
+						close(fd.fd[1]);
+					fd.fd[1] = fd.tmp;
+				}
 			}
 		}
-		if (line[i])
-			i++;
+		if (line[fd.i])
+			fd.i++;
 	}
-	return (fd);
+	return (fd.fd);
 }
