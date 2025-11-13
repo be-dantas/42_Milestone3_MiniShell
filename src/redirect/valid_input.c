@@ -25,7 +25,7 @@ static int	valid_pipe(char *line, t_valid *v, int i)
 	{
 		if (line[i] == '\'' && !v->quote1)
 			v->quote2 = !v->quote2;
-		else if (line[i] == '"' && !v->quote2)
+		else if (line[i] == '\"' && !v->quote2)
 			v->quote1 = !v->quote1;
 		else if (line[i] == '|' && !v->quote1 && !v->quote2)
 		{
@@ -61,11 +61,6 @@ static int	valid_red_utils(char *line, char c, int *i)
 	while (line[j] && line[j] == ' ')
 		j++;
 	if (!line[j] || line[j] == '|' || line[j] == '>' || line[j] == '<')
-		return (0);
-	if ((c == '<' && *i == 0)
-		|| (c == '<' && (*i > 0 && line[*i - 1] == ' ' && !line[*i - 2])))
-		return (0);
-	if (c == '<' && *i == 0)
 		return (0);
 	*i += count - 1;
 	return (1);

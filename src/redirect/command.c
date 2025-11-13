@@ -52,5 +52,10 @@ char	*command(char *line, int i, int len, char *result)
 	len = ft_strlen(result);
 	while (len > 0 && result[len - 1] == ' ')
 		result[--len] = '\0';
+	if (!result || result[0] == '\0')
+	{
+		free(result);
+		return (NULL);
+	}
 	return (result);
 }

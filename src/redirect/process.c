@@ -9,6 +9,10 @@ void	process_one_split(char *line, t_env *env, int fd_in, int fd_out)
 
 	redirect_fd(line, STDIN_FILENO, STDOUT_FILENO);
 	cmd = command(line, 0, 0, ft_strdup(""));
+
+	if (cmd == NULL)
+		return ;
+	
 	line_tokens = tokens(cmd);
 	if (is_builtin(line_tokens[0]))
 		exec_line(line_tokens, env);
@@ -45,6 +49,10 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 	}
 	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO);
 	p.cmd = command(pipes[i], 0, 0, ft_strdup(""));
+
+	if (p.cmd == NULL)
+		return ;
+
 	p.tokens_cmd = tokens(p.cmd);
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, env);
