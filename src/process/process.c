@@ -21,7 +21,7 @@ void	process_one_split(char *line, t_env *env, int fd_in, int fd_out)
 	char	**line_tokens;
 	char	*cmd;
 
-	redirect_fd(line, STDIN_FILENO, STDOUT_FILENO);
+	redirect_fd(line, STDIN_FILENO, STDOUT_FILENO, env);
 	cmd = command(line);
 	if (cmd == NULL)
 		return ;
@@ -51,7 +51,7 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 		close(p.fd[0]);
 		close(p.fd[1]);
 	}
-	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO);
+	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, env);
 	p.cmd = command(pipes[i]);
 	if (p.cmd == NULL)
 		return ;

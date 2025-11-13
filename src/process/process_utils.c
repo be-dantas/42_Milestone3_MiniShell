@@ -17,12 +17,12 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-void	redirect_fd(char *line, int fd_in, int fd_out)
+void	redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
 {
 	int	fd[2];
 	int	*fd_temp;
 
-	fd_temp = parse_fd(line, fd_in, fd_out);
+	fd_temp = parse_fd(line, fd_in, fd_out, begin_list);
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];
 	free(fd_temp);

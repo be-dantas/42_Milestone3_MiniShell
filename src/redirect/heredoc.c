@@ -56,7 +56,10 @@ void	heredoc(t_env *begin_list, char *line)
 			|| (eof[0] == '\"' && eof[ft_strlen(eof)] == '\"'))
 		printf("%s", result);
 	else
-		eof = expanded(begin_list, eof);
+	{
+		result = expanded(begin_list, eof);
+		printf("%s", result);
+	}
 }
 /*
 int main()
