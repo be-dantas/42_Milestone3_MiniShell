@@ -17,4 +17,12 @@ typedef struct s_valid
 	int	found_char;
 }	t_valid;
 
+typedef struct s_here
+{
+	char	*eof;
+	char	**to_free;
+	char	*str;
+	char	*result;
+	char	*result2;
+}	t_here;
 #endif
