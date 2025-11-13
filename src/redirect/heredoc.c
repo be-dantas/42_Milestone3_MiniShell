@@ -27,9 +27,7 @@ void	heredoc(t_env *begin_list, char *line)
 		eof = ft_strdup(to_free2);
 	}
 	else
-	{
 		eof = ft_strdup(to_free_s1[1]);
-	}
 	while (1)
 	{
 		str = readline("heredoc > ");
