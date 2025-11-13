@@ -1,62 +1,46 @@
 #include "../../utils/minishell.h"
 #include "redirect.h"
 
-//#include "../../../libft/libft.h"
-//# include <readline/readline.h>
-//# include <readline/history.h>
-//# include <signal.h>
-//#include <string.h>
-//#include <stdio.h>
-//#include <stdio.h>
+static t_here init_heredoc(char *line)
+{
+	t_here	here;
+
+	here.result = ft_strdup("");
+	here.str = NULL;
+	here.to_free = NULL;
+	here.eof = strstr(line, "<<");
+	here.to_free = ft_split(here.eof, ' ');
+	return (here);
+}
 
 static void	heredoc(t_env *begin_list, char *line)
 {
-	//procurar a palavra que vai dar stop no heredoc
-	//o primeiro passo será percorrer a lista de here enviada
-	//dentro dos valores das listas eu procuro individualmente o caractere '<'
-	//verifico agora se o próximo item é '<' novamente
-	//caso seja, verifico se o próximo item é '\0' caso seja, sei que o próximo item é o stop
-	//caso não seja, dou um split no ponto atual e pego o valor [1] dele
-	//coloco o valor disso dentro de uma variável e dou free em todos os itens
-	//após, verifico se o valor [1] está com aspas simples, caso esteja, não expande nada
-	//caso contrário, expande tudo
-	//CASO seja encontrado aspas no EOF, todas as variáveis não serão expandidas
-	char	*eof;
-	char	*to_free1;
-	char	*to_free2;
-	char	**to_free_s1;
-	char	**to_free_s2;
-	char	*str;
-	char	*result;
+	t_here	h;
 
-	result = ft_strdup("");
-	str = NULL;
-	to_free_s1 = NULL;
-	to_free_s2 = NULL;
-	to_free1 = NULL;
-	to_free2 = NULL;
-	eof = strstr(line, "<<");
-	to_free_s1 = ft_split(eof, ' ');
-	to_free1 = to_free_s1[0];
-	to_free_s2 = ft_split(to_free1, '<');
-	to_free2 = to_free_s2[0];
-	eof = ft_strdup(to_free2);
-	//printf("%s", eof);
-	free(to_free1);
-	free(to_free2);
+	h = (init_heredoc(line));
+	if (ft_strlen(h.to_free[0]) > 2)
+		h.eof = ft_strdup(h.to_free[0] + 2);
+	else
+		h.eof = ft_strdup(h.to_free[1]);
 	while (1)
 	{
-		str = readline("heredoc > ");
-		if (ft_strcmp(str, eof) == 0)
+		h.str = readline("heredoc > ");
+		if (ft_strcmp(h.str, h.eof) == 0)
 			break ;
-		result = ft_strjoin(result, str);
-		result = ft_strjoin(result, "\n");
+		h.result = ft_strjoin(h.result, h.str);
+		h.result = ft_strjoin(h.result, "\n");
 	}
-	if ((eof[0] == '\'' && eof[ft_strlen(eof)] == '\'')
-			|| (eof[0] == '\"' && eof[ft_strlen(eof)] == '\"'))
-		printf("%s", result);
+	if ((h.eof[0] == '\'' && h.eof[ft_strlen(h.eof) - 1] == '\'')
+			|| (h.eof[0] == '\"' && h.eof[ft_strlen(h.eof) - 1] == '\"'))
+		printf("%s", h.result);
 	else
-		eof = expanded(begin_list, eof);
+	{
+		h.result2 = expand_arg(begin_list, h.result, 0);
+		if (h.result2 == NULL)
+			printf("%s", h.result);
+		else
+			printf("%s", h.result2);
+	}
 }
 
 int	red_heredoc(t_env *begin_list, char *line)
@@ -87,11 +71,3 @@ int	red_heredoc(t_env *begin_list, char *line)
 		return (fd[0]);
 	}
 }
-
-/*
-int main()
-{
-	char *str = heredoc("COMANDO_1 <<'HERE' PALAVRAS_APÓS");
-	free(str);
-	return (0);
-}*/
