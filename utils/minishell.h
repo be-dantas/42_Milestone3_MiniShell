@@ -50,7 +50,7 @@ char		**tokens(char *line);
 
 char		*command(char *line);
 int			is_builtin(char *cmd);
-void		redirect_fd(char *line, int fd_in, int fd_out);
+void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
 // void		exec_external(char **tokens, t_env *env);
 void		exec_line(char **line_tokens, t_env *new_env);
 void		process_one_split(char *line, t_env *env, int fd_in, int fd_out);
@@ -58,7 +58,7 @@ void		process_pipes(char **pipes, t_env *env);
 
 /****************************** REDIRECT ******************************/
 
-int			*parse_fd(char *line, int fd_in, int fd_out);				 //+25 linhas
+int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);	 //+25 linhas
 void		heredoc(t_env *begin_list, char *line);
 void		redirect_and_command(char *line, t_env *new_env);
 char		**split_pipe(char *line, int i, int j);

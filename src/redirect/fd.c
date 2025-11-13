@@ -60,7 +60,7 @@ static int	open_read_fd(char *line, int i)
 	return (fd);
 }
 
-int	*parse_fd(char *line, int fd_in, int fd_out)
+int	*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
 {
 	int		i;
 	int		quote[2];
@@ -83,12 +83,8 @@ int	*parse_fd(char *line, int fd_in, int fd_out)
 					close(fd[0]);
 				fd[0] = open_read_fd(line, i);
 			}
-			// if (line[i] == '<' && line[i + 1] == '<')
-			// {
-			// 	if (fd[0] != fd_in)
-			// 		close(fd[0]);
-			// 	fd[0] = open_read_fd(line, i); aqui funcao para <<
-			// }
+			if (line[i] == '<' && line[i + 1] == '<')
+				heredoc(begin_list, line);
 			else if (line[i] == '>')
 			{
 				if (fd[1] != fd_out)
