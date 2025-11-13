@@ -53,7 +53,7 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 
 /****************************** REDIRECT ******************************/
 
-char		*command(char *line, int i, int len, char *result);
+char		*command(char *line);
 int			*parse_fd(char *line, int fd_in, int fd_out);				 //+25 linhas
 
 void		heredoc(t_env *begin_list, char *line);

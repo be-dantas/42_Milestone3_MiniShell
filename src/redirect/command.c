@@ -25,11 +25,12 @@ static int	skip_redirection(char *line, int i, int flag[2])
 	return (i);
 }
 
-//command(str, 0, 0, ft_strdup(""));
-char	*command(char *line, int i, int len, char *result)
+static char	*command_result(char *line, char *res)
 {
-	int	flag[2];
+	int		i;
+	int		flag[2];
 
+	i = 0;
 	flag[0] = 0;
 	flag[1] = 0;
 	while (line[i])
@@ -40,15 +41,25 @@ char	*command(char *line, int i, int len, char *result)
 			i = skip_redirection(line, i, flag);
 			continue ;
 		}
-		if (line[i] == ' ' && (result[0] == '\0'
-				|| result[ft_strlen(result) - 1] == ' '))
+		if (line[i] == ' ' && (res[0] == '\0'
+				|| res[ft_strlen(res) - 1] == ' '))
 		{
 			i++;
 			continue ;
 		}
-		result = ft_strjoin_char(result, line[i]);
+		res = ft_strjoin_char(res, line[i]);
 		i++;
 	}
+	return (res);
+}
+
+char	*command(char *line)
+{
+	int		len;
+	char	*result;
+
+	len = 0;
+	result = command_result(line, ft_strdup(""));
 	len = ft_strlen(result);
 	while (len > 0 && result[len - 1] == ' ')
 		result[--len] = '\0';

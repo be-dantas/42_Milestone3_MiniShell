@@ -1,31 +1,35 @@
 #include "../../utils/minishell.h"
 #include "redirect.h"
 
+/*
+static void	process_one_fork(char **line_tokens, t_env *env)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		exec_external(line_tokens, env);
+		exit(EXIT_FAILURE);
+	}
+	waitpid(pid, NULL, 0);
+}
+*/
+
 void	process_one_split(char *line, t_env *env, int fd_in, int fd_out)
 {
 	char	**line_tokens;
 	char	*cmd;
-	// pid_t	pid;
 
 	redirect_fd(line, STDIN_FILENO, STDOUT_FILENO);
-	cmd = command(line, 0, 0, ft_strdup(""));
-
+	cmd = command(line);
 	if (cmd == NULL)
 		return ;
-	
 	line_tokens = tokens(cmd);
 	if (is_builtin(line_tokens[0]))
 		exec_line(line_tokens, env);
 	// else
-	// {
-	// 	pid = fork();
-	// 	if (pid == 0)
-	// 	{
-	// 		exec_external(line_tokens, env);
-	// 		exit(EXIT_FAILURE);
-	// 	}
-	// 	waitpid(pid, NULL, 0);
-	// }
+		// process_one_fork(line_tokens, env);
 	free(cmd);
 	free_array(line_tokens);
 	dup2(fd_in, STDIN_FILENO);
@@ -48,11 +52,9 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 		close(p.fd[1]);
 	}
 	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO);
-	p.cmd = command(pipes[i], 0, 0, ft_strdup(""));
-
+	p.cmd = command(pipes[i]);
 	if (p.cmd == NULL)
 		return ;
-
 	p.tokens_cmd = tokens(p.cmd);
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, env);
@@ -65,7 +67,7 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 
 void	process_pipes(char **pipes, t_env *env)
 {
-	int	i;
+	int		i;
 	t_pipes	p;
 
 	i = 0;

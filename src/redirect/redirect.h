@@ -11,10 +11,10 @@ typedef struct s_redirect
 
 typedef struct s_valid
 {
-	int quote1;
-	int quote2;
-	int last_pipe;
-	int found_char;
+	int	quote1;
+	int	quote2;
+	int	last_pipe;
+	int	found_char;
 }	t_valid;
 
 typedef struct s_pipes

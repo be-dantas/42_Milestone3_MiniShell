@@ -5,13 +5,16 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	return (!ft_strncmp(cmd, "echo", 5)
-		|| !ft_strncmp(cmd, "cd", 3)
-		|| !ft_strncmp(cmd, "pwd", 4)
-		|| !ft_strncmp(cmd, "export", 7)
-		|| !ft_strncmp(cmd, "unset", 6)
-		|| !ft_strncmp(cmd, "env", 4)
-		|| !ft_strncmp(cmd, "exit", 5));
+	if (ft_strncmp(cmd, "echo", 5) == 0
+		|| ft_strncmp(cmd, "cd", 3) == 0
+		|| ft_strncmp(cmd, "pwd", 4) == 0
+		|| ft_strncmp(cmd, "export", 7) == 0
+		|| ft_strncmp(cmd, "unset", 6) == 0
+		|| ft_strncmp(cmd, "env", 4) == 0
+		|| ft_strncmp(cmd, "exit", 5) == 0)
+		return (1);
+	else
+		return (0);
 }
 
 void	redirect_fd(char *line, int fd_in, int fd_out)
@@ -62,9 +65,12 @@ void	exec_line(char **line_tokens, t_env *new_env)
 	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
 		unset_env(&new_env, line_tokens);
 	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
-		print_env(new_env);
+	{
+		if (line_tokens[1] == NULL)
+			print_env(new_env);
+		else
+			printf("env: ‘%s’: No such file or directory\n", line_tokens[1]);
+	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
 		read_input("exit", new_env);
-	else
-		printf("Command not found\n"); //VOCÊ VAI REMOVER NO FUTURO E SUBSTUIR PELA FUNÇÃO QUE FAZ O EXECVE
-} // vai mudar tudo pq não deve receber o comando splitado no começo
+}

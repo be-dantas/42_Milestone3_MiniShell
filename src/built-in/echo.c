@@ -22,11 +22,14 @@ static int	check_flag(char **token)
 
 void	echo(char **token)
 {
-	char    *result;
-	int	flag;
+	char	*result;
+	int		flag;
 
 	if (token[1] == NULL)
+	{
 		printf("\n");
+		return ;
+	}
 	flag = check_flag(token);
 	if (flag)
 	{
