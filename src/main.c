@@ -14,10 +14,13 @@ static void free_env_list(t_env *env)
 	}
 }
 
-static void	handle(int sig)
+static void handle_sigint(int sig)
 {
-	if (sig == 2)
-		printf("\n%s@minishell ~ ", getenv("USER"));
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 char	*read_input(char *ppt, t_env *new_env)
@@ -47,8 +50,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	user = ft_strjoin(getenv("USER"), "@minishell ~ ");
 	new_env = clone_env(envp);
-	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
-		add_history(NULL);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		input = read_input(user, new_env);
