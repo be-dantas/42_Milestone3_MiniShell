@@ -19,11 +19,10 @@ char	**split_env(char *line)
 
 	split_line = malloc(sizeof(char *) * 3);
 	equal = ft_chars_until(line, '=');
-	if (equal == 0)
+	if (equal == -1)
 	{
 		split_line[0] = ft_strdup(line);
 		split_line[1] = NULL;
-		split_line[2] = NULL;
 	}
 	else if (line[equal + 1] == '\0')
 	{

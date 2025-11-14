@@ -23,5 +23,5 @@ int	ft_chars_until(char *s, char c)
 			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
