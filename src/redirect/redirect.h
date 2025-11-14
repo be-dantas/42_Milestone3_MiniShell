@@ -3,6 +3,7 @@
 
 typedef struct s_redirect
 {
+	int		created;
 	char	**s_pipe;
 	int		count_pipe;
 	int		fd_in;
@@ -31,7 +32,6 @@ typedef struct s_here
 	char	**to_free;
 	char	*str;
 	char	*result;
-	char	*result2;
 }	t_here;
 
 #endif

@@ -1,5 +1,19 @@
 #include "../utils/minishell.h"
 
+static void free_env_list(t_env *env)
+{
+	t_env *tmp;
+
+	while (env)
+	{
+		tmp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = tmp;
+	}
+}
+
 static void	handle(int sig)
 {
 	if (sig == 2)
@@ -29,9 +43,9 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*new_env;
 	char	*user;
 
-	user = ft_strjoin(getenv("USER"), "@minishell ~ ");
 	(void)argc;
 	(void)argv;
+	user = ft_strjoin(getenv("USER"), "@minishell ~ ");
 	new_env = clone_env(envp);
 	if (signal(SIGQUIT, SIG_IGN) || signal(SIGINT, handle))
 		add_history(NULL);
@@ -44,5 +58,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	free(user);
 	rl_clear_history();
+	free_env_list(new_env);
 	return (0);
 }

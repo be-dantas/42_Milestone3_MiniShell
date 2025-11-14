@@ -1,21 +1,47 @@
 #include "../../utils/minishell.h"
 #include "redirect.h"
 
-static t_here init_heredoc(char *line)
+static t_here	init_heredoc(char *line)
 {
 	t_here	here;
 
-	here.result = ft_strdup("");
+	here.to_free = ft_split(strstr(line, "<<"), ' ');
+	here.eof = NULL;
 	here.str = NULL;
-	here.to_free = NULL;
-	here.eof = strstr(line, "<<");
-	here.to_free = ft_split(here.eof, ' ');
+	here.result = ft_strdup("");
 	return (here);
+}
+
+static char	*expand_and_free(t_here	*h, t_env *begin_list)
+{
+	int		len;
+	int		flag_quotes;
+	char	*result_final;
+
+	len = ft_strlen(h->eof);
+	flag_quotes = 0;
+	if (len >= 2 && ((h->eof[0] == '\'' && h->eof[len - 1] == '\'')
+			|| (h->eof[0] == '\"' && h->eof[len - 1] == '\"')))
+		flag_quotes = 1;
+	if (flag_quotes == 1)
+	{
+		result_final = expand_arg(begin_list, h->result, 0);
+		free(h->result);
+		h->result = result_final;
+	}
+	else
+		(void)result_final;
+	free(h->str);
+	free_array(h->to_free);
+	free(h->eof);
+	return (h->result);
 }
 
 static char	*heredoc(t_env *begin_list, char *line)
 {
 	t_here	h;
+	char	*tmp1;
+	char	*tmp2;
 
 	h = (init_heredoc(line));
 	if (ft_strlen(h.to_free[0]) > 2)
@@ -24,24 +50,18 @@ static char	*heredoc(t_env *begin_list, char *line)
 		h.eof = ft_strdup(h.to_free[1]);
 	while (1)
 	{
-		write(1, "heredoc > ", 10);
-		h.str = readline(NULL);
+		h.str = readline("heredoc > ");
 		if (ft_strcmp(h.str, h.eof) == 0)
 			break ;
-		h.result = ft_strjoin(h.result, h.str);
-		h.result = ft_strjoin(h.result, "\n");
+		tmp1 = ft_strjoin(h.result, h.str);
+		tmp2 = ft_strjoin(tmp1, "\n");
+		free(tmp1);
+		free(h.result);
+		h.result = tmp2;
+		free(h.str);
+		h.str = NULL;
 	}
-	if ((h.eof[0] == '\'' && h.eof[ft_strlen(h.eof) - 1] == '\'')
-			|| (h.eof[0] == '\"' && h.eof[ft_strlen(h.eof) - 1] == '\"'))
-		return (h.result);
-	else
-	{
-		h.result2 = expand_arg(begin_list, h.result, 0);
-		if (h.result2 == NULL)
-			return (h.result);
-		else
-			return(h.result2);
-	}
+	expand_and_free(&h, begin_list);
 	return (h.result);
 }
 
@@ -57,15 +77,31 @@ int	red_heredoc(t_env *begin_list, char *line)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-	{
+	//{
 		// colocar aqui a tratativa para receber sinais e tratar eles no heredoc
-		close(fd[0]);
-		result = heredoc(begin_list, line);
-		if (result)
-			write(fd[1], result, ft_strlen(result));
-		close(fd[1]);
-		exit(EXIT_SUCCESS);
-	}
+	//	close(fd[0]);
+	//	result = heredoc(begin_list, line);
+	//	if (result)
+	//		write(fd[1], result, ft_strlen(result));
+	//	close(fd[1]);
+	//	exit(EXIT_SUCCESS);
+	//}
+	{
+        int tty = open("/dev/tty", O_RDWR); // <<< CORRIGIDO: usar TTY real
+
+        // garantir que o heredoc lê e escreve no terminal
+        dup2(tty, STDIN_FILENO);
+        dup2(tty, STDOUT_FILENO);
+        close(tty);
+
+        close(fd[0]); // fecha leitura do pipe do heredoc
+
+        result = heredoc(begin_list, line);
+        if (result)
+            write(fd[1], result, ft_strlen(result));
+        close(fd[1]);
+        exit(EXIT_SUCCESS);
+    }
 	else
 	{
 		close(fd[1]);

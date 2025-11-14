@@ -50,6 +50,11 @@ fclean: clean
 run: all
 	valgrind --suppressions=readline.sup --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell
 
+#run:
+#	valgrind --suppressions=readline.sup --track-fds=yes --leak-check=full --show-leak-kinds=all ./minishell 2> valgrind.log
+#	@echo "========== LEAKS DO PROGRAMA =========="
+#	@grep -E "definitely lost|indirectly lost|possibly lost" valgrind.log
+
 re: fclean all
 
 .PHONY: all clean fclean re
