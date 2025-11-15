@@ -1,15 +1,17 @@
 #include "../../utils/minishell.h"
 
-static void	unsetting(t_env **env, char *key)
+void	unset_env(t_env **env, char **cmd)
 {
 	t_env	*curr;
 	t_env	*prev;
 
+	if (cmd[1] == NULL)
+		return ;
 	curr = *env;
 	prev = NULL;
 	while (curr)
 	{
-		if (ft_strncmp(curr->key, key, ft_strlen(key) + 1) == 0)
+		if (ft_strncmp(curr->key, cmd[1], ft_strlen(cmd[1]) + 1) == 0)
 		{
 			if (prev)
 				prev->next = curr->next;
@@ -23,14 +25,4 @@ static void	unsetting(t_env **env, char *key)
 		prev = curr;
 		curr = curr->next;
 	}
-}
-
-void	unset_env(t_env **env, char **cmd)
-{
-	if (!cmd[1])
-	{
-		printf("unset: not enough arguments\n");
-		return ;
-	}
-	unsetting(env, cmd[1]);
 }

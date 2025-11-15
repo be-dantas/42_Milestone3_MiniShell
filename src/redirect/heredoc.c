@@ -98,7 +98,10 @@ int	red_heredoc(t_env *begin_list, char *line)
 
         result = heredoc(begin_list, line);
         if (result)
+		{
             write(fd[1], result, ft_strlen(result));
+			free(result);
+		}
         close(fd[1]);
         exit(EXIT_SUCCESS);
     }

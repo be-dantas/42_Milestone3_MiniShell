@@ -57,25 +57,25 @@ void	exec_external(char **tokens, t_env *env)
 		cmd_not_bar(tokens, env);
 }
 
-void	exec_line(char **line_tokens, t_env *new_env)
+void	exec_line(char **line_tokens, t_env **new_env)
 {
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
 		echo(line_tokens);
 	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
-		cd(line_tokens, &new_env);
+		cd(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
-		pwd(line_tokens, new_env);
+		pwd(line_tokens, *new_env);
 	else if (ft_strncmp(line_tokens[0], "export", 7) == 0)
 		export_arg(line_tokens, new_env);
 	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
-		unset_env(&new_env, line_tokens);
+		unset_env(new_env, line_tokens);
 	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
 	{
 		if (line_tokens[1] == NULL)
-			print_env(new_env);
+			print_env(*new_env);
 		else
 			printf("env: ‘%s’: No such file or directory\n", line_tokens[1]);
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input("exit", new_env);
+		read_input("exit", *new_env);
 }

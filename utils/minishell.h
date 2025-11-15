@@ -24,7 +24,7 @@ typedef struct s_env
 //export
 void		update_value(char *split_line, t_env *pointer);
 void		check_to_put(char *split_line, t_env **new_env);
-void		export_arg(char **line_tokens, t_env *new_env);
+void		export_arg(char **line_tokens, t_env **new_env);
 int			valid_arg(char **split_line);
 
 void		cd(char **line, t_env **begin_list);
@@ -58,19 +58,19 @@ char		**split_with_quotes(char *line);
 char		**tokens(char *line);
 
 char		*command(char *line);
-void		process_one_split(char *line, t_env *env, int fd_in, int fd_out);
-void		process_pipes(char **pipes, t_env *env);
+void		process_one_split(char *line, t_env **env, int fd_in, int fd_out);
+void		process_pipes(char **pipes, t_env **env);
 int			is_builtin(char *cmd);
 void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
 void		exec_external(char **tokens, t_env *env);
-void		exec_line(char **line_tokens, t_env *new_env);
+void		exec_line(char **line_tokens, t_env **new_env);
 
 /****************************** REDIRECT ******************************/
 
 void		char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
 int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
 int			red_heredoc(t_env *begin_list, char *line);
-void		redirect_and_command(char *line, t_env *new_env);
+void		redirect_and_command(char *line, t_env **new_env);
 char		**split_pipe(char *line, int i, int j);
 int			valid_input(char *line);
 

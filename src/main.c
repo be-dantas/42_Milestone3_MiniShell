@@ -1,22 +1,5 @@
 #include "../utils/minishell.h"
 
-static void	free_env_list(t_env **env)
-{
-	t_env	*tmp;
-
-	if (!env || !*env)
-		return ;
-	while (*env)
-	{
-		tmp = (*env)->next;
-		free((*env)->key);
-		free((*env)->value);
-		free(*env);
-		*env = tmp;
-	}
-	*env = NULL;
-}
-
 static void handle_sigint(int sig)
 {
 	(void)sig;
@@ -33,8 +16,9 @@ char	*read_input(char *ppt, t_env *new_env)
 	line = readline(ppt);
 	if (line == NULL || ft_strncmp(line, "exit", 5) == 0)
 	{
-		free_env_list(&new_env);
 		free(ppt);
+		rl_clear_history();
+		free_list(&new_env);
 		printf("exit\n");
 		exit(EXIT_SUCCESS);
 	}
@@ -59,11 +43,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		input = read_input(user, new_env);
 		if (input[0] != '\0')
-			redirect_and_command(input, new_env);
+			redirect_and_command(input, &new_env);
 		free(input);
 	}
 	free(user);
 	rl_clear_history();
-	free_env_list(&new_env);
+	free_list(&new_env);
 	return (0);
 }

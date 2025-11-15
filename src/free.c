@@ -20,6 +20,8 @@ void	free_list(t_env **begin_list)
 	t_env	*to_free;
 
 	to_free = NULL;
+	if (!begin_list || !*begin_list)
+		return ;
 	while (*begin_list)
 	{
 		free(((*begin_list)->key));
@@ -28,5 +30,5 @@ void	free_list(t_env **begin_list)
 		(*begin_list) = (*begin_list)->next;
 		free(to_free);
 	}
-	free(*begin_list);
+	*begin_list = NULL;
 }

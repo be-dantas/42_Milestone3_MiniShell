@@ -12,14 +12,14 @@ static void	swap_key_value(t_env *exp, t_env *cmp)
 	cmp->value = temp;
 }
 
-static t_env	*sort_list(t_env *head)
+static void	sort_list(t_env **env)
 {
 	t_env	*cmp;
 	t_env	*exp;
 
-	if (!head)
-		return (NULL);
-	exp = head;
+	if (!env)
+		return ;
+	exp = *env;
 	while (exp)
 	{
 		cmp = exp->next;
@@ -31,46 +31,70 @@ static t_env	*sort_list(t_env *head)
 		}
 		exp = exp->next;
 	}
-	return (head);
+}
+
+static t_env	*copy_list(t_env *new_env)
+{
+	t_env	*exp;
+	t_env	*cur;
+	t_env	*node;
+	t_env	*last;
+
+	exp = NULL;
+	cur = new_env;
+	last = NULL;
+	while (cur)
+	{
+		node = malloc(sizeof(t_env));
+		node->key = ft_strdup(cur->key);
+		if (cur->value == NULL)
+			node->value = NULL;
+		else
+			node->value = ft_strdup(cur->value);
+		node->next = NULL;
+		if (!exp)
+			exp = node;
+		else
+			last->next = node;
+		last = node;
+		cur = cur->next;
+	}
+	return (exp);
 }
 
 static void	creat_print_export(t_env *new_env)
 {
 	t_env	*exp;
+	t_env	*tmp;
 
-	exp = sort_list(new_env);
-	while (exp)
+	exp = copy_list(new_env);
+	if (!exp)
+		return ;
+	sort_list(&exp);
+	tmp = exp;
+	while (tmp)
 	{
-		if (exp->value == NULL)
-		{
-			printf("declare -x ");
-			printf("%s\n", exp->key);
-		}
+		if (tmp->value == NULL)
+			printf("declare -x %s\n", tmp->key);
 		else
-		{
-			printf("declare -x ");
-			printf("%s", exp->key);
-			printf("=\"");
-			printf("%s", exp->value);
-			printf("\"\n");
-		}
-		exp = exp->next;
+			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
 	free_list(&exp);
 }
 
-void	export_arg(char **line_tokens, t_env *new_env)
+void	export_arg(char **line_tokens, t_env **new_env)
 {
 	int	i;
 
 	i = 1;
 	if (!line_tokens[1])
-		creat_print_export(new_env);
+		creat_print_export(*new_env);
 	else if (valid_arg(line_tokens) == 1)
 	{
 		while (line_tokens[i])
 		{
-			check_to_put(line_tokens[i], &new_env);
+			check_to_put(line_tokens[i], new_env);
 			i++;
 		}
 	}

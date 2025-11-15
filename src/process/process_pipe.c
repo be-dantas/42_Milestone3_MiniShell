@@ -1,7 +1,7 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
+static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
 {
 	if (p.prev_fd != -1)
 	{
@@ -14,7 +14,7 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 		close(p.fd[0]);
 		close(p.fd[1]);
 	}
-	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, env);
+	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, *env);
 	p.cmd = command(pipes[i]);
 	if (p.cmd == NULL)
 		return ;
@@ -22,13 +22,13 @@ static void	child_process(char **pipes, t_env *env, t_pipes p, int i)
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, env);
 	else
-		exec_external(p.tokens_cmd, env);
+		exec_external(p.tokens_cmd, *env);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	exit(EXIT_SUCCESS);
 }
 
-void	process_pipes(char **pipes, t_env *env)
+void	process_pipes(char **pipes, t_env **env)
 {
 	int		i;
 	t_pipes	p;

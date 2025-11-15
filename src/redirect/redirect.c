@@ -15,12 +15,12 @@ static t_redirect	init_redirect_vars(char *line)
 	return (rd);
 }
 
-void	redirect_and_command(char *input, t_env *env)
+void	redirect_and_command(char *input, t_env **env)
 {
 	char		*line;
 	t_redirect	rd;
 
-	line = expand_arg(env, input, 0);
+	line = expand_arg(*env, input, 0);
 	if (!valid_input(line))
 	{
 		free(line);

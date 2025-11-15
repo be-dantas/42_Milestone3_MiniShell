@@ -32,7 +32,7 @@ char	**split_env(char *line)
 	else
 	{
 		split_line[0] = ft_substr(line, 0, equal);
-		split_line[1] = ft_substr(line, equal + 1, ft_strlen(line) - equal + 1);
+		split_line[1] = ft_strdup(line + equal + 1);
 	}
 	split_line[2] = NULL;
 	return (split_line);
