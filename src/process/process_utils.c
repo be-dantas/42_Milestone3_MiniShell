@@ -77,5 +77,5 @@ void	exec_line(char **line_tokens, t_env **new_env)
 			printf("env: ‘%s’: No such file or directory\n", line_tokens[1]);
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input("exit", *new_env);
+		read_input(*new_env);
 }

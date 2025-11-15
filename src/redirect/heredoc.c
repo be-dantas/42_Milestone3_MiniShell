@@ -12,7 +12,7 @@ static t_here	init_heredoc(char *line)
 	return (here);
 }
 
-static char	*expand_and_free(t_here	*h, t_env *begin_list)
+static void expand_and_free(t_here	*h, t_env *begin_list)
 {
 	int		len;
 	int		flag_quotes;
@@ -27,14 +27,14 @@ static char	*expand_and_free(t_here	*h, t_env *begin_list)
 	{
 		result_final = expand_arg(begin_list, h->result, 0);
 		free(h->result);
-		h->result = result_final;
+		h->result = ft_strdup(result_final);
+		free(result_final);
 	}
 	else
 		(void)result_final;
 	free(h->str);
 	free_array(h->to_free);
 	free(h->eof);
-	return (h->result);
 }
 
 static char	*heredoc(t_env *begin_list, char *line)
@@ -43,7 +43,7 @@ static char	*heredoc(t_env *begin_list, char *line)
 	char	*tmp1;
 	char	*tmp2;
 
-	h = (init_heredoc(line));
+	h = init_heredoc(line);
 	if (ft_strlen(h.to_free[0]) > 2)
 		h.eof = ft_strdup(h.to_free[0] + 2);
 	else
@@ -55,9 +55,10 @@ static char	*heredoc(t_env *begin_list, char *line)
 			break ;
 		tmp1 = ft_strjoin(h.result, h.str);
 		tmp2 = ft_strjoin(tmp1, "\n");
-		free(tmp1);
 		free(h.result);
-		h.result = tmp2;
+		h.result = ft_strdup(tmp2);
+		free(tmp1);
+		free(tmp2);
 		free(h.str);
 		h.str = NULL;
 	}
@@ -103,6 +104,7 @@ int	red_heredoc(t_env *begin_list, char *line)
 			free(result);
 		}
         close(fd[1]);
+		free_list(&begin_list);
         exit(EXIT_SUCCESS);
     }
 	else

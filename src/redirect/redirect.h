@@ -3,7 +3,6 @@
 
 typedef struct s_redirect
 {
-	int		created;
 	char	**s_pipe;
 	int		count_pipe;
 	int		fd_in;

@@ -58,7 +58,7 @@ char		**split_with_quotes(char *line);
 char		**tokens(char *line);
 
 char		*command(char *line);
-void		process_one_split(char *line, t_env **env, int fd_in, int fd_out);
+void		process_one_split(char **line, t_env **env, int fd_in, int fd_out);
 void		process_pipes(char **pipes, t_env **env);
 int			is_builtin(char *cmd);
 void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
@@ -81,6 +81,6 @@ void		free_array(char **array);
 void		free_list(t_env **begin_list);
 
 //main.c
-char		*read_input(char *ppt, t_env *new_env);
+char		*read_input(t_env *new_env);
 
 #endif

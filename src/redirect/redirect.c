@@ -5,8 +5,8 @@ static t_redirect	init_redirect_vars(char *line)
 {
 	t_redirect	rd;
 
-	rd.created = 0;
 	rd.s_pipe = split_pipe(line, 0, 0);
+	free(line);
 	rd.count_pipe = 0;
 	while (rd.s_pipe[rd.count_pipe])
 		rd.count_pipe++;
@@ -28,18 +28,12 @@ void	redirect_and_command(char *input, t_env **env)
 		return ;
 	}
 	rd = init_redirect_vars(line);
-	rd.created = 1;
 	if (rd.count_pipe == 1)
-		process_one_split(line, env, rd.fd_in, rd.fd_out);
+		process_one_split(rd.s_pipe, env, rd.fd_in, rd.fd_out);
 	else
 		process_pipes(rd.s_pipe, env);
-	if (rd.created == 1)
-	{
-		dup2(rd.fd_in, STDIN_FILENO);
-		dup2(rd.fd_out, STDOUT_FILENO);
-		close(rd.fd_in);
-		close(rd.fd_out);
-		free_array(rd.s_pipe);
-	}
-	free(line);
+	dup2(rd.fd_in, STDIN_FILENO);
+	dup2(rd.fd_out, STDOUT_FILENO);
+	close(rd.fd_in);
+	close(rd.fd_out);
 }
