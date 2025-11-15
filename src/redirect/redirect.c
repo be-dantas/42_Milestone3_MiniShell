@@ -12,6 +12,8 @@ static t_redirect	init_redirect_vars(char *line)
 		rd.count_pipe++;
 	rd.fd_in = dup(STDIN_FILENO);
 	rd.fd_out = dup(STDOUT_FILENO);
+	close(rd.fd_in);
+	close(rd.fd_out);
 	return (rd);
 }
 
