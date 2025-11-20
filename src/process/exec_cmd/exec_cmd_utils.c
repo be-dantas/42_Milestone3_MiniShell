@@ -1,5 +1,21 @@
 #include "../../../utils/minishell.h"
 
+void	exec_access_perror(char *s, char **array, int x, t_env *env)
+{
+	perror(s);
+	free_list(&env);
+	free_array(array);
+	exit(x);
+}
+
+void	exec_access_putstr(char *s, char **array, int x, t_env *env)
+{
+	ft_putstr_fd(s, 2);
+	free_list(&env);
+	free_array(array);
+	exit(x);
+}
+
 char	**path(t_env *env)
 {
 	t_env	*value_path;

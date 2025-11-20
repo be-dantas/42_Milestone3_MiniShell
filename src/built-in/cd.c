@@ -29,6 +29,21 @@ static void	update_pwd(t_env **begin_list)
 }
 //se a pessoa apagar OLDPWD ou PWD, deveriamos crio-los novamente?
 
+static int	cd_utils(char **line, t_shell *sh)
+{
+	int	flag;
+
+	flag = chdir(line[1]);
+	if (flag == -1)
+	{
+		printf("cd: %s: No such file or directory\n", line[1]);
+		sh->last_exit_status = 1;
+		return (1);
+	}
+	update_pwd(&sh->env);
+	return (0);
+}
+
 void	cd(char **line, t_shell *sh)
 {
 	int	flag;
@@ -47,14 +62,8 @@ void	cd(char **line, t_shell *sh)
 	}
 	else if (line[1])
 	{
-		flag = chdir(line[1]);
-		if (flag == -1)
-		{
-			printf("cd: %s: No such file or directory\n", line[1]);
-			sh->last_exit_status = 1;
+		if (cd_utils(line, sh) == 1)
 			return ;
-		}
-		update_pwd(&sh->env);
 	}
 	sh->last_exit_status = 0;
 }

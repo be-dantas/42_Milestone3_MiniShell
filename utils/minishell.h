@@ -53,6 +53,8 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 /****************************** PROCESS *******************************/
 
 //exec
+void		exec_access_perror(char *s, char **array, int x, t_env *env);
+void		exec_access_putstr(char *s, char **array, int x, t_env *env);
 char		**path(t_env *env);
 char		*command_valid(char **tokens, char **path_split);
 void		cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out);
@@ -98,6 +100,6 @@ typedef struct s_valid
 	int	found_char;
 }	t_valid;
 
-int		valid_input(char *line);
+int			valid_input(char *line);
 
 #endif

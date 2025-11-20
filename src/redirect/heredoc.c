@@ -12,7 +12,7 @@ static t_here	init_heredoc(char *line)
 	return (here);
 }
 
-static void expand_and_free(t_here	*h, t_env *begin_list)
+static void	expand_and_free(t_here	*h, t_env *begin_list)
 {
 	int		len;
 	int		flag_quotes;
@@ -71,6 +71,7 @@ int	red_heredoc(t_env *begin_list, char *line)
 	int		fd[2];
 	pid_t	pid;
 	char	*result;
+	int		tty;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -78,35 +79,22 @@ int	red_heredoc(t_env *begin_list, char *line)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-	//{
-		// colocar aqui a tratativa para receber sinais e tratar eles no heredoc
-	//	close(fd[0]);
-	//	result = heredoc(begin_list, line);
-	//	if (result)
-	//		write(fd[1], result, ft_strlen(result));
-	//	close(fd[1]);
-	//	exit(EXIT_SUCCESS);
-	//}
 	{
-        int tty = open("/dev/tty", O_RDWR); // <<< CORRIGIDO: usar TTY real
-
-        // garantir que o heredoc lê e escreve no terminal
-        dup2(tty, STDIN_FILENO);
-        dup2(tty, STDOUT_FILENO);
-        close(tty);
-
-        close(fd[0]); // fecha leitura do pipe do heredoc
-
-        result = heredoc(begin_list, line);
-        if (result)
+		tty = open("/dev/tty", O_RDWR);
+		dup2(tty, STDIN_FILENO);
+		dup2(tty, STDOUT_FILENO);
+		close(tty);
+		close(fd[0]);
+		result = heredoc(begin_list, line);
+		if (result)
 		{
-            write(fd[1], result, ft_strlen(result));
+			write(fd[1], result, ft_strlen(result));
 			free(result);
 		}
-        close(fd[1]);
+		close(fd[1]);
 		free_list(&begin_list);
-        exit(EXIT_SUCCESS);
-    }
+		exit(EXIT_SUCCESS);
+	}
 	else
 	{
 		close(fd[1]);

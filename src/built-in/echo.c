@@ -24,8 +24,8 @@ void	echo(char **token, t_shell *sh)
 {
 	char	*result;
 	int		flag;
-	
-	result = NULL; 
+
+	result = NULL;
 	flag = check_flag(token);
 	if (token[1] == NULL)
 		printf("\n");

@@ -1,7 +1,8 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	process_one_fork(char **line_tokens, t_shell *sh, int fd_in, int fd_out)
+static void	process_one_fork(char **line_tokens, t_shell *sh,
+		int fd_in, int fd_out)
 {
 	pid_t	pid;
 	int		status;

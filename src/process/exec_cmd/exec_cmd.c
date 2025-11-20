@@ -1,21 +1,5 @@
 #include "../../../utils/minishell.h"
 
-static void	exec_access_perror(char *s, char **array, int x, t_env *env)
-{
-	perror(s);
-	free_list(&env);
-	free_array(array);
-	exit(x);
-}
-
-static void	exec_access_putstr(char *s, char **array, int x, t_env *env)
-{
-	ft_putstr_fd(s, 2);
-	free_list(&env);
-	free_array(array);
-	exit(x);
-}
-
 void	cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	char	**envp;
@@ -44,11 +28,9 @@ static void	free_all(char **path_split, char *exec, char **envp)
 	free_array(envp);
 }
 
-void	cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out)
+static void	path_split_func(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	char	**path_split;
-	char	*exec;
-	char	**envp;
 
 	path_split = path(env);
 	if (!path_split)
@@ -57,6 +39,17 @@ void	cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out)
 		dup2_close_in_out(fd_in, fd_out);
 		exit(EXIT_FAILURE);
 	}
+	else
+		return (path_split);
+}
+
+void	cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out)
+{
+	char	**path_split;
+	char	*exec;
+	char	**envp;
+
+	path_split = path_split_func(tokens, env, fd_in, fd_out);
 	exec = command_valid(tokens, path_split);
 	if (exec == (char *)-1)
 	{

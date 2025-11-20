@@ -22,6 +22,20 @@ static char	*expand_literal(char *str, int *i)
 	return (literal);
 }
 
+static char	*temp_expand(char *str, int *i, t_env *begin_list)
+{
+	char	*temp;
+
+	if (str[*i + 1] == '?')
+	{
+		temp = ft_substr(str, *i, 2);
+		*i += 2;
+	}
+	else
+		temp = expand_variable(begin_list, str, i);
+	return (temp);
+}
+
 char	*expand_arg(t_env *begin_list, char *str, int i)
 {
 	int		in_single;
@@ -39,15 +53,7 @@ char	*expand_arg(t_env *begin_list, char *str, int i)
 		else if (str[i] == '"' && !in_single)
 			in_double = !in_double;
 		if (str[i] == '$' && !in_single && str[i + 1])
-		{
-			if (str[i + 1] == '?')
-			{
-				temp = ft_substr(str, i, 2);
-				i += 2;
-			}
-			else
-				temp = expand_variable(begin_list, str, &i);
-		}
+			temp = temp_expand(str, &i, begin_list);
 		else
 		{
 			temp = expand_literal(str, &i);
