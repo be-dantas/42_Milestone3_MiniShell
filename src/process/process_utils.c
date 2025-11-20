@@ -1,6 +1,14 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
+void	dup2_close_in_out(int fd_in, int fd_out)
+{
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd_in);
+	close(fd_out);
+}
+
 int	is_builtin(char *cmd)
 {
 	if (!cmd)
@@ -38,7 +46,7 @@ void	redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
 	}
 }
 
-void	exec_external(char **tokens, t_env *env)
+void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	int	i;
 	int	flag;
@@ -52,9 +60,9 @@ void	exec_external(char **tokens, t_env *env)
 		i++;
 	}
 	if (flag == 1)
-		cmd_bar(tokens, env);
+		cmd_bar(tokens, env, fd_in, fd_out);
 	else
-		cmd_not_bar(tokens, env);
+		cmd_not_bar(tokens, env, fd_in, fd_out);
 }
 
 void	exec_line(char **line_tokens, t_env **new_env)

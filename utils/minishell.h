@@ -49,8 +49,8 @@ char		*expand_arg(t_env *new_env, char *line, int i);
 //exec
 char		**path(t_env *env);
 char		*command_valid(char **tokens, char **path_split);
-void		cmd_bar(char **tokens, t_env *env);
-void		cmd_not_bar(char **tokens, t_env *env);
+void		cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out);
+void		cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out);
 char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
 
 //tokens
@@ -60,9 +60,10 @@ char		**tokens(char *line);
 char		*command(char *line);
 void		process_one_split(char **line, t_env **env);
 void		process_pipes(char **pipes, t_env **env);
+void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
 void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
-void		exec_external(char **tokens, t_env *env);
+void		exec_external(char **tokens, t_env *env, int fd_in, int fd_out);
 void		exec_line(char **line_tokens, t_env **new_env);
 
 /****************************** REDIRECT ******************************/

@@ -16,17 +16,24 @@ static void	exec_access_putstr(char *s, char **array, int x, t_env *env)
 	exit(x);
 }
 
-void	cmd_bar(char **tokens, t_env *env)
+void	cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	char	**envp;
 
 	if (access(tokens[0], F_OK) != 0)
-		exec_access_putstr("Command not found\n", tokens, 127, env);
+	{
+		dup2_close_in_out(fd_in, fd_out);
+		exec_access_putstr("No such file or directory\n", tokens, 127, env);
+	}
 	if (access(tokens[0], X_OK) != 0)
+	{
+		dup2_close_in_out(fd_in, fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, env);
+	}
 	envp = env_list_to_array(env, 0, ft_strdup(""), ft_strdup(""));
 	execve(tokens[0], tokens, envp);
 	free_array(envp);
+	dup2_close_in_out(fd_in, fd_out);
 	exec_access_perror("Error execve", tokens, 126, env);
 }
 
@@ -37,7 +44,7 @@ static void	free_all(char **path_split, char *exec, char **envp)
 	free_array(envp);
 }
 
-void	cmd_not_bar(char **tokens, t_env *env)
+void	cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	char	**path_split;
 	char	*exec;
@@ -47,21 +54,25 @@ void	cmd_not_bar(char **tokens, t_env *env)
 	if (!path_split)
 	{
 		free_array(tokens);
+		dup2_close_in_out(fd_in, fd_out);
 		exit(EXIT_FAILURE);
 	}
 	exec = command_valid(tokens, path_split);
 	if (exec == (char *)-1)
 	{
 		free_array(path_split);
+		dup2_close_in_out(fd_in, fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, env);
 	}
 	else if (!exec)
 	{
 		free_array(path_split);
+		dup2_close_in_out(fd_in, fd_out);
 		exec_access_putstr("Command not found\n", tokens, 127, env);
 	}
 	envp = env_list_to_array(env, 0, ft_strdup(""), ft_strdup(""));
 	execve(exec, tokens, envp);
 	free_all(path_split, exec, envp);
+	dup2_close_in_out(fd_in, fd_out);
 	exec_access_perror("Error execve", tokens, 126, env);
 }

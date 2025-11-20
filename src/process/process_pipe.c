@@ -17,14 +17,20 @@ static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
 	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, *env);
 	p.cmd = command(pipes[i]);
 	if (p.cmd == NULL)
-		return ;
+	{
+		free_array(pipes);
+		dup2_close_in_out(p.fd_in, p.fd_out);
+		exit(EXIT_FAILURE);
+	}
 	p.tokens_cmd = tokens(p.cmd);
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, env);
 	else
-		exec_external(p.tokens_cmd, *env);
+		exec_external(p.tokens_cmd, *env, p.fd_in, p.fd_out);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
+	free_array(pipes);
+	dup2_close_in_out(p.fd_in, p.fd_out);
 	exit(EXIT_SUCCESS);
 }
 
@@ -35,6 +41,8 @@ void	process_pipes(char **pipes, t_env **env)
 
 	i = 0;
 	p.prev_fd = -1;
+	p.fd_in = dup(STDIN_FILENO);
+	p.fd_out = dup(STDOUT_FILENO);
 	while (pipes[i])
 	{
 		if (pipes[i + 1])
@@ -53,4 +61,5 @@ void	process_pipes(char **pipes, t_env **env)
 	}
 	while (wait(NULL) > 0)
 		;
+	dup2_close_in_out(p.fd_in, p.fd_out);
 }
