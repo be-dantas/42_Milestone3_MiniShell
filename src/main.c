@@ -26,6 +26,30 @@ char	*read_input(t_env *new_env)
 	return (line);
 }
 
+static void	redirect_and_command(char *input, t_env **env)
+{
+	char	*line;
+	char	**s_pipe;
+	int		count_pipe;
+
+	count_pipe = 0;
+	line = expand_arg(*env, input, 0);
+	if (!valid_input(line))
+	{
+		free(line);
+		write(2, "Syntax error\n", 13);
+		return ;
+	}
+	s_pipe = split_pipe(line, 0, 0);
+	free(line);
+	while (s_pipe[count_pipe])
+		count_pipe++;
+	if (count_pipe == 1)
+		process_one_split(s_pipe, env);
+	else
+		process_pipes(s_pipe, env);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;

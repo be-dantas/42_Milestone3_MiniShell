@@ -1,5 +1,4 @@
-#include "../../utils/minishell.h"
-#include "redirect.h"
+#include "../utils/minishell.h"
 
 static int	check_pipe_error(char *line, int i)
 {

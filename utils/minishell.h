@@ -58,7 +58,7 @@ char		**split_with_quotes(char *line);
 char		**tokens(char *line);
 
 char		*command(char *line);
-void		process_one_split(char **line, t_env **env, int fd_in, int fd_out);
+void		process_one_split(char **line, t_env **env);
 void		process_pipes(char **pipes, t_env **env);
 int			is_builtin(char *cmd);
 void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
@@ -70,7 +70,6 @@ void		exec_line(char **line_tokens, t_env **new_env);
 void		char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
 int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
 int			red_heredoc(t_env *begin_list, char *line);
-void		redirect_and_command(char *line, t_env **new_env);
 char		**split_pipe(char *line, int i, int j);
 int			valid_input(char *line);
 
@@ -82,5 +81,16 @@ void		free_list(t_env **begin_list);
 
 //main.c
 char		*read_input(t_env *new_env);
+
+//valid_input.c
+typedef struct s_valid
+{
+	int	quote1;
+	int	quote2;
+	int	last_pipe;
+	int	found_char;
+}	t_valid;
+
+int		valid_input(char *line);
 
 #endif
