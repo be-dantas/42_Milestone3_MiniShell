@@ -44,7 +44,7 @@ static int	valid_arg_name(char *str)
 	return (1);
 }
 
-int	valid_arg(char **split_line)
+int	valid_arg(char **split_line, t_shell *sh)
 {
 	int	i;
 
@@ -59,6 +59,7 @@ int	valid_arg(char **split_line)
 				printf("unexpected EOF while looking for matching `\"\'\n");
 			else if (!valid_arg_name(split_line[i]))
 				printf("export: `%s': not a valid identifier\n", split_line[i]);
+			sh->last_exit_status = 1;
 			return (0);
 		}
 	}

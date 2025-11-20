@@ -1,20 +1,25 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	process_one_fork(char **line_tokens, t_env *env, int fd_in, int fd_out)
+static void	process_one_fork(char **line_tokens, t_shell *sh, int fd_in, int fd_out)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		exec_external(line_tokens, env, fd_in, fd_out);
+		exec_external(line_tokens, sh->env, fd_in, fd_out);
 		exit(EXIT_FAILURE);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		sh->last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		sh->last_exit_status = 128 + WTERMSIG(status);
 }
 
-void	process_one_split(char **line, t_env **env)
+void	process_one_split(char **line, t_shell *sh)
 {
 	int		fd_in;
 	int		fd_out;
@@ -23,7 +28,7 @@ void	process_one_split(char **line, t_env **env)
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
-	redirect_fd(line[0], STDIN_FILENO, STDOUT_FILENO, *env);
+	redirect_fd(line[0], STDIN_FILENO, STDOUT_FILENO, sh->env);
 	cmd = command(line[0]);
 	free_array(line);
 	if (cmd == NULL)
@@ -34,9 +39,9 @@ void	process_one_split(char **line, t_env **env)
 	line_tokens = tokens(cmd);
 	free(cmd);
 	if (is_builtin(line_tokens[0]))
-		exec_line(line_tokens, env);
+		exec_line(line_tokens, sh);
 	else
-		process_one_fork(line_tokens, *env, fd_in, fd_out);
+		process_one_fork(line_tokens, sh, fd_in, fd_out);
 	free_array(line_tokens);
 	dup2_close_in_out(fd_in, fd_out);
 }

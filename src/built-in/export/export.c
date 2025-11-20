@@ -83,19 +83,23 @@ static void	creat_print_export(t_env *new_env)
 	free_list(&exp);
 }
 
-void	export_arg(char **line_tokens, t_env **new_env)
+void	export_arg(char **line_tokens, t_shell *sh)
 {
 	int	i;
 
 	i = 1;
 	if (!line_tokens[1])
-		creat_print_export(*new_env);
-	else if (valid_arg(line_tokens) == 1)
+	{
+		sh->last_exit_status = 0;
+		creat_print_export(sh->env);
+	}
+	else if (valid_arg(line_tokens, sh) == 1)
 	{
 		while (line_tokens[i])
 		{
-			check_to_put(line_tokens[i], new_env);
+			check_to_put(line_tokens[i], &sh->env);
 			i++;
 		}
+		sh->last_exit_status = 0;
 	}
 }

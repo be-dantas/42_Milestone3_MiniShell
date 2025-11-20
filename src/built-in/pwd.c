@@ -20,29 +20,28 @@ t_env	*get_value_by_name(t_env **new_env, char *str)
 	return (NULL);
 }
 
-void	pwd(char **line_tokens, t_env *new_env)
+void	pwd(t_shell *sh)
 {
 	t_env	*pointer;
 	char	*pwd;
 	char	*join_pwd;
 
-	if (line_tokens[1] != NULL)
-	{
-		printf("pwd: too many arguments\n");
-		return ;
-	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
+	{
+		sh->last_exit_status = 1;
 		return (perror("pwd"));
+	}
 	printf("%s\n", pwd);
-	pointer = get_value_by_name(&new_env, "PWD");
+	pointer = get_value_by_name(&sh->env, "PWD");
 	if (pointer)
 		update_value(pwd, pointer);
 	else
 	{
 		join_pwd = ft_strjoin("PWD=", pwd);
-		put_env(&new_env, join_pwd);
+		put_env(&sh->env, join_pwd);
 		free(join_pwd);
 	}
+	sh->last_exit_status = 0;
 	free(pwd);
 }

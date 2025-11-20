@@ -60,27 +60,26 @@ void	update_value(char *split_line, t_env *pointer)
 	pointer->value = result;
 }
 
-void	check_to_put(char *split_line, t_env **new_env)
+void	check_to_put(char *split_line, t_env **env)
 {
 	int		flag;
 	char	**temp;
-	t_env	*list_reset;
+	t_env	*current;
 
 	flag = 0;
 	temp = split_env(split_line);
-	list_reset = *new_env;
-	while (*new_env)
+	current = *env;
+	while (current)
 	{
-		if (ft_strcmp((*new_env)->key, temp[0]) == 0)
+		if (ft_strcmp(current->key, temp[0]) == 0)
 		{
-			update_value(temp[1], (*new_env));
+			update_value(temp[1], current);
 			flag = 1;
 			break ;
 		}
-		(*new_env) = (*new_env)->next;
+		current = current->next;
 	}
-	(*new_env) = list_reset;
 	if (!flag)
-		put_exp(temp, new_env);
+		put_exp(temp, env);
 	free_array(temp);
 }

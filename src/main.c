@@ -9,7 +9,7 @@ static void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-char	*read_input(t_env *new_env)
+char	*read_input(t_shell *sh)
 {
 	char	*line;
 
@@ -17,7 +17,8 @@ char	*read_input(t_env *new_env)
 	if (line == NULL || ft_strncmp(line, "exit", 5) == 0)
 	{
 		rl_clear_history();
-		free_list(&new_env);
+		free_list(&sh->env);
+		sh->last_exit_status = 0;
 		printf("exit\n");
 		exit(EXIT_SUCCESS);
 	}
@@ -26,14 +27,14 @@ char	*read_input(t_env *new_env)
 	return (line);
 }
 
-static void	redirect_and_command(char *input, t_env **env)
+static void	redirect_and_command(char *input, t_shell *sh)
 {
 	char	*line;
 	char	**s_pipe;
 	int		count_pipe;
 
 	count_pipe = 0;
-	line = expand_arg(*env, input, 0);
+	line = expand_arg(sh->env, input, 0);
 	if (!valid_input(line))
 	{
 		free(line);
@@ -45,29 +46,30 @@ static void	redirect_and_command(char *input, t_env **env)
 	while (s_pipe[count_pipe])
 		count_pipe++;
 	if (count_pipe == 1)
-		process_one_split(s_pipe, env);
+		process_one_split(s_pipe, sh);
 	else
-		process_pipes(s_pipe, env);
+		process_pipes(s_pipe, sh);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	t_env	*new_env;
+	t_shell	sh;
 
 	(void)argc;
 	(void)argv;
-	new_env = clone_env(envp);
+	sh.env = clone_env(envp);
+	sh.last_exit_status = 0;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		input = read_input(new_env);
+		input = read_input(&sh);
 		if (input[0] != '\0')
-			redirect_and_command(input, &new_env);
+			redirect_and_command(input, &sh);
 		free(input);
 	}
 	rl_clear_history();
-	free_list(&new_env);
+	free_list(&sh.env);
 	return (0);
 }

@@ -65,26 +65,31 @@ void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 		cmd_not_bar(tokens, env, fd_in, fd_out);
 }
 
-void	exec_line(char **line_tokens, t_env **new_env)
+void	exec_line(char **line_tokens, t_shell *sh)
 {
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
-		echo(line_tokens);
+		echo(line_tokens, sh);
 	else if (ft_strncmp(line_tokens[0], "cd", 3) == 0)
-		cd(line_tokens, new_env);
+		cd(line_tokens, sh);
 	else if (ft_strncmp(line_tokens[0], "pwd", 4) == 0)
-		pwd(line_tokens, *new_env);
+		pwd(sh);
 	else if (ft_strncmp(line_tokens[0], "export", 7) == 0)
-		export_arg(line_tokens, new_env);
+		export_arg(line_tokens, sh);
 	else if (ft_strncmp(line_tokens[0], "unset", 6) == 0)
-		unset_env(new_env, line_tokens);
+		unset_env(sh, line_tokens);
 	else if (ft_strncmp(line_tokens[0], "env", 4) == 0)
 	{
 		if (line_tokens[1] == NULL)
-			print_env(*new_env);
+		{
+			sh->last_exit_status = 0;
+			print_env(sh->env);
+		}
 		else
+		{
+			sh->last_exit_status = 127;
 			printf("env: ‘%s’: No such file or directory\n", line_tokens[1]);
+		}
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input(*new_env);
-	//exit(0);
+		read_input(sh);
 }

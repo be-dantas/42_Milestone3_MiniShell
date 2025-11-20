@@ -1,13 +1,14 @@
 #include "../../utils/minishell.h"
 
-void	unset_env(t_env **env, char **cmd)
+void	unset_env(t_shell *sh, char **cmd)
 {
 	t_env	*curr;
 	t_env	*prev;
 
+	sh->last_exit_status = 0;
 	if (cmd[1] == NULL)
 		return ;
-	curr = *env;
+	curr = sh->env;
 	prev = NULL;
 	while (curr)
 	{
@@ -16,7 +17,7 @@ void	unset_env(t_env **env, char **cmd)
 			if (prev)
 				prev->next = curr->next;
 			else
-				*env = curr->next;
+				sh->env = curr->next;
 			free(curr->key);
 			free(curr->value);
 			free(curr);

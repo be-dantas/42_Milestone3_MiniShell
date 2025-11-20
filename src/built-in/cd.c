@@ -27,28 +27,34 @@ static void	update_pwd(t_env **begin_list)
 	}
 	(*begin_list) = begin;
 }
+//se a pessoa apagar OLDPWD ou PWD, deveriamos crio-los novamente?
 
-void	cd(char **line, t_env **begin_list)
+void	cd(char **line, t_shell *sh)
 {
-	int		flag;
+	int	flag;
 
 	flag = 0;
-	if (line[1] == NULL || line[1][0] == '~')
+	if (line[2] != NULL)
 	{
-		chdir(expanded(*begin_list, "HOME"));
-		update_pwd(begin_list);
+		printf("cd: too many arguments\n");
+		sh->last_exit_status = 1;
 		return ;
 	}
-	if (line[2] != NULL)
-		printf("cd: too many arguments\n");
-	if (line[1])
+	if (line[1] == NULL || line[1][0] == '~')
+	{
+		chdir(expanded(sh->env, "HOME"));
+		update_pwd(&sh->env);
+	}
+	else if (line[1])
 	{
 		flag = chdir(line[1]);
 		if (flag == -1)
 		{
 			printf("cd: %s: No such file or directory\n", line[1]);
+			sh->last_exit_status = 1;
 			return ;
 		}
-		update_pwd(begin_list);
+		update_pwd(&sh->env);
 	}
+	sh->last_exit_status = 0;
 }

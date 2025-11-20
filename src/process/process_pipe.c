@@ -1,7 +1,7 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
+static void	child_process(char **pipes, t_shell *sh, t_pipes p, int i)
 {
 	if (p.prev_fd != -1)
 	{
@@ -14,7 +14,7 @@ static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
 		close(p.fd[0]);
 		close(p.fd[1]);
 	}
-	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, *env);
+	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, sh->env);
 	p.cmd = command(pipes[i]);
 	if (p.cmd == NULL)
 	{
@@ -24,9 +24,9 @@ static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
 	}
 	p.tokens_cmd = tokens(p.cmd);
 	if (is_builtin(p.tokens_cmd[0]))
-		exec_line(p.tokens_cmd, env);
+		exec_line(p.tokens_cmd, sh);
 	else
-		exec_external(p.tokens_cmd, *env, p.fd_in, p.fd_out);
+		exec_external(p.tokens_cmd, sh->env, p.fd_in, p.fd_out);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(pipes);
@@ -34,10 +34,12 @@ static void	child_process(char **pipes, t_env **env, t_pipes p, int i)
 	exit(EXIT_SUCCESS);
 }
 
-void	process_pipes(char **pipes, t_env **env)
+void	process_pipes(char **pipes, t_shell *sh)
 {
 	int		i;
 	t_pipes	p;
+	pid_t	last_pid;
+	int		status;
 
 	i = 0;
 	p.prev_fd = -1;
@@ -49,7 +51,8 @@ void	process_pipes(char **pipes, t_env **env)
 			pipe(p.fd);
 		p.pid = fork();
 		if (p.pid == 0)
-			child_process(pipes, env, p, i);
+			child_process(pipes, sh, p, i);
+		last_pid = p.pid;
 		if (p.prev_fd != -1)
 			close(p.prev_fd);
 		if (pipes[i + 1])
@@ -59,6 +62,11 @@ void	process_pipes(char **pipes, t_env **env)
 		}
 		i++;
 	}
+	waitpid(last_pid, &status, 0);
+	if (WIFEXITED(status))
+		sh->last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		sh->last_exit_status = 128 + WTERMSIG(status);
 	while (wait(NULL) > 0)
 		;
 	free_array(pipes);

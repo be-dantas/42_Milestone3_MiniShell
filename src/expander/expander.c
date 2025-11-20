@@ -39,7 +39,15 @@ char	*expand_arg(t_env *begin_list, char *str, int i)
 		else if (str[i] == '"' && !in_single)
 			in_double = !in_double;
 		if (str[i] == '$' && !in_single && str[i + 1])
-			temp = expand_variable(begin_list, str, &i);
+		{
+			if (str[i + 1] == '?')
+			{
+				temp = ft_substr(str, i, 2);
+				i += 2;
+			}
+			else
+				temp = expand_variable(begin_list, str, &i);
+		}
 		else
 		{
 			temp = expand_literal(str, &i);
