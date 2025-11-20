@@ -86,4 +86,5 @@ void	exec_line(char **line_tokens, t_env **new_env)
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
 		read_input(*new_env);
+	//exit(0);
 }

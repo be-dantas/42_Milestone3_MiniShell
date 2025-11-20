@@ -61,5 +61,6 @@ void	process_pipes(char **pipes, t_env **env)
 	}
 	while (wait(NULL) > 0)
 		;
+	free_array(pipes);
 	dup2_close_in_out(p.fd_in, p.fd_out);
 }

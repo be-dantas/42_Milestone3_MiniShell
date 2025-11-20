@@ -48,7 +48,6 @@ static void	redirect_and_command(char *input, t_env **env)
 		process_one_split(s_pipe, env);
 	else
 		process_pipes(s_pipe, env);
-	free_array(s_pipe);
 }
 
 int	main(int argc, char **argv, char **envp)
