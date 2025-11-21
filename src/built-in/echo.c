@@ -31,12 +31,7 @@ static char	*result_echo(char **token, t_shell *sh)
 	flag = check_flag(token);
 	if (ft_strncmp(token[1], "$?", 3) == 0)
 		printf("%d\n", sh->last_exit_status);
-	else if (flag && token[2] != NULL)
-	{
-		result = ft_join_all(&token[2], 2);
-		ft_printf("%s", result);
-	}
-	else if (flag)
+	else if ((flag && token[2] != NULL) || flag)
 	{
 		result = ft_join_all(token, 2);
 		ft_printf("%s", result);
@@ -57,7 +52,7 @@ void	echo(char **token, t_shell *sh)
 	if (token[1] == NULL)
 	{
 		printf("\n");
-		return (NULL);
+		return ;
 	}
 	result = result_echo(token, sh);
 	if (result != NULL)

@@ -35,6 +35,7 @@ static void	child_process(char **pipes, t_shell *sh, t_pipes p, int i)
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(pipes);
+	free_list(&sh->env);
 	dup2_close_in_out(p.fd_in, p.fd_out);
 	exit(EXIT_SUCCESS);
 }
