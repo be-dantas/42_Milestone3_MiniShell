@@ -1,6 +1,50 @@
 #include "../../utils/minishell.h"
 #include "redirect.h"
 
+static int	open_write_fd(char *line, int i)
+{
+	int		start;
+	char	*file;
+	int		fd;
+	int		append;
+
+	append = 0;
+	if (line[i + 1] == '>')
+	{
+		append = 1;
+		i += 2;
+	}
+	else
+		i++;
+	while (line[i] == ' ')
+		i++;
+	start = i;
+	while (line[i] && !ft_isspace(line[i]) && line[i] != '<' && line[i] != '>')
+		i++;
+	file = ft_substr(line, start, i - start);
+	if (append == 1)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	free(file);
+	return (fd);
+}
+
+void	if_write(char *line, int fd_out, t_fd *fd)
+{
+	fd->tmp = open_write_fd(line, fd->i);
+	if (fd->tmp != -1)
+	{
+		if (fd->fd[1] != fd_out)
+			close(fd->fd[1]);
+		fd->fd[1] = fd->tmp;
+	}
+	if (line[fd->i] == '>' && line[fd->i + 1] == '>')
+		fd->i += 2;
+	else
+		fd->i += 1;
+}
+
 static int	open_read_fd(char *line, int i)
 {
 	int		start;
@@ -19,7 +63,7 @@ static int	open_read_fd(char *line, int i)
 	return (fd);
 }
 
-void	char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
+void	if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
 {
 	int	tmp;
 
@@ -33,6 +77,7 @@ void	char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
 				close(fd->fd[0]);
 			fd->fd[0] = tmp;
 		}
+		fd->i += 1;
 	}
 	else if (line[fd->i] == '<' && line[fd->i + 1] == '<')
 	{
@@ -43,5 +88,6 @@ void	char_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
 				close(fd->fd[0]);
 			fd->fd[0] = tmp;
 		}
+		fd->i += 2;
 	}
 }
