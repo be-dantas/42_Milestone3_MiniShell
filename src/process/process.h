@@ -10,6 +10,7 @@ typedef struct s_pipes
 	pid_t	pid;
 	char	*cmd;
 	char	**tokens_cmd;
+	pid_t	last_pid;
 }	t_pipes;
 
 #endif

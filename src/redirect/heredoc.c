@@ -66,12 +66,31 @@ static char	*heredoc(t_env *begin_list, char *line)
 	return (h.result);
 }
 
+static void	pid_zero(t_env *begin_list, char *line, int fd[2])
+{
+	char	*result;
+	int		tty;
+
+	tty = open("/dev/tty", O_RDWR);
+	dup2(tty, STDIN_FILENO);
+	dup2(tty, STDOUT_FILENO);
+	close(tty);
+	close(fd[0]);
+	result = heredoc(begin_list, line);
+	if (result)
+	{
+		write(fd[1], result, ft_strlen(result));
+		free(result);
+	}
+	close(fd[1]);
+	free_list(&begin_list);
+	exit(EXIT_SUCCESS);
+}
+
 int	red_heredoc(t_env *begin_list, char *line)
 {
 	int		fd[2];
 	pid_t	pid;
-	char	*result;
-	int		tty;
 
 	if (pipe(fd) == -1)
 		return (-1);
@@ -79,26 +98,8 @@ int	red_heredoc(t_env *begin_list, char *line)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-	{
-		tty = open("/dev/tty", O_RDWR);
-		dup2(tty, STDIN_FILENO);
-		dup2(tty, STDOUT_FILENO);
-		close(tty);
-		close(fd[0]);
-		result = heredoc(begin_list, line);
-		if (result)
-		{
-			write(fd[1], result, ft_strlen(result));
-			free(result);
-		}
-		close(fd[1]);
-		free_list(&begin_list);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		close(fd[1]);
-		waitpid(pid, NULL, 0);
-		return (fd[0]);
-	}
+		pid_zero(begin_list, line, fd);
+	close(fd[1]);
+	waitpid(pid, NULL, 0);
+	return (fd[0]);
 }

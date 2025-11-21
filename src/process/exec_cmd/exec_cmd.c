@@ -28,7 +28,7 @@ static void	free_all(char **path_split, char *exec, char **envp)
 	free_array(envp);
 }
 
-static void	path_split_func(char **tokens, t_env *env, int fd_in, int fd_out)
+static char	**path_split_func(char **tokens, t_env *env, int fd_in, int fd_out)
 {
 	char	**path_split;
 
