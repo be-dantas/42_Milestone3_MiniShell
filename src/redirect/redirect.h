@@ -15,6 +15,9 @@ typedef struct s_here
 	char	**to_free;
 	char	*str;
 	char	*result;
+	char	*temp1;
+	char	*tmp1;
+	char	*tmp2;
 }	t_here;
 
 #endif
