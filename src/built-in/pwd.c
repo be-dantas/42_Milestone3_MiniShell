@@ -24,7 +24,7 @@ void	pwd(t_shell *sh)
 {
 	t_env	*pointer;
 	char	*pwd;
-	char	*join_pwd;
+	// char	*join_pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
@@ -36,12 +36,12 @@ void	pwd(t_shell *sh)
 	pointer = get_value_by_name(&sh->env, "PWD");
 	if (pointer)
 		update_value(pwd, pointer);
-	else
-	{
-		join_pwd = ft_strjoin("PWD=", pwd);
-		put_env(&sh->env, join_pwd);
-		free(join_pwd);
-	}
+	// else
+	// {
+	// 	join_pwd = ft_strjoin("PWD=", pwd);
+	// 	put_env(&sh->env, join_pwd);
+	// 	free(join_pwd);
+	// }
 	sh->last_exit_status = 0;
 	free(pwd);
 }

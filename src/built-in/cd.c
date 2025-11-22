@@ -2,19 +2,14 @@
 
 static void	update_pwd(t_env **begin_list)
 {
-	t_env	*node;
 	char	*temp;
+	t_env	*node;
 
+	temp = NULL;
 	node = *begin_list;
 	while (node)
 	{
-		if (ft_strcmp(node->key, "OLDPWD") == 0)
-		{
-			temp = ft_strdup(expanded(*begin_list, "PWD"));
-			free(node->value);
-			node->value = temp;
-		}
-		else if (ft_strcmp(node->key, "PWD") == 0)
+		if (ft_strcmp(node->key, "PWD") == 0)
 		{
 			temp = getcwd(NULL, 0);
 			free(node->value);
@@ -23,7 +18,27 @@ static void	update_pwd(t_env **begin_list)
 		node = node->next;
 	}
 }
-//se a pessoa apagar OLDPWD ou PWD, deveriamos crio-los novamente?
+
+static void	update_oldpwd(t_env **begin_list)
+{
+	t_env	*node;
+	char	*temp;
+
+	node = *begin_list;
+	while (node)
+	{
+		if (ft_strcmp(node->key, "OLDPWD") == 0)
+		{
+			if (ft_strcmp(node->key, "PWD") == 0)
+				temp = ft_strdup(expanded(*begin_list, "PWD"));
+			else if (ft_strcmp(node->key, "PWD") != 0)
+				temp = getcwd(NULL, 0);
+			free(node->value);
+			node->value = temp;
+		}
+		node = node->next;
+	}
+}
 
 static void	cd_utils(char **line, t_shell *sh)
 {
@@ -36,7 +51,10 @@ static void	cd_utils(char **line, t_shell *sh)
 		sh->last_exit_status = 1;
 	}
 	else
+	{
+		update_oldpwd(&sh->env);
 		update_pwd(&sh->env);
+	}
 }
 
 void	cd(char **line, t_shell *sh)
