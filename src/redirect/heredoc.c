@@ -12,6 +12,32 @@ static t_here	init_heredoc(char *line)
 	return (here);
 }
 
+static char	*remove_quotes(char *string, int i, int j)
+{
+	int		len;
+	int		count1;
+	int		count2;
+	char	*str2;
+
+	len = ft_strlen(string);
+	count1 = ft_countchar(string, '\'');
+	count2 = ft_countchar(string, '\"');
+	if (count1 % 2 != 0 || count2 % 2 != 0)
+		return (NULL);
+	str2 = malloc(sizeof(char) * (len - (count1 + count2) + 1));
+	while (string[i])
+	{
+		if (string[i] != '\'' && string[i] != '\"')
+		{
+			str2[j] = string[i];
+			j++;
+		}
+		i++;
+	}
+	str2[j] = '\0';
+	return (str2);
+}
+
 static void	expand_and_free(t_here	*h, t_env *begin_list)
 {
 	int		len;
@@ -48,11 +74,12 @@ static char	*heredoc(t_env *begin_list, char *line)
 		h.eof = ft_strdup(h.to_free[0] + 2);
 	else
 		h.eof = ft_strdup(h.to_free[1]);
+	h.eof = remove_quotes(h.eof, 0, 0);
 	while (1)
 	{
 		h.str = readline("heredoc > ");
 		if (ft_strcmp(h.str, h.eof) == 0)
-			break ;
+		 	break ;
 		tmp1 = ft_strjoin(h.result, h.str);
 		tmp2 = ft_strjoin(tmp1, "\n");
 		free(h.result);
