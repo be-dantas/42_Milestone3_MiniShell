@@ -16,7 +16,8 @@ typedef struct s_here
 	char	*str;
 	char	*result;
 	char	*temp1;
-	char	*temp2;
+	char	*tmp1;
+	char	*tmp2;
 }	t_here;
 
 #endif

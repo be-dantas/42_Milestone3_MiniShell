@@ -63,32 +63,48 @@ static void	expand_and_free(t_here	*h, t_env *begin_list)
 	free(h->eof);
 }
 
+static void	free_all(char *str1, char *str2, char *str3)
+{
+	free(str1);
+	free(str2);
+	free(str3);
+}
+
+static void	handle(int sig)
+{
+	(void)sig;
+
+	write(1, "\n", 1);
+	exit(EXIT_SUCCESS);
+}
+
 static char	*heredoc(t_env *begin_list, char *line)
 {
 	t_here	h;
-	char	*tmp1;
-	char	*tmp2;
 
 	h = init_heredoc(line);
 	if (ft_strlen(h.to_free[0]) > 2)
 		h.eof = ft_strdup(h.to_free[0] + 2);
 	else
 		h.eof = ft_strdup(h.to_free[1]);
-	h.eof = remove_quotes(h.eof, 0, 0);
+	h.temp1 = remove_quotes(h.eof, 0, 0);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle);
 	while (1)
 	{
 		h.str = readline("heredoc > ");
-		if (ft_strcmp(h.str, h.eof) == 0)
+		if (h.str == NULL)
+			printf("Warning: Expecting delimiter (required '%s')\n", h.temp1);
+		if (ft_strcmp(h.str, h.temp1) == 0)
 		 	break ;
-		tmp1 = ft_strjoin(h.result, h.str);
-		tmp2 = ft_strjoin(tmp1, "\n");
+		h.tmp1 = ft_strjoin(h.result, h.str);
+		h.tmp2 = ft_strjoin(h.tmp1, "\n");
 		free(h.result);
-		h.result = ft_strdup(tmp2);
-		free(tmp1);
-		free(tmp2);
-		free(h.str);
+		h.result = ft_strdup(h.tmp2);
+		free_all(h.tmp1, h.tmp2, h.str);
 		h.str = NULL;
 	}
+	free(h.temp1);
 	expand_and_free(&h, begin_list);
 	return (h.result);
 }
@@ -122,6 +138,7 @@ int	red_heredoc(t_env *begin_list, char *line)
 	if (pipe(fd) == -1)
 		return (-1);
 	pid = fork();
+	signal(SIGINT, SIG_IGN);
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
