@@ -74,6 +74,7 @@ static void	handle(int sig)
 {
 	(void)sig;
 
+	rl_clear_history();
 	write(1, "\n", 1);
 	exit(EXIT_SUCCESS);
 }
@@ -94,7 +95,10 @@ static char	*heredoc(t_env *begin_list, char *line)
 	{
 		h.str = readline("heredoc > ");
 		if (h.str == NULL)
+		{
 			printf("Warning: Expecting delimiter (required '%s')\n", h.temp1);
+			break ;
+		}
 		if (ft_strcmp(h.str, h.temp1) == 0)
 		 	break ;
 		h.tmp1 = ft_strjoin(h.result, h.str);
@@ -102,8 +106,10 @@ static char	*heredoc(t_env *begin_list, char *line)
 		free(h.result);
 		h.result = ft_strdup(h.tmp2);
 		free_all(h.tmp1, h.tmp2, h.str);
-		h.str = NULL;
+		free(h.str);
+		//h.str = NULL;
 	}
+	//free_list(&begin_list);
 	free(h.temp1);
 	expand_and_free(&h, begin_list);
 	return (h.result);
