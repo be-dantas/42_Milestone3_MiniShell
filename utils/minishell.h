@@ -12,6 +12,8 @@
 # include <unistd.h>
 # include <sys/wait.h>
 
+extern pid_t	g_heredoc_pid;
+
 /****************************** BUILT-IN ******************************/
 
 typedef struct s_env
