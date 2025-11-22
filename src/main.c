@@ -27,7 +27,7 @@ char	*read_input(t_shell *sh)
 	return (line);
 }
 
-static int	valid_input(char *line)
+static int	valid_input(char *line, t_shell *sh)
 {
 	t_valid	v;
 
@@ -40,11 +40,13 @@ static int	valid_input(char *line)
 	{
 		//write(2, "Syntax error\n", 13);
 		printf("Syntax error\n");
+		sh->last_exit_status = 2;
 		return (0);
 	}
 	else if (!valid_quotes(line))
 	{
 		printf("unexpected EOF while looking for matching `\"\'\n");
+		sh->last_exit_status = 2;
 		return (0);
 	}
 	return (1);
@@ -58,7 +60,7 @@ static void	redirect_and_command(char *input, t_shell *sh)
 
 	count_pipe = 0;
 	line = expand_arg(sh->env, input, 0);
-	if (!valid_input(line))
+	if (!valid_input(line, sh))
 	{
 		free(line);
 		return ;
@@ -80,8 +82,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	sh.env = clone_env(envp);
 	sh.last_exit_status = 0;
+	sh.env = clone_env(envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

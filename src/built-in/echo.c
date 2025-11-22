@@ -34,11 +34,13 @@ static char	*result_echo(char **token, t_shell *sh)
 	else if ((flag && token[2] != NULL) || flag)
 	{
 		result = ft_join_all(token, 2);
+		sh->last_exit_status = 0;
 		ft_printf("%s", result);
 	}
 	else if (!flag)
 	{
 		result = ft_join_all(token, 1);
+		sh->last_exit_status = 0;
 		ft_printf("%s\n", result);
 	}
 	return (result);
@@ -48,10 +50,10 @@ void	echo(char **token, t_shell *sh)
 {
 	char	*result;
 
-	sh->last_exit_status = 0;
 	if (token[1] == NULL)
 	{
 		printf("\n");
+		sh->last_exit_status = 0;
 		return ;
 	}
 	result = result_echo(token, sh);

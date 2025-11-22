@@ -70,7 +70,7 @@ int	valid_red(char *line, char c)
 	int	i;
 	int	quote1;
 	int	quote2;
-	
+
 	i = 0;
 	quote1 = 0;
 	quote2 = 0;
@@ -95,7 +95,7 @@ int	valid_quotes(char *line)
 	int	i;
 	int	quote1;
 	int	quote2;
-	
+
 	i = 0;
 	quote1 = 0;
 	quote2 = 0;
