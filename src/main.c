@@ -38,7 +38,6 @@ static int	valid_input(char *line, t_shell *sh)
 	if (!valid_pipe(line, &v, 0)
 		|| !valid_red(line, '>') || !valid_red(line, '<'))
 	{
-		//write(2, "Syntax error\n", 13);
 		printf("Syntax error\n");
 		sh->last_exit_status = 2;
 		return (0);
