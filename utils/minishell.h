@@ -81,7 +81,6 @@ void		if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
 int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
 int			red_heredoc(t_env *begin_list, char *line);
 char		**split_pipe(char *line, int i, int j);
-int			valid_input(char *line);
 
 /**********************************************************************/
 
@@ -92,7 +91,7 @@ void		free_list(t_env **begin_list);
 //main.c
 char		*read_input(t_shell *sh);
 
-//valid_input.c
+//valid_input_utils.c
 typedef struct s_valid
 {
 	int	quote1;
@@ -101,6 +100,8 @@ typedef struct s_valid
 	int	found_char;
 }	t_valid;
 
-int			valid_input(char *line);
+int			valid_pipe(char *line, t_valid *v, int i);
+int			valid_red(char *line, char c);
+int			valid_quotes(char *line);
 
 #endif

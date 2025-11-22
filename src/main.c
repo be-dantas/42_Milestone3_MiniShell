@@ -27,6 +27,29 @@ char	*read_input(t_shell *sh)
 	return (line);
 }
 
+static int	valid_input(char *line)
+{
+	t_valid	v;
+
+	v.quote1 = 0;
+	v.quote2 = 0;
+	v.last_pipe = 0;
+	v.found_char = 0;
+	if (!valid_pipe(line, &v, 0)
+		|| !valid_red(line, '>') || !valid_red(line, '<'))
+	{
+		//write(2, "Syntax error\n", 13);
+		printf("Syntax error\n");
+		return (0);
+	}
+	else if (!valid_quotes(line))
+	{
+		printf("unexpected EOF while looking for matching `\"\'\n");
+		return (0);
+	}
+	return (1);
+}
+
 static void	redirect_and_command(char *input, t_shell *sh)
 {
 	char	*line;
@@ -38,7 +61,6 @@ static void	redirect_and_command(char *input, t_shell *sh)
 	if (!valid_input(line))
 	{
 		free(line);
-		write(2, "Syntax error\n", 13);
 		return ;
 	}
 	s_pipe = split_pipe(line, 0, 0);

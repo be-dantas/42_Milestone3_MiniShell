@@ -14,7 +14,7 @@ static int	check_pipe_error(char *line, int i)
 	return (0);
 }
 
-static int	valid_pipe(char *line, t_valid *v, int i)
+int	valid_pipe(char *line, t_valid *v, int i)
 {
 	while (line[i] && line[i] == ' ')
 		i++;
@@ -38,7 +38,7 @@ static int	valid_pipe(char *line, t_valid *v, int i)
 			v->found_char = 1;
 		i++;
 	}
-	if (v->quote2 || v->quote1 || v->last_pipe || !v->found_char)
+	if (v->last_pipe || !v->found_char)
 		return (0);
 	return (1);
 }
@@ -65,20 +65,22 @@ static int	valid_red_utils(char *line, char c, int *i)
 	return (1);
 }
 
-static int	valid_red(char *line, t_valid *v, char c)
+int	valid_red(char *line, char c)
 {
 	int	i;
-
+	int	quote1;
+	int	quote2;
+	
 	i = 0;
-	v->quote1 = 0;
-	v->quote2 = 0;
+	quote1 = 0;
+	quote2 = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' && !v->quote1)
-			v->quote2 = !v->quote2;
-		else if (line[i] == '"' && !v->quote2)
-			v->quote1 = !v->quote1;
-		else if (line[i] == c && !v->quote1 && !v->quote2)
+		if (line[i] == '\'' && !quote1)
+			quote2 = !quote2;
+		else if (line[i] == '\"' && !quote2)
+			quote1 = !quote1;
+		else if (line[i] == c && !quote1 && !quote2)
 		{
 			if (!valid_red_utils(line, c, &i))
 				return (0);
@@ -88,16 +90,24 @@ static int	valid_red(char *line, t_valid *v, char c)
 	return (1);
 }
 
-int	valid_input(char *line)
+int	valid_quotes(char *line)
 {
-	t_valid	v;
-
-	v.quote1 = 0;
-	v.quote2 = 0;
-	v.last_pipe = 0;
-	v.found_char = 0;
-	if (!valid_pipe(line, &v, 0)
-		|| !valid_red(line, &v, '>') || !valid_red(line, &v, '<'))
+	int	i;
+	int	quote1;
+	int	quote2;
+	
+	i = 0;
+	quote1 = 0;
+	quote2 = 0;
+	while (line[i])
+	{
+		if (line[i] == '\'' && !quote1)
+			quote2 = !quote2;
+		else if (line[i] == '\"' && !quote2)
+			quote1 = !quote1;
+		i++;
+	}
+	if (quote1 || quote2)
 		return (0);
 	return (1);
 }
