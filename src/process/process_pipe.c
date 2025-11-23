@@ -1,46 +1,46 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	child_utils(char **pipes, t_shell *sh, t_pipes *p, int i)
+static void	child_utils(t_shell *sh, t_pipes *p, int i)
 {
 	if (p->prev_fd != -1)
 	{
 		dup2(p->prev_fd, STDIN_FILENO);
 		close(p->prev_fd);
 	}
-	if (pipes[i + 1])
+	if (sh->s_pipe[i + 1])
 	{
 		dup2(p->fd[1], STDOUT_FILENO);
 		close(p->fd[0]);
 		close(p->fd[1]);
 	}
-	redirect_fd(pipes[i], STDIN_FILENO, STDOUT_FILENO, sh->env);
-	p->cmd = command(pipes[i]);
+	redirect_fd(STDIN_FILENO, STDOUT_FILENO, sh, i);
+	p->cmd = command(sh->s_pipe[i]);
 	if (p->cmd == NULL)
 	{
-		free_array(pipes);
+		free_array(sh->s_pipe);
 		dup2_close_in_out(p->fd_in, p->fd_out);
 		exit(EXIT_FAILURE);
 	}
 	p->tokens_cmd = tokens(p->cmd);
 }
 
-static void	child_process(char **pipes, t_shell *sh, t_pipes p, int i)
+static void	child_process(t_shell *sh, t_pipes p, int i)
 {
-	child_utils(pipes, sh, &p, i);
+	child_utils(sh, &p, i);
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh);
 	else
 		exec_external(p.tokens_cmd, sh->env, p.fd_in, p.fd_out);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
-	free_array(pipes);
+	free_array(sh->s_pipe);
 	free_list(&sh->env);
 	dup2_close_in_out(p.fd_in, p.fd_out);
 	exit(EXIT_SUCCESS);
 }
 
-static void	pipes_utils(char **pipes, t_pipes p, t_shell *sh)
+static void	pipes_utils(t_pipes p, t_shell *sh)
 {
 	int	status;
 
@@ -51,11 +51,11 @@ static void	pipes_utils(char **pipes, t_pipes p, t_shell *sh)
 		sh->last_exit_status = 128 + WTERMSIG(status);
 	while (wait(NULL) > 0)
 		;
-	free_array(pipes);
+	free_array(sh->s_pipe);
 	dup2_close_in_out(p.fd_in, p.fd_out);
 }
 
-void	process_pipes(char **pipes, t_shell *sh)
+void	process_pipes(t_shell *sh)
 {
 	t_pipes	p;
 	int		i;
@@ -64,22 +64,22 @@ void	process_pipes(char **pipes, t_shell *sh)
 	p.prev_fd = -1;
 	p.fd_in = dup(STDIN_FILENO);
 	p.fd_out = dup(STDOUT_FILENO);
-	while (pipes[i])
+	while (sh->s_pipe[i])
 	{
-		if (pipes[i + 1])
+		if (sh->s_pipe[i + 1])
 			pipe(p.fd);
 		p.pid = fork();
 		if (p.pid == 0)
-			child_process(pipes, sh, p, i);
+			child_process(sh, p, i);
 		p.last_pid = p.pid;
 		if (p.prev_fd != -1)
 			close(p.prev_fd);
-		if (pipes[i + 1])
+		if (sh->s_pipe[i + 1])
 		{
 			close(p.fd[1]);
 			p.prev_fd = p.fd[0];
 		}
 		i++;
 	}
-	pipes_utils(pipes, p, sh);
+	pipes_utils(p, sh);
 }

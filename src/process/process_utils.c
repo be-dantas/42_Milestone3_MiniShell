@@ -25,12 +25,12 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-void	redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
+void	redirect_fd(int fd_in, int fd_out, t_shell *sh, int i)
 {
 	int	fd[2];
 	int	*fd_temp;
 
-	fd_temp = parse_fd(line, fd_in, fd_out, begin_list);
+	fd_temp = parse_fd(fd_in, fd_out, sh, i);
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];
 	free(fd_temp);

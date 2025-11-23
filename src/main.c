@@ -54,7 +54,6 @@ static int	valid_input(char *line, t_shell *sh)
 static void	redirect_and_command(char *input, t_shell *sh)
 {
 	char	*line;
-	char	**s_pipe;
 	int		count_pipe;
 
 	count_pipe = 0;
@@ -64,14 +63,14 @@ static void	redirect_and_command(char *input, t_shell *sh)
 		free(line);
 		return ;
 	}
-	s_pipe = split_pipe(line, 0, 0);
+	sh->s_pipe = split_pipe(line, 0, 0);
 	free(line);
-	while (s_pipe[count_pipe])
+	while (sh->s_pipe[count_pipe])
 		count_pipe++;
 	if (count_pipe == 1)
-		process_one_split(s_pipe, sh);
+		process_one_split(sh);
 	else
-		process_pipes(s_pipe, sh);
+		process_pipes(sh);
 }
 
 int	main(int argc, char **argv, char **envp)

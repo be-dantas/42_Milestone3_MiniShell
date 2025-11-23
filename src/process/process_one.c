@@ -20,7 +20,7 @@ static void	process_one_fork(char **line_tokens, t_shell *sh,
 		sh->last_exit_status = 128 + WTERMSIG(status);
 }
 
-void	process_one_split(char **line, t_shell *sh)
+void	process_one_split(t_shell *sh)
 {
 	int		fd_in;
 	int		fd_out;
@@ -29,9 +29,9 @@ void	process_one_split(char **line, t_shell *sh)
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
-	redirect_fd(line[0], STDIN_FILENO, STDOUT_FILENO, sh->env);
-	cmd = command(line[0]);
-	free_array(line);
+	redirect_fd(STDIN_FILENO, STDOUT_FILENO, sh, 0);
+	cmd = command(sh->s_pipe[0]);
+	free_array(sh->s_pipe);
 	if (cmd == NULL)
 	{
 		dup2_close_in_out(fd_in, fd_out);

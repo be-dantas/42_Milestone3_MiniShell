@@ -26,6 +26,7 @@ typedef struct s_shell
 {
 	t_env	*env;
 	int		last_exit_status;
+	char	**s_pipe;
 }	t_shell;
 
 //export
@@ -68,23 +69,23 @@ char		*remove_quotes(char *string, int i, int j);
 char		**tokens(char *line);
 
 char		*command(char *line);
-void		process_one_split(char **line, t_shell *sh);
-void		process_pipes(char **pipes, t_shell *sh);
+void		process_one_split(t_shell *sh);
+void		process_pipes(t_shell *sh);
 void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
-void		redirect_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
+void		redirect_fd(int fd_in, int fd_out, t_shell *sh, int i);
 void		exec_external(char **tokens, t_env *env, int fd_in, int fd_out);
 void		exec_line(char **line_tokens, t_shell *sh);
 
 /****************************** REDIRECT ******************************/
 
 //heredoc
-char		*heredoc(t_env *begin_list, char *line);
-int			red_heredoc(t_env *begin_list, char *line);
+char		*heredoc(t_shell *sh, int i);
+int			red_heredoc(t_shell *sh, int i);
 
 void		if_write(char *line, int fd_out, t_fd *fd);
-void		if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
-int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
+void		if_read(int fd_in, t_fd *fd, t_shell *sh, int i);
+int			*parse_fd(int fd_in, int fd_out, t_shell *sh, int i);
 char		**split_pipe(char *line, int i, int j);
 
 /**********************************************************************/

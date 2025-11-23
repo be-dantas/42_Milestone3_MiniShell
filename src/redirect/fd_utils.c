@@ -63,14 +63,14 @@ static int	open_read_fd(char *line, int i)
 	return (fd);
 }
 
-void	if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
+void	if_read(int fd_in, t_fd *fd, t_shell *sh, int i)
 {
 	int	tmp;
 
 	tmp = 0;
-	if (line[fd->i] == '<' && line[fd->i + 1] != '<')
+	if (sh->s_pipe[i][fd->i] == '<' && sh->s_pipe[i][fd->i + 1] != '<')
 	{
-		tmp = open_read_fd(line, fd->i);
+		tmp = open_read_fd(sh->s_pipe[i], fd->i);
 		if (tmp != -1)
 		{
 			if (fd->fd[0] != fd_in)
@@ -79,9 +79,9 @@ void	if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list)
 		}
 		fd->i += 1;
 	}
-	else if (line[fd->i] == '<' && line[fd->i + 1] == '<')
+	else if (sh->s_pipe[i][fd->i] == '<' && sh->s_pipe[i][fd->i + 1] == '<')
 	{
-		tmp = red_heredoc(begin_list, line);
+		tmp = red_heredoc(sh, i);
 		if (tmp != -1)
 		{
 			if (fd->fd[0] != fd_in)

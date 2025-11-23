@@ -33,11 +33,12 @@ static void	expand_and_free(t_here	*h, t_env *begin_list)
 	free(h->eof);
 }
 
-static t_here	init_heredoc(char *line)
+static t_here	init_heredoc(t_shell *sh, int i)
 {
 	t_here	here;
 
-	here.to_free = ft_split(strstr(line, "<<"), ' ');
+	here.to_free = ft_split(strstr(sh->s_pipe[i], "<<"), ' ');
+	free_array(sh->s_pipe);
 	here.result = ft_strdup("");
 	here.eof = NULL;
 	if (ft_strlen(here.to_free[0]) > 2)
@@ -49,11 +50,11 @@ static t_here	init_heredoc(char *line)
 	return (here);
 }
 
-char	*heredoc(t_env *begin_list, char *line)
+char	*heredoc(t_shell *sh, int i)
 {
 	t_here	h;
 
-	h = init_heredoc(line);
+	h = init_heredoc(sh, i);
 	while (1)
 	{
 		h.str = readline("heredoc > ");
@@ -72,8 +73,8 @@ char	*heredoc(t_env *begin_list, char *line)
 		//free(h.str);
 		h.str = NULL;
 	}
-	free_list(&begin_list);
+	free_list(&sh->env);
 	free(h.temp1);
-	expand_and_free(&h, begin_list);
+	expand_and_free(&h, sh->env);
 	return (h.result);
 }

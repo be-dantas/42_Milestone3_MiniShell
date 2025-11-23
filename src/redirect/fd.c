@@ -32,30 +32,30 @@ static t_fd	init_parse_fd(int fd_in, int fd_out)
 	return (fd);
 }
 
-int	*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list)
+int	*parse_fd(int fd_in, int fd_out, t_shell *sh, int i)
 {
 	t_fd	fd;
 
 	fd = init_parse_fd(fd_in, fd_out);
-	while (line[fd.i])
+	while (sh->s_pipe[i][fd.i])
 	{
-		func_flag(line, &fd.i, fd.quote);
+		func_flag(sh->s_pipe[i], &fd.i, fd.quote);
 		if (!fd.quote[0] && !fd.quote[1])
 		{
-			if (line[fd.i] == '<')
+			if (sh->s_pipe[i][fd.i] == '<')
 			{
-				if_read(line, fd_in, &fd, begin_list);
-				if (line[fd.i])
+				if_read(fd_in, &fd, sh, i);
+				if (sh->s_pipe[i][fd.i])
 					continue ;
 			}
-			else if (line[fd.i] == '>')
+			else if (sh->s_pipe[i][fd.i] == '>')
 			{
-				if_write(line, fd_out, &fd);
-				if (line[fd.i])
+				if_write(sh->s_pipe[i], fd_out, &fd);
+				if (sh->s_pipe[i][fd.i])
 					continue ;
 			}
 		}
-		if (line[fd.i])
+		if (sh->s_pipe[i][fd.i])
 			fd.i++;
 	}
 	return (fd.fd);
