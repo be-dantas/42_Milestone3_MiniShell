@@ -11,8 +11,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
-
-extern pid_t	g_heredoc_pid;
+# include <termios.h>
 
 /****************************** BUILT-IN ******************************/
 
@@ -65,6 +64,7 @@ char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
 
 //tokens
 char		**split_with_quotes(char *line);
+char		*remove_quotes(char *string, int i, int j);
 char		**tokens(char *line);
 
 char		*command(char *line);
@@ -81,6 +81,7 @@ void		exec_line(char **line_tokens, t_shell *sh);
 void		if_write(char *line, int fd_out, t_fd *fd);
 void		if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
 int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
+char		*heredoc(t_env *begin_list, char *line);
 int			red_heredoc(t_env *begin_list, char *line);
 char		**split_pipe(char *line, int i, int j);
 
@@ -92,6 +93,7 @@ void		free_list(t_env **begin_list);
 
 //main.c
 char		*read_input(t_shell *sh);
+void		handle_sigint(int sig);
 
 //valid_input_utils.c
 typedef struct s_valid

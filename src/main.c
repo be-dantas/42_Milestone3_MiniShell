@@ -1,6 +1,6 @@
 #include "../utils/minishell.h"
 
-static void	handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
