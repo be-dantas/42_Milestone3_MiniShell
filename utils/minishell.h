@@ -78,11 +78,13 @@ void		exec_line(char **line_tokens, t_shell *sh);
 
 /****************************** REDIRECT ******************************/
 
+//heredoc
+char		*heredoc(t_env *begin_list, char *line);
+int			red_heredoc(t_env *begin_list, char *line);
+
 void		if_write(char *line, int fd_out, t_fd *fd);
 void		if_read(char *line, int fd_in, t_fd *fd, t_env *begin_list);
 int			*parse_fd(char *line, int fd_in, int fd_out, t_env *begin_list);
-char		*heredoc(t_env *begin_list, char *line);
-int			red_heredoc(t_env *begin_list, char *line);
 char		**split_pipe(char *line, int i, int j);
 
 /**********************************************************************/
