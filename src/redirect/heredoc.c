@@ -75,6 +75,7 @@ static void	free_all(char *str1, char *str2, char *str3)
 static void	handle(int sig)
 {
 	(void)sig;
+	write(1, "\n", 1);
 	exit(EXIT_SUCCESS);
 }
 
@@ -89,22 +90,21 @@ static char	*heredoc(t_env *begin_list, char *line)
 		h.eof = ft_strdup(h.to_free[1]);
 	h.temp1 = remove_quotes(h.eof, 0, 0);
 	signal(SIGQUIT, SIG_IGN);
-	if (signal(SIGINT, handle))
-	{
-		free_list(&begin_list);
-		printf("acho que tudo é um sinal\n\n");
-		write(1, "\n", 1);
-	}
+	signal(SIGINT, handle);
 	while (1)
 	{
 		h.str = readline("heredoc > ");
 		if (h.str == NULL)
 		{
 			printf("Warning: Expecting delimiter (required '%s')\n", h.temp1);
+			free_list(&begin_list);
 			break ;
 		}
 		if (ft_strcmp(h.str, h.temp1) == 0)
-		 	break ;
+		{
+			free_list(&begin_list);
+			break ;
+		}
 		h.tmp1 = ft_strjoin(h.result, h.str);
 		h.tmp2 = ft_strjoin(h.tmp1, "\n");
 		free(h.result);
@@ -113,6 +113,7 @@ static char	*heredoc(t_env *begin_list, char *line)
 		h.str = NULL;
 	}
 	free(h.temp1);
+	free_list(&begin_list);
 	expand_and_free(&h, begin_list);
 	return (h.result);
 }
@@ -134,7 +135,6 @@ static void	pid_zero(t_env *begin_list, char *line, int fd[2])
 		free(result);
 	}
 	close(fd[1]);
-	free_list(&begin_list);
 	exit(EXIT_SUCCESS);
 }
 
