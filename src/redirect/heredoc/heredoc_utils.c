@@ -54,22 +54,16 @@ char	*heredoc(t_env *begin_list, char *line)
 	else
 		h.eof = ft_strdup(h.to_free[1]);
 	h.temp1 = remove_quotes(h.eof, 0, 0);
-
 	while (1)
 	{
 		h.str = readline("heredoc > ");
-
 		if (h.str == NULL)
 		{
 			printf("Warning: Expecting delimiter (required '%s')\n", h.temp1);
-			//free_list(&begin_list);
 			break ;
 		}
 		if (ft_strcmp(h.str, h.temp1) == 0)
-		{
-			//free_list(&begin_list);
-		 	break ;
-		}
+			break ;
 		h.tmp1 = ft_strjoin(h.result, h.str);
 		h.tmp2 = ft_strjoin(h.tmp1, "\n");
 		free(h.result);
