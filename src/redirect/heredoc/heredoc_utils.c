@@ -70,7 +70,6 @@ char	*heredoc(t_shell *sh, int i)
 		free(h.result);
 		h.result = ft_strdup(h.tmp2);
 		free_all(h.tmp1, h.tmp2, h.str);
-		//free(h.str);
 		h.str = NULL;
 	}
 	free_list(&sh->env);
