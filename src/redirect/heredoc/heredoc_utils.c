@@ -38,9 +38,14 @@ static t_here	init_heredoc(char *line)
 	t_here	here;
 
 	here.to_free = ft_split(strstr(line, "<<"), ' ');
-	here.eof = NULL;
-	here.str = NULL;
 	here.result = ft_strdup("");
+	here.eof = NULL;
+	if (ft_strlen(here.to_free[0]) > 2)
+		here.eof = ft_strdup(here.to_free[0] + 2);
+	else
+		here.eof = ft_strdup(here.to_free[1]);
+	here.temp1 = remove_quotes(here.eof, 0, 0);
+	here.str = NULL;
 	return (here);
 }
 
@@ -49,11 +54,6 @@ char	*heredoc(t_env *begin_list, char *line)
 	t_here	h;
 
 	h = init_heredoc(line);
-	if (ft_strlen(h.to_free[0]) > 2)
-		h.eof = ft_strdup(h.to_free[0] + 2);
-	else
-		h.eof = ft_strdup(h.to_free[1]);
-	h.temp1 = remove_quotes(h.eof, 0, 0);
 	while (1)
 	{
 		h.str = readline("heredoc > ");

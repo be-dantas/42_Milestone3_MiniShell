@@ -11,11 +11,11 @@ typedef struct s_fd
 
 typedef struct s_here
 {
-	char	*eof;
 	char	**to_free;
-	char	*str;
 	char	*result;
+	char	*eof;
 	char	*temp1;
+	char	*str;
 	char	*tmp1;
 	char	*tmp2;
 }	t_here;
