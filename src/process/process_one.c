@@ -1,8 +1,7 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
-static void	process_one_fork(char **line_tokens, t_shell *sh,
-		int fd_in, int fd_out)
+static void	process_one_fork(char **line_tokens, t_shell *sh)
 {
 	pid_t	pid;
 	int		status;
@@ -10,7 +9,7 @@ static void	process_one_fork(char **line_tokens, t_shell *sh,
 	pid = fork();
 	if (pid == 0)
 	{
-		exec_external(line_tokens, sh->env, fd_in, fd_out);
+		exec_external(line_tokens, sh->env, sh->fd_in, sh->fd_out);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);
@@ -22,19 +21,17 @@ static void	process_one_fork(char **line_tokens, t_shell *sh,
 
 void	process_one_split(t_shell *sh)
 {
-	int		fd_in;
-	int		fd_out;
 	char	*cmd;
 	char	**line_tokens;
 
-	fd_in = dup(STDIN_FILENO);
-	fd_out = dup(STDOUT_FILENO);
-	redirect_fd(STDIN_FILENO, STDOUT_FILENO, sh, 0);
+	sh->fd_in = dup(STDIN_FILENO);
+	sh->fd_out = dup(STDOUT_FILENO);
+	redirect_fd(sh, 0);
 	cmd = command(sh->s_pipe[0]);
 	free_array(sh->s_pipe);
 	if (cmd == NULL)
 	{
-		dup2_close_in_out(fd_in, fd_out);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		return ;
 	}
 	line_tokens = tokens(cmd);
@@ -42,7 +39,7 @@ void	process_one_split(t_shell *sh)
 	if (is_builtin(line_tokens[0]))
 		exec_line(line_tokens, sh);
 	else
-		process_one_fork(line_tokens, sh, fd_in, fd_out);
+		process_one_fork(line_tokens, sh);
 	free_array(line_tokens);
-	dup2_close_in_out(fd_in, fd_out);
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
 }

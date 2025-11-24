@@ -25,21 +25,21 @@ int	is_builtin(char *cmd)
 		return (0);
 }
 
-void	redirect_fd(int fd_in, int fd_out, t_shell *sh, int i)
+void	redirect_fd(t_shell *sh, int i)
 {
 	int	fd[2];
 	int	*fd_temp;
 
-	fd_temp = parse_fd(fd_in, fd_out, sh, i);
+	fd_temp = parse_fd(sh, i);
 	fd[0] = fd_temp[0];
 	fd[1] = fd_temp[1];
 	free(fd_temp);
-	if (fd[0] != fd_in)
+	if (fd[0] != sh->fd_in)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	if (fd[1] != fd_out)
+	if (fd[1] != sh->fd_out)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);

@@ -6,6 +6,7 @@ static void	free_all(char *str1, char *str2, char *str3)
 	free(str1);
 	free(str2);
 	free(str3);
+	str3 = NULL;
 }
 
 static void	expand_and_free(t_here	*h, t_env *begin_list)
@@ -70,8 +71,8 @@ char	*heredoc(t_shell *sh, int i, int *fd_malloc)
 		free(h.result);
 		h.result = ft_strdup(h.tmp2);
 		free_all(h.tmp1, h.tmp2, h.str);
-		h.str = NULL;
 	}
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	free(fd_malloc);
 	free_list(&sh->env);
 	free(h.temp1);

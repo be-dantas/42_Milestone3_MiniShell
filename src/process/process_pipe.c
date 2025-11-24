@@ -14,12 +14,12 @@ static void	child_utils(t_shell *sh, t_pipes *p, int i)
 		close(p->fd[0]);
 		close(p->fd[1]);
 	}
-	redirect_fd(STDIN_FILENO, STDOUT_FILENO, sh, i);
+	redirect_fd(sh, i);
 	p->cmd = command(sh->s_pipe[i]);
 	if (p->cmd == NULL)
 	{
 		free_array(sh->s_pipe);
-		dup2_close_in_out(p->fd_in, p->fd_out);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exit(EXIT_FAILURE);
 	}
 	p->tokens_cmd = tokens(p->cmd);
@@ -31,12 +31,12 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh);
 	else
-		exec_external(p.tokens_cmd, sh->env, p.fd_in, p.fd_out);
+		exec_external(p.tokens_cmd, sh->env, sh->fd_in, sh->fd_out);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(sh->s_pipe);
 	free_list(&sh->env);
-	dup2_close_in_out(p.fd_in, p.fd_out);
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	exit(EXIT_SUCCESS);
 }
 
@@ -52,7 +52,7 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 	while (wait(NULL) > 0)
 		;
 	free_array(sh->s_pipe);
-	dup2_close_in_out(p.fd_in, p.fd_out);
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
 }
 
 void	process_pipes(t_shell *sh)
@@ -62,8 +62,8 @@ void	process_pipes(t_shell *sh)
 
 	i = 0;
 	p.prev_fd = -1;
-	p.fd_in = dup(STDIN_FILENO);
-	p.fd_out = dup(STDOUT_FILENO);
+	sh->fd_in = dup(STDIN_FILENO);
+	sh->fd_out = dup(STDOUT_FILENO);
 	while (sh->s_pipe[i])
 	{
 		if (sh->s_pipe[i + 1])

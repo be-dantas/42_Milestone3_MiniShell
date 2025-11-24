@@ -27,6 +27,8 @@ typedef struct s_shell
 	t_env	*env;
 	int		last_exit_status;
 	char	**s_pipe;
+	int		fd_in;
+	int		fd_out;
 }	t_shell;
 
 //export
@@ -73,7 +75,7 @@ void		process_one_split(t_shell *sh);
 void		process_pipes(t_shell *sh);
 void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
-void		redirect_fd(int fd_in, int fd_out, t_shell *sh, int i);
+void		redirect_fd(t_shell *sh, int i);
 void		exec_external(char **tokens, t_env *env, int fd_in, int fd_out);
 void		exec_line(char **line_tokens, t_shell *sh);
 
@@ -84,8 +86,8 @@ char		*heredoc(t_shell *sh, int i, int *fd_malloc);
 int			red_heredoc(t_shell *sh, int i, int *fd_malloc);
 
 void		if_write(char *line, int fd_out, t_fd *fd);
-void		if_read(int fd_in, t_fd *fd, t_shell *sh, int i);
-int			*parse_fd(int fd_in, int fd_out, t_shell *sh, int i);
+void		if_read(t_fd *fd, t_shell *sh, int i);
+int			*parse_fd(t_shell *sh, int i);
 char		**split_pipe(char *line, int i, int j);
 
 /**********************************************************************/

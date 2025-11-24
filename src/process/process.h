@@ -4,8 +4,6 @@
 typedef struct s_pipes
 {
 	int		prev_fd;
-	int		fd_in;
-	int		fd_out;
 	int		fd[2];
 	pid_t	pid;
 	char	*cmd;

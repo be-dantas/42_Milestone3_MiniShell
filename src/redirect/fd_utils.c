@@ -63,7 +63,7 @@ static int	open_read_fd(char *line, int i)
 	return (fd);
 }
 
-void	if_read(int fd_in, t_fd *fd, t_shell *sh, int i)
+void	if_read(t_fd *fd, t_shell *sh, int i)
 {
 	int	tmp;
 
@@ -73,7 +73,7 @@ void	if_read(int fd_in, t_fd *fd, t_shell *sh, int i)
 		tmp = open_read_fd(sh->s_pipe[i], fd->i);
 		if (tmp != -1)
 		{
-			if (fd->fd[0] != fd_in)
+			if (fd->fd[0] != sh->fd_in)
 				close(fd->fd[0]);
 			fd->fd[0] = tmp;
 		}
@@ -84,7 +84,7 @@ void	if_read(int fd_in, t_fd *fd, t_shell *sh, int i)
 		tmp = red_heredoc(sh, i, fd->fd);
 		if (tmp != -1)
 		{
-			if (fd->fd[0] != fd_in)
+			if (fd->fd[0] != sh->fd_in)
 				close(fd->fd[0]);
 			fd->fd[0] = tmp;
 		}
