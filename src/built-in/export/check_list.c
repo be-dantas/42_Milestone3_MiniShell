@@ -1,6 +1,6 @@
 #include "../../../utils/minishell.h"
 
-static char	*remove_quotes_start(char *string)
+char	*remove_quotes_start(char *string)
 {
 	int		i;
 	int		len;

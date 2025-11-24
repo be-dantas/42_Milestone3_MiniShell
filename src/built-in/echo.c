@@ -26,7 +26,9 @@ static char	*result_echo(char **token, t_shell *sh)
 {
 	char	*result;
 	int		flag;
+	char	*temp;
 
+	temp = NULL;
 	result = NULL;
 	flag = check_flag(token);
 	if (ft_strncmp(token[1], "$?", 3) == 0)
@@ -35,14 +37,17 @@ static char	*result_echo(char **token, t_shell *sh)
 	{
 		result = ft_join_all(token, 2);
 		sh->last_exit_status = 0;
-		ft_printf("%s", result);
+		temp = remove_quotes_start(result);
+		printf("%s", temp);
 	}
 	else if (!flag)
 	{
 		result = ft_join_all(token, 1);
 		sh->last_exit_status = 0;
-		ft_printf("%s\n", result);
+		temp = remove_quotes_start(result);
+		printf("%s\n", temp);
 	}
+	free(temp);
 	return (result);
 }
 

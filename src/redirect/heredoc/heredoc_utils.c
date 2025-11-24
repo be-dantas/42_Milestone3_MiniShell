@@ -20,7 +20,7 @@ static void	expand_and_free(t_here	*h, t_env *begin_list)
 	if (len >= 2 && ((h->eof[0] == '\'' && h->eof[len - 1] == '\'')
 			|| (h->eof[0] == '\"' && h->eof[len - 1] == '\"')))
 		flag_quotes = 1;
-	if (flag_quotes == 1)
+	if (flag_quotes == 0)
 	{
 		result_final = expand_arg(begin_list, h->result, 0);
 		free(h->result);
@@ -74,8 +74,8 @@ char	*heredoc(t_shell *sh, int i, int *fd_malloc)
 	}
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	free(fd_malloc);
-	free_list(&sh->env);
 	free(h.temp1);
 	expand_and_free(&h, sh->env);
+	free_list(&sh->env);
 	return (h.result);
 }
