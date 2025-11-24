@@ -48,16 +48,26 @@ void	redirect_fd(t_shell *sh, int i)
 
 void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 {
-	int	i;
-	int	flag;
+	int		i;
+	int		flag;
+	char	*temp;
 
 	i = 0;
 	flag = 0;
+	temp = NULL;
 	while (tokens[0][i])
 	{
 		if (tokens[0][i] == '/')
 			flag = 1;
 		i++;
+	}
+	i = 0;
+	while (tokens[++i])
+	{
+		temp = remove_quotes(tokens[i], 0, 0);
+		free(tokens[i]);
+		tokens[i] = ft_strdup(temp);
+		free(temp);
 	}
 	if (flag == 1)
 		cmd_bar(tokens, env, fd_in, fd_out);
