@@ -80,8 +80,8 @@ void		exec_line(char **line_tokens, t_shell *sh);
 /****************************** REDIRECT ******************************/
 
 //heredoc
-char		*heredoc(t_shell *sh, int i);
-int			red_heredoc(t_shell *sh, int i);
+char		*heredoc(t_shell *sh, int i, int *fd_malloc);
+int			red_heredoc(t_shell *sh, int i, int *fd_malloc);
 
 void		if_write(char *line, int fd_out, t_fd *fd);
 void		if_read(int fd_in, t_fd *fd, t_shell *sh, int i);

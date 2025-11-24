@@ -81,7 +81,7 @@ void	if_read(int fd_in, t_fd *fd, t_shell *sh, int i)
 	}
 	else if (sh->s_pipe[i][fd->i] == '<' && sh->s_pipe[i][fd->i + 1] == '<')
 	{
-		tmp = red_heredoc(sh, i);
+		tmp = red_heredoc(sh, i, fd->fd);
 		if (tmp != -1)
 		{
 			if (fd->fd[0] != fd_in)

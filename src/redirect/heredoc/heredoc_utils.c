@@ -50,7 +50,7 @@ static t_here	init_heredoc(t_shell *sh, int i)
 	return (here);
 }
 
-char	*heredoc(t_shell *sh, int i)
+char	*heredoc(t_shell *sh, int i, int *fd_malloc)
 {
 	t_here	h;
 
@@ -72,6 +72,7 @@ char	*heredoc(t_shell *sh, int i)
 		free_all(h.tmp1, h.tmp2, h.str);
 		h.str = NULL;
 	}
+	free(fd_malloc);
 	free_list(&sh->env);
 	free(h.temp1);
 	expand_and_free(&h, sh->env);

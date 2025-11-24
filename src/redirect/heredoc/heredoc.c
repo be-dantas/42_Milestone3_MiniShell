@@ -22,7 +22,7 @@ static void	restore_terminal(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &t);
 }
 
-static void	pid_zero(t_shell *sh, int i, int fd[2])
+static void	pid_zero(t_shell *sh, int i, int fd[2], int *fd_malloc)
 {
 	char	*result;
 	int		tty;
@@ -34,7 +34,7 @@ static void	pid_zero(t_shell *sh, int i, int fd[2])
 	dup2(tty, STDOUT_FILENO);
 	close(tty);
 	close(fd[0]);
-	result = heredoc(sh, i);
+	result = heredoc(sh, i, fd_malloc);
 	if (result)
 	{
 		write(fd[1], result, ft_strlen(result));
@@ -44,7 +44,7 @@ static void	pid_zero(t_shell *sh, int i, int fd[2])
 	exit(EXIT_SUCCESS);
 }
 
-int	red_heredoc(t_shell *sh, int i)
+int	red_heredoc(t_shell *sh, int i, int *fd_malloc)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -55,7 +55,7 @@ int	red_heredoc(t_shell *sh, int i)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-		pid_zero(sh, i, fd);
+		pid_zero(sh, i, fd, fd_malloc);
 	else
 	{
 		g_heredoc_child = pid;
