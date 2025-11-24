@@ -37,14 +37,14 @@ static char	*result_echo(char **token, t_shell *sh)
 	{
 		result = ft_join_all(token, 2);
 		sh->last_exit_status = 0;
-		temp = remove_quotes_start(result);
+		temp = remove_quotes_str(result, 0, 0);
 		printf("%s", temp);
 	}
 	else if (!flag)
 	{
 		result = ft_join_all(token, 1);
 		sh->last_exit_status = 0;
-		temp = remove_quotes_start(result);
+		temp = remove_quotes_str(result, 0, 0);
 		printf("%s\n", temp);
 	}
 	free(temp);

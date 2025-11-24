@@ -1,28 +1,59 @@
 #include "../../../utils/minishell.h"
 
-char	*remove_quotes_start(char *string)
+static int	count_quotes(char *line)
 {
-	int		i;
-	int		len;
-	int		count;
-	char	*str2;
+	int	i;
+	int	quote1;
+	int	quote2;
+	int	count;
 
 	i = 0;
-	len = ft_strlen(string);
-	count = ft_countchar(string, string[0]);
-	str2 = malloc(sizeof(char) * (len - count + 1));
+	quote1 = 0;
+	quote2 = 0;
 	count = 0;
-	while (string[i])
+	while (line[i])
 	{
-		if (string[i] != string[0])
+		if (line[i] == '\'' && !quote1)
 		{
-			str2[count] = string[i];
+			quote2 = !quote2;
+			count++;
+		}
+		else if (line[i] == '\"' && !quote2)
+		{
+			quote1 = !quote1;
 			count++;
 		}
 		i++;
 	}
-	str2[count] = '\0';
-	return (str2);
+	return (i - count);
+}
+
+char	*remove_quotes_str(char *line, int quote1, int quote2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	str = malloc(sizeof(char) * (count_quotes(line) + 1));
+	while (line[i])
+	{
+		if (line[i] == '\'' && !quote1)
+			quote2 = !quote2;
+		else if (line[i] == '\"' && !quote2)
+			quote1 = !quote1;
+		if ((line[i] == '\'' && !quote1) || (line[i] == '\"' && !quote2))
+			;
+		else
+		{
+			str[j] = line[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
 }
 
 static void	put_exp(char **temp, t_env **new_env)
@@ -36,10 +67,7 @@ static void	put_exp(char **temp, t_env **new_env)
 		put_env(new_env, temp[0]);
 		return ;
 	}
-	if (temp[1] && (temp[1][0] == '\'' || temp[1][0] == '\"'))
-		value = remove_quotes_start(temp[1]);
-	else
-		value = ft_strdup(temp[1]);
+	value = remove_quotes_str(temp[1], 0, 0);
 	tmp = ft_strjoin(temp[0], "=");
 	result = ft_strjoin(tmp, value);
 	free(value);
@@ -52,10 +80,7 @@ void	update_value(char *split_line, t_env *pointer)
 {
 	char	*result;
 
-	if (split_line[0] == '\'' || split_line[0] == '\"')
-		result = remove_quotes_start(split_line);
-	else
-		result = ft_strdup(split_line);
+	result = remove_quotes_str(split_line, 0, 0);
 	free(pointer->value);
 	pointer->value = result;
 }
