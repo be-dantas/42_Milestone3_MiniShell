@@ -44,7 +44,6 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 {
 	int	status;
 
-	
 	waitpid(p.last_pid, &status, 0);
 	if (WIFEXITED(status))
 		sh->last_exit_status = WEXITSTATUS(status);

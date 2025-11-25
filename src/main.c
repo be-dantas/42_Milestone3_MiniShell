@@ -12,7 +12,6 @@ void	handle_sigint(int sig)
 char	*read_input(t_shell *sh)
 {
 	char	*line;
-	(void)sh;
 
 	line = readline("@minishell ~ ");
 	if (line == NULL)
