@@ -42,8 +42,9 @@ static char	*command_result(char *line, char *res)
 			i = skip_redirection(line, i, flag);
 			continue ;
 		}
-		if (line[i] == ' ' && (res[0] == '\0'
-				|| res[ft_strlen(res) - 1] == ' '))
+		if (line[i] == ' '
+			&& flag[0] == 0 && flag[1] == 0
+			&& (res[0] == '\0' || res[ft_strlen(res) - 1] == ' '))
 		{
 			i++;
 			continue ;

@@ -51,16 +51,9 @@ static char	*result_echo(char **token, t_shell *sh, int flag, int i)
 
 void	echo(char **token, t_shell *sh)
 {
-	int 	i;
+	int		i;
 	int		flag;
 	char	*result;
-
-	// int j = 0;
-	// while (token[j])
-	// {
-	// 	printf("%s\n", token[j]);
-	// 	j++;
-	// }
 
 	i = 1;
 	flag = 0;
