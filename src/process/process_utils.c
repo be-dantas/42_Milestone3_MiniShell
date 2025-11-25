@@ -64,7 +64,7 @@ void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 	i = 0;
 	while (tokens[++i])
 	{
-		temp = remove_quotes(tokens[i], 0, 0);
+		temp = remove_quotes_str(tokens[i], 0, 0);
 		free(tokens[i]);
 		tokens[i] = ft_strdup(temp);
 		free(temp);

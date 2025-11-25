@@ -55,6 +55,13 @@ void	echo(char **token, t_shell *sh)
 	int		flag;
 	char	*result;
 
+	// int j = 0;
+	// while (token[j])
+	// {
+	// 	printf("%s\n", token[j]);
+	// 	j++;
+	// }
+
 	i = 1;
 	flag = 0;
 	if (token[1] == NULL)

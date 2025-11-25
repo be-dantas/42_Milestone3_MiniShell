@@ -33,7 +33,6 @@ typedef struct s_shell
 
 //export
 void		update_value(char *split_line, t_env *pointer);
-char		*remove_quotes_str(char *string, int i, int j);
 void		check_to_put(char *split_line, t_env **env);
 void		export_arg(char **line_tokens, t_shell *sh);
 int			valid_arg(char **split_line, t_shell *sh);
@@ -68,7 +67,7 @@ char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
 
 //tokens
 char		**split_with_quotes(char *line);
-char		*remove_quotes(char *string, int i, int j);
+char		*remove_quotes_str(char *string, int i, int j);
 char		**tokens(char *line);
 
 char		*command(char *line);

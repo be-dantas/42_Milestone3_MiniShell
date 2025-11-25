@@ -46,7 +46,7 @@ static t_here	init_heredoc(t_shell *sh, int i)
 		here.eof = ft_strdup(here.to_free[0] + 2);
 	else
 		here.eof = ft_strdup(here.to_free[1]);
-	here.temp1 = remove_quotes(here.eof, 0, 0);
+	here.temp1 = remove_quotes_str(here.eof, 0, 0);
 	here.str = NULL;
 	return (here);
 }
