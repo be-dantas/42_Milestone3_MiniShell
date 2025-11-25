@@ -12,9 +12,10 @@ void	handle_sigint(int sig)
 char	*read_input(t_shell *sh)
 {
 	char	*line;
+	(void)sh;
 
 	line = readline("@minishell ~ ");
-	if (line == NULL || ft_strncmp(line, "exit", 5) == 0)
+	if (line == NULL)
 	{
 		rl_clear_history();
 		free_list(&sh->env);

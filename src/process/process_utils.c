@@ -75,7 +75,7 @@ void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 		cmd_not_bar(tokens, env, fd_in, fd_out);
 }
 
-void	exec_line(char **line_tokens, t_shell *sh)
+void	exec_line(char **line_tokens, t_shell *sh, char *cmd)
 {
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
 		echo(line_tokens, sh);
@@ -101,5 +101,5 @@ void	exec_line(char **line_tokens, t_shell *sh)
 		}
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input(sh);
+		exit_process(line_tokens, sh, cmd);
 }

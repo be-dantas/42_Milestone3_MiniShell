@@ -29,7 +29,7 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 {
 	child_utils(sh, &p, i);
 	if (is_builtin(p.tokens_cmd[0]))
-		exec_line(p.tokens_cmd, sh);
+		exec_line(p.tokens_cmd, sh, p.cmd);
 	else
 		exec_external(p.tokens_cmd, sh->env, sh->fd_in, sh->fd_out);
 	free(p.cmd);
@@ -44,6 +44,7 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 {
 	int	status;
 
+	
 	waitpid(p.last_pid, &status, 0);
 	if (WIFEXITED(status))
 		sh->last_exit_status = WEXITSTATUS(status);

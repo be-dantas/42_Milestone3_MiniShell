@@ -37,6 +37,7 @@ void		check_to_put(char *split_line, t_env **env);
 void		export_arg(char **line_tokens, t_shell *sh);
 int			valid_arg(char **split_line, t_shell *sh);
 
+void		exit_process(char **tokens, t_shell *sh, char *cmd);
 void		cd(char **line, t_shell *sh);
 void		echo(char **token, t_shell *sh);
 void		print_env(t_env *ptr);
@@ -77,7 +78,7 @@ void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
 void		redirect_fd(t_shell *sh, int i);
 void		exec_external(char **tokens, t_env *env, int fd_in, int fd_out);
-void		exec_line(char **line_tokens, t_shell *sh);
+void		exec_line(char **line_tokens, t_shell *sh, char *cmd);
 
 /****************************** REDIRECT ******************************/
 
