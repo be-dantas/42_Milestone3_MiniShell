@@ -48,16 +48,26 @@ void	redirect_fd(t_shell *sh, int i)
 
 void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 {
-	int	i;
-	int	flag;
+	int		i;
+	int		flag;
+	char	*temp;
 
 	i = 0;
 	flag = 0;
+	temp = NULL;
 	while (tokens[0][i])
 	{
 		if (tokens[0][i] == '/')
 			flag = 1;
 		i++;
+	}
+	i = 0;
+	while (tokens[++i])
+	{
+		temp = remove_quotes_str(tokens[i], 0, 0);
+		free(tokens[i]);
+		tokens[i] = ft_strdup(temp);
+		free(temp);
 	}
 	if (flag == 1)
 		cmd_bar(tokens, env, fd_in, fd_out);
@@ -65,7 +75,7 @@ void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 		cmd_not_bar(tokens, env, fd_in, fd_out);
 }
 
-void	exec_line(char **line_tokens, t_shell *sh)
+void	exec_line(char **line_tokens, t_shell *sh, char *cmd)
 {
 	if (ft_strncmp(line_tokens[0], "echo", 5) == 0)
 		echo(line_tokens, sh);
@@ -91,5 +101,5 @@ void	exec_line(char **line_tokens, t_shell *sh)
 		}
 	}
 	else if (ft_strncmp(line_tokens[0], "exit", 5) == 0)
-		read_input(sh);
+		exit_process(line_tokens, sh, cmd);
 }

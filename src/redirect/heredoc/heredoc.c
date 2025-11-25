@@ -16,6 +16,7 @@ static void	restore_terminal(void)
 {
 	struct termios	t;
 
+	ft_memset(&t, 0, sizeof(struct termios));
 	tcgetattr(STDIN_FILENO, &t);
 	t.c_lflag |= ECHO;
 	t.c_lflag |= ICANON;

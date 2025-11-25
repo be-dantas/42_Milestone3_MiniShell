@@ -1,18 +1,18 @@
 #include "../../utils/minishell.h"
 
-static int	check_flag(char **token)
+static int	check_flag(char *token)
 {
 	int	i;
 
 	i = 0;
-	if (!token[1])
+	if (!token)
 		return (0);
-	if (token[1][i] == '-' && token[1][i + 1] == 'n')
+	if (token[i] == '-' && token[i + 1] == 'n')
 	{
 		i++;
-		while (token[1][i] != '\0')
+		while (token[i] != '\0')
 		{
-			if (token[1][i] != 'n')
+			if (token[i] != 'n')
 				return (0);
 			i++;
 		}
@@ -22,29 +22,27 @@ static int	check_flag(char **token)
 	return (1);
 }
 
-static char	*result_echo(char **token, t_shell *sh)
+static char	*result_echo(char **token, t_shell *sh, int flag, int i)
 {
 	char	*result;
-	int		flag;
 	char	*temp;
 
 	temp = NULL;
 	result = NULL;
-	flag = check_flag(token);
 	if (ft_strncmp(token[1], "$?", 3) == 0)
 		printf("%d\n", sh->last_exit_status);
 	else if ((flag && token[2] != NULL) || flag)
 	{
-		result = ft_join_all(token, 2);
+		result = ft_join_all(token, i);
 		sh->last_exit_status = 0;
-		temp = remove_quotes_start(result);
+		temp = remove_quotes_str(result, 0, 0);
 		printf("%s", temp);
 	}
 	else if (!flag)
 	{
-		result = ft_join_all(token, 1);
+		result = ft_join_all(token, i);
 		sh->last_exit_status = 0;
-		temp = remove_quotes_start(result);
+		temp = remove_quotes_str(result, 0, 0);
 		printf("%s\n", temp);
 	}
 	free(temp);
@@ -53,15 +51,32 @@ static char	*result_echo(char **token, t_shell *sh)
 
 void	echo(char **token, t_shell *sh)
 {
+	int 	i;
+	int		flag;
 	char	*result;
 
+	// int j = 0;
+	// while (token[j])
+	// {
+	// 	printf("%s\n", token[j]);
+	// 	j++;
+	// }
+
+	i = 1;
+	flag = 0;
 	if (token[1] == NULL)
 	{
 		printf("\n");
 		sh->last_exit_status = 0;
 		return ;
 	}
-	result = result_echo(token, sh);
+	if (check_flag(token[i]))
+	{
+		flag = 1;
+		while (check_flag(token[i]))
+			i++;
+	}
+	result = result_echo(token, sh, flag, i);
 	if (result != NULL)
 		free(result);
 }

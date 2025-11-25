@@ -37,7 +37,7 @@ void	process_one_split(t_shell *sh)
 	line_tokens = tokens(cmd);
 	free(cmd);
 	if (is_builtin(line_tokens[0]))
-		exec_line(line_tokens, sh);
+		exec_line(line_tokens, sh, cmd);
 	else
 		process_one_fork(line_tokens, sh);
 	free_array(line_tokens);

@@ -1,29 +1,59 @@
 #include "../../../utils/minishell.h"
 
-char	*remove_quotes(char *string, int i, int j)
+static int	count_quotes(char *line)
 {
-	int		len;
-	int		count1;
-	int		count2;
-	char	*str2;
+	int	i;
+	int	quote1;
+	int	quote2;
+	int	count;
 
-	len = ft_strlen(string);
-	count1 = ft_countchar(string, '\'');
-	count2 = ft_countchar(string, '\"');
-	if (count1 % 2 != 0 || count2 % 2 != 0)
-		return (NULL);
-	str2 = malloc(sizeof(char) * (len - (count1 + count2) + 1));
-	while (string[i])
+	i = 0;
+	quote1 = 0;
+	quote2 = 0;
+	count = 0;
+	while (line[i])
 	{
-		if (string[i] != '\'' && string[i] != '\"')
+		if (line[i] == '\'' && !quote1)
 		{
-			str2[j] = string[i];
+			quote2 = !quote2;
+			count++;
+		}
+		else if (line[i] == '\"' && !quote2)
+		{
+			quote1 = !quote1;
+			count++;
+		}
+		i++;
+	}
+	return (i - count);
+}
+
+char	*remove_quotes_str(char *line, int quote1, int quote2)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	str = malloc(sizeof(char) * (count_quotes(line) + 1));
+	while (line[i])
+	{
+		if (line[i] == '\'' && !quote1)
+			quote2 = !quote2;
+		else if (line[i] == '\"' && !quote2)
+			quote1 = !quote1;
+		if ((line[i] == '\'' && !quote1) || (line[i] == '\"' && !quote2))
+			;
+		else
+		{
+			str[j] = line[i];
 			j++;
 		}
 		i++;
 	}
-	str2[j] = '\0';
-	return (str2);
+	str[j] = '\0';
+	return (str);
 }
 
 char	**tokens(char *line)
@@ -32,7 +62,7 @@ char	**tokens(char *line)
 	char	*temp;
 
 	split_tokens = split_with_quotes(line);
-	temp = remove_quotes(split_tokens[0], 0, 0);
+	temp = remove_quotes_str(split_tokens[0], 0, 0);
 	if (ft_countchar(split_tokens[0], ' ') != 0 || temp == NULL)
 	{
 		printf("Command not found\n");
