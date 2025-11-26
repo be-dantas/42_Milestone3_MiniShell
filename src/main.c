@@ -80,12 +80,17 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	//write(STDOUT_FILENO, "\n\nMINISHELL - ESTOU NELE\n", 25);
 	sh.last_exit_status = 0;
 	sh.env = clone_env(envp);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	//write(STDOUT_FILENO, "SINAIS FORAM ALTERADOS, ESTOU ENTRANDO NO READLINE:\n", 53);
 	while (1)
 	{
+		//write(STDOUT_FILENO, "ESTOU NO LAÇO READLINE\n", 25);
+		//printf("stdin  = %d\n", STDIN_FILENO);
+		//printf("stdout = %d\n", STDOUT_FILENO);
 		input = read_input(&sh);
 		if (input[0] != '\0')
 			redirect_and_command(input, &sh);

@@ -28,7 +28,7 @@ char	**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2)
 		tmp1 = ft_strjoin(env->key, "=");
 		if (env->value)
 		{
-			tmp2 = ft_strjoin(tmp2, env->value);
+			tmp2 = ft_strjoin(tmp1, env->value);
 			free(tmp1);
 			array[i] = tmp2;
 		}
