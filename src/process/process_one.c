@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:32:37 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:50:52 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	process_one_split(t_shell *sh)
 	redirect_fd(sh, 0);
 	cmd = command(sh->s_pipe[0]);
 	free_array(sh->s_pipe);
+	sh->s_pipe = NULL;
 	if (cmd == NULL)
 	{
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
@@ -48,6 +49,7 @@ void	process_one_split(t_shell *sh)
 	}
 	line_tokens = tokens(cmd);
 	free(cmd);
+	cmd = NULL;
 	if (is_builtin(line_tokens[0]))
 		exec_line(line_tokens, sh, cmd);
 	else
