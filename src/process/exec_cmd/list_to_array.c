@@ -13,7 +13,6 @@ static int	list_size(t_env *env)
 	return (count);
 }
 
-// env_list_to_array(env, 0, ft_strdup(""), ft_strdup(""));
 char	**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2)
 {
 	int		size;
