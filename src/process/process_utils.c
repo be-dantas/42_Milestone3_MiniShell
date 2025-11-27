@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:23 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 12:04:31 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:17:11 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ void	exec_line(char **line_tokens, t_shell *sh, char *cmd)
 	{
 		if (line_tokens[1] == NULL)
 		{
-			sh->last_exit_status = 0;
+			exit_status(sh, 0);
 			print_env(sh->env);
 		}
 		else
 		{
-			sh->last_exit_status = 127;
+			exit_status(sh, 127);
 			printf("env: ‘%s’: No such file or directory\n", line_tokens[1]);
 		}
 	}

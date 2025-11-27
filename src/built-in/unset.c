@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:19 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:19:19 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:38:32 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	unset_env(t_shell *sh, char **cmd)
 	int	i;
 
 	i = 0;
-	sh->last_exit_status = 0;
+	exit_status(sh, 0);
 	if (cmd[1] == NULL)
 		return ;
 	while (cmd[i])

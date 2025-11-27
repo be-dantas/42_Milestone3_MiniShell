@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:01:39 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:37:04 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*trate_input(char *input, t_shell *sh)
 	if (rmv_quotes[0] == '\0')
 	{
 		ft_putstr_fd("Command not found\n", 2);
-		sh->last_exit_status = 127;
+		exit_status(sh, 127);
 		free(rmv_quotes);
 		return (NULL);
 	}

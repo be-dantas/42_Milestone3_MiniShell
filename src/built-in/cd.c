@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:38 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:33:39 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:37:50 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	cd_utils(char **line, t_shell *sh)
 	if (flag == -1)
 	{
 		printf("cd: %s: No such file or directory\n", line[1]);
-		sh->last_exit_status = 1;
+		exit_status(sh, 1);
 	}
 	else
 	{
@@ -71,11 +71,11 @@ static void	cd_utils(char **line, t_shell *sh)
 
 void	cd(char **line, t_shell *sh)
 {
-	sh->last_exit_status = 0;
+	exit_status(sh, 0);
 	if (line[0] && line[1] && line[2])
 	{
 		printf("cd: too many arguments\n");
-		sh->last_exit_status = 1;
+		exit_status(sh, 1);
 		return ;
 	}
 	if (!line[1] || line[1][0] == '~')
@@ -83,7 +83,7 @@ void	cd(char **line, t_shell *sh)
 		if (!expanded(sh->env, "HOME"))
 		{
 			printf("cd: HOME not set\n");
-			sh->last_exit_status = 1;
+			exit_status(sh, 1);
 			return ;
 		}
 		chdir(expanded(sh->env, "HOME"));

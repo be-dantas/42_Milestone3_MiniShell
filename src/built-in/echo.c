@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:35 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 13:44:07 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:22:03 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	result_exit(t_shell *sh)
 		printf("%d\n", sh->last_exit_status);
 	else
 		printf("%d\n", g_heredoc_child + 128);
-	sh->last_exit_status = 0;
+	exit_status(sh, 0);
 	g_heredoc_child = 0;
 }
 
@@ -56,14 +56,14 @@ static char	*result_echo(char **token, t_shell *sh, int flag, int i)
 	else if ((flag && token[2] != NULL) || flag)
 	{
 		result = ft_join_all(token, i);
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 		temp = remove_quotes_str(result, 0, 0);
 		printf("%s", temp);
 	}
 	else if (!flag)
 	{
 		result = ft_join_all(token, i);
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 		temp = remove_quotes_str(result, 0, 0);
 		printf("%s\n", temp);
 	}
@@ -82,7 +82,7 @@ void	echo(char **token, t_shell *sh)
 	if (token[1] == NULL)
 	{
 		printf("\n");
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 		return ;
 	}
 	if (check_flag(token[i]))

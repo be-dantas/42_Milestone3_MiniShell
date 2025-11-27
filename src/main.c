@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:01:18 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:16:20 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*read_input(t_shell *sh)
 	{
 		rl_clear_history();
 		free_list(&sh->env);
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 		printf("exit\n");
 		exit(EXIT_SUCCESS);
 	}
@@ -51,13 +51,13 @@ static int	valid_input(char *line, t_shell *sh)
 		|| !valid_red(line, '>') || !valid_red(line, '<'))
 	{
 		printf("Syntax error\n");
-		sh->last_exit_status = 2;
+		exit_status(sh, 2);
 		return (0);
 	}
 	else if (!valid_quotes(line))
 	{
 		printf("unexpected EOF while looking for matching `\"\'\n");
-		sh->last_exit_status = 2;
+		exit_status(sh, 2);
 		return (0);
 	}
 	return (1);
@@ -95,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	sh.env = clone_env(envp);
+	sh.old_exit_status = 0;
 	sh.last_exit_status = 0;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

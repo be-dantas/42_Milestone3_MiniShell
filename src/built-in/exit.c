@@ -6,11 +6,17 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:26 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 17:50:26 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:41:47 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../utils/minishell.h"
+
+void	exit_status(t_shell *sh, int status)
+{
+	sh->old_exit_status = sh->last_exit_status;
+	sh->last_exit_status = status;
+}
 
 void	exit_process(char **tokens, t_shell *sh, char *cmd)
 {
@@ -24,6 +30,6 @@ void	exit_process(char **tokens, t_shell *sh, char *cmd)
 	free_list(&sh->env);
 	free_array(tokens);
 	rl_clear_history();
-	sh->last_exit_status = 0;
+	exit_status(sh, 0);
 	exit(EXIT_SUCCESS);
 }

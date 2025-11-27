@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:45 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:33:46 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:38:49 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	valid_arg(char **split_line, t_shell *sh)
 				printf("unexpected EOF while looking for matching `\"\'\n");
 			else if (!valid_arg_name(split_line[i]))
 				printf("export: `%s': not a valid identifier\n", split_line[i]);
-			sh->last_exit_status = 1;
+			exit_status(sh, 1);
 			return (0);
 		}
 	}

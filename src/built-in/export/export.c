@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:49 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:33:50 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:38:43 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	export_arg(char **line_tokens, t_shell *sh)
 	i = 1;
 	if (!line_tokens[1])
 	{
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 		creat_print_export(sh->env);
 	}
 	else if (valid_arg(line_tokens, sh) == 1)
@@ -112,6 +112,6 @@ void	export_arg(char **line_tokens, t_shell *sh)
 			check_to_put(line_tokens[i], &sh->env);
 			i++;
 		}
-		sh->last_exit_status = 0;
+		exit_status(sh, 0);
 	}
 }
