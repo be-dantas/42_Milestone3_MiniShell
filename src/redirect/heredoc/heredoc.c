@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:00 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 13:18:44 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:14:26 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	pid_zero(t_shell *sh, int i, int fd[2], int *fd_malloc)
 	char	*result;
 	int		tty;
 
+	if (fd_malloc[0])
+		close(fd_malloc[0]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	tty = open("/dev/tty", O_RDWR);
