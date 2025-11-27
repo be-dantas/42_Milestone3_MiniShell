@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:04 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:33:05 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:46:38 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,18 @@ void	exec_access_putstr(char *s, char **array, int x, t_env *env)
 
 char	**path(t_env *env)
 {
-	t_env	*value_path;
-	char	*value;
+	char	*value_raw;
+	char	*value_path;
 	char	**path_split;
 
-	value_path = get_value_by_name(&env, "PATH");
-	value = ft_strdup(value_path->value);
-	path_split = ft_split(value, ':');
-	if (!path_split)
+	value_raw = expanded(env, "PATH");
+	if (value_raw == NULL)
 		return (NULL);
-	free(value);
+	value_path = ft_strdup(value_raw);
+	if (value_path == NULL)
+		return (NULL);
+	path_split = ft_split(value_path, ':');
+	free(value_path);
 	return (path_split);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 17:50:52 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:58:50 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	process_one_fork(char **line_tokens, t_shell *sh)
 	pid = fork();
 	if (pid == 0)
 	{
-		exec_external(line_tokens, sh->env, sh->fd_in, sh->fd_out);
+		exec_external(line_tokens, sh);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);

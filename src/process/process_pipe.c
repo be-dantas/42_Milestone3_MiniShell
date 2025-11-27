@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:32:31 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 11:59:00 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh, p.cmd);
 	else
-		exec_external(p.tokens_cmd, sh->env, sh->fd_in, sh->fd_out);
+		exec_external(p.tokens_cmd, sh);
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(sh->s_pipe);

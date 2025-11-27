@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:31:21 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:29:55 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,3 +107,10 @@ int	main(int argc, char **argv, char **envp)
 	free_list(&sh.env);
 	return (0);
 }
+
+
+// echo $? no C^
+// cat < README.md < Makefile << here
+// PATH
+
+

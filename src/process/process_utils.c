@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:23 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:32:24 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:04:31 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	redirect_fd(t_shell *sh, int i)
 	}
 }
 
-void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
+void	exec_external(char **tokens, t_shell *sh)
 {
 	int		i;
 	int		flag;
@@ -82,9 +82,9 @@ void	exec_external(char **tokens, t_env *env, int fd_in, int fd_out)
 		free(temp);
 	}
 	if (flag == 1)
-		cmd_bar(tokens, env, fd_in, fd_out);
+		cmd_bar(tokens, sh->env, sh->fd_in, sh->fd_out);
 	else
-		cmd_not_bar(tokens, env, fd_in, fd_out);
+		cmd_not_bar(tokens, sh);
 }
 
 void	exec_line(char **line_tokens, t_shell *sh, char *cmd)

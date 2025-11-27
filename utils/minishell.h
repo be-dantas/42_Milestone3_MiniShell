@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:31:00 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:03:02 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void		exec_access_putstr(char *s, char **array, int x, t_env *env);
 char		**path(t_env *env);
 char		*command_valid(char **tokens, char **path_split);
 void		cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out);
-void		cmd_not_bar(char **tokens, t_env *env, int fd_in, int fd_out);
+void		cmd_not_bar(char **tokens, t_shell *sh);
 char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
 
 //tokens
@@ -89,7 +89,7 @@ void		process_pipes(t_shell *sh);
 void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
 void		redirect_fd(t_shell *sh, int i);
-void		exec_external(char **tokens, t_env *env, int fd_in, int fd_out);
+void		exec_external(char **tokens, t_shell *sh);
 void		exec_line(char **line_tokens, t_shell *sh, char *cmd);
 
 /****************************** REDIRECT ******************************/
