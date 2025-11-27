@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 11:59:00 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 19:19:54 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh, p.cmd);
 	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		exec_external(p.tokens_cmd, sh);
+	}
 	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(sh->s_pipe);
@@ -80,6 +84,7 @@ void	process_pipes(t_shell *sh)
 	{
 		if (sh->s_pipe[i + 1])
 			pipe(p.fd);
+		signal(SIGINT, SIG_IGN);
 		p.pid = fork();
 		if (p.pid == 0)
 			child_process(sh, p, i);
@@ -94,4 +99,5 @@ void	process_pipes(t_shell *sh)
 		i++;
 	}
 	pipes_utils(p, sh);
+	signal(SIGINT, handle_sigint);
 }
