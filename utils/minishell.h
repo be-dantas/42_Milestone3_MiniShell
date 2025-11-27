@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 13:18:34 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 17:58:46 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,9 @@ void		free_list(t_env **begin_list);
 //main.c
 char		*read_input(t_shell *sh);
 void		handle_sigint(int sig);
+
+//trate_input.c
+char		*trate_input(char *input, t_shell *sh);
 
 //valid_input_utils.c
 typedef struct s_valid

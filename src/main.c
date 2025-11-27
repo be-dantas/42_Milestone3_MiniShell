@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 14:40:19 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 18:01:18 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static void	redirect_and_command(char *input, t_shell *sh)
 	int		count_pipe;
 
 	count_pipe = 0;
-	line = expand_arg(sh->env, input, 0);
+	line = trate_input(input, sh);
+	if (line == NULL)
+		return ;
 	if (!valid_input(line, sh))
 	{
 		free(line);
