@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:35 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:33:36 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:44:07 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ static int	check_flag(char *token)
 	return (1);
 }
 
+static void	result_exit(t_shell *sh)
+{
+	if (!g_heredoc_child)
+		printf("%d\n", sh->last_exit_status);
+	else
+		printf("%d\n", g_heredoc_child + 128);
+	sh->last_exit_status = 0;
+	g_heredoc_child = 0;
+}
+
 static char	*result_echo(char **token, t_shell *sh, int flag, int i)
 {
 	char	*result;
@@ -42,7 +52,7 @@ static char	*result_echo(char **token, t_shell *sh, int flag, int i)
 	temp = NULL;
 	result = NULL;
 	if (ft_strncmp(token[1], "$?", 3) == 0)
-		printf("%d\n", sh->last_exit_status);
+		result_exit(sh);
 	else if ((flag && token[2] != NULL) || flag)
 	{
 		result = ft_join_all(token, i);

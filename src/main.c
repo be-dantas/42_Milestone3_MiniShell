@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 12:29:55 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:39:01 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_sigint(int sig)
 {
-	(void)sig;
+	g_heredoc_child = sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -92,8 +92,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	sh.last_exit_status = 0;
 	sh.env = clone_env(envp);
+	sh.last_exit_status = 0;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
@@ -101,16 +101,11 @@ int	main(int argc, char **argv, char **envp)
 		input = read_input(&sh);
 		if (input[0] != '\0')
 			redirect_and_command(input, &sh);
-		free(input);
+		free(input);	
 	}
 	rl_clear_history();
 	free_list(&sh.env);
 	return (0);
 }
 
-
-// echo $? no C^
 // cat < README.md < Makefile << here
-// PATH
-
-

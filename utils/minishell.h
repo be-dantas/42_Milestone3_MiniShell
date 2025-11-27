@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 12:03:02 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:18:34 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <termios.h>
+
+extern volatile sig_atomic_t	g_heredoc_child;
 
 /****************************** BUILT-IN ******************************/
 

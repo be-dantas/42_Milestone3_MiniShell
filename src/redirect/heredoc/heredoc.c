@@ -6,14 +6,14 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:00 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/26 16:32:01 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 13:18:44 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../utils/minishell.h"
 #include "../redirect.h"
 
-static pid_t	g_heredoc_child = -1;
+volatile sig_atomic_t	g_heredoc_child = -1;
 
 static void	parent_sigint(int sig)
 {
