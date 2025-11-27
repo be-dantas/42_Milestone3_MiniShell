@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 13:39:01 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:40:19 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,9 @@ int	main(int argc, char **argv, char **envp)
 		input = read_input(&sh);
 		if (input[0] != '\0')
 			redirect_and_command(input, &sh);
-		free(input);	
+		free(input);
 	}
 	rl_clear_history();
 	free_list(&sh.env);
 	return (0);
 }
-
-// cat < README.md < Makefile << here
