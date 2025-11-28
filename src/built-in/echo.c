@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:35 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 19:22:03 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:05:23 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,9 @@ static int	check_flag(char *token)
 
 static void	result_exit(t_shell *sh)
 {
-	if (!g_heredoc_child)
-		printf("%d\n", sh->last_exit_status);
-	else
-		printf("%d\n", g_heredoc_child + 128);
+	printf("%d\n", sh->last_exit_status);
 	exit_status(sh, 0);
-	g_heredoc_child = 0;
+	g_heredoc_child = -1;
 }
 
 static char	*result_echo(char **token, t_shell *sh, int flag, int i)

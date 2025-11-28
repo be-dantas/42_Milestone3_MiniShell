@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:49:35 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 13:17:28 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char		*read_input(t_shell *sh);
 void		handle_sigint(int sig);
 
 //trate_input.c
-char		*trate_input(char *input, t_shell *sh);
+void		redirect_and_command(char *input, t_shell *sh);
 
 //valid_input_utils.c
 typedef struct s_valid
