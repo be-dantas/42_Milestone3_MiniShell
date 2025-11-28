@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:40:57 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:38:39 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 
 	waitpid(p.last_pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_status(sh, WEXITSTATUS(status));
+		sh->last_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		exit_status(sh, 128 + WTERMSIG(status));
+		sh->last_exit_status = 128 + WTERMSIG(status);
 	while (wait(NULL) > 0)
 		;
 	free_array(sh->s_pipe);

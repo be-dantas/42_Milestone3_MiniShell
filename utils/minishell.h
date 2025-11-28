@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 13:17:28 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:46:42 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_env
 typedef struct s_shell
 {
 	t_env	*env;
-	int		old_exit_status;
 	int		last_exit_status;
 	char	**s_pipe;
 	int		fd_in;
@@ -58,7 +57,6 @@ void		print_env(t_env *ptr);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
-void		exit_status(t_shell *sh, int status);
 void		exit_process(char **tokens, t_shell *sh, char *cmd);
 t_env		*get_value_by_name(t_env **new_env, char *str);
 void		pwd(t_shell *sh);

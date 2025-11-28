@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 13:40:27 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:46:33 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	status_signal(t_shell *sh)
 {
 	if (g_heredoc_child == SIGINT || g_heredoc_child == SIGQUIT)
 	{
-		exit_status(sh, g_heredoc_child + 128);
+		sh->last_exit_status = g_heredoc_child + 128;
 		g_heredoc_child = -1;
 	}
 }
@@ -58,7 +58,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(2);
 	}
 	sh.env = clone_env(envp);
-	sh.old_exit_status = 0;
 	sh.last_exit_status = 0;
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);

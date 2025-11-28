@@ -6,20 +6,11 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:26 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 12:38:56 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:43:21 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../utils/minishell.h"
-
-void	exit_status(t_shell *sh, int status)
-{
-	if (g_heredoc_child == 0 || g_heredoc_child == -1)
-		sh->old_exit_status = sh->last_exit_status;
-	else
-		sh->old_exit_status = g_heredoc_child + 128;
-	sh->last_exit_status = status;
-}
 
 static void	exit_args(char **tokens, t_shell *sh, int i, int is_num)
 {
@@ -36,7 +27,7 @@ static void	exit_args(char **tokens, t_shell *sh, int i, int is_num)
 	if (is_num == -1)
 	{
 		printf("exit: %s: numeric argument required\n", tokens[1]);
-		exit_status(sh, 2);
+		sh->last_exit_status = 2;
 	}
 	else
 	{
@@ -44,7 +35,7 @@ static void	exit_args(char **tokens, t_shell *sh, int i, int is_num)
 		status %= 256;
 		if (status < 0)
 			status += 256;
-		exit_status(sh, status);
+		sh->last_exit_status = status;
 	}
 	free(token);
 }
@@ -55,13 +46,13 @@ void	exit_process(char **tokens, t_shell *sh, char *cmd)
 	if (tokens[1] && tokens[2])
 	{
 		printf("exit: too many arguments\n");
-		exit_status(sh, 1);
+		sh->last_exit_status = 1;
 		return ;
 	}
 	if (tokens[1])
 		exit_args(tokens, sh, 0, 0);
 	else
-		exit_status(sh, 0);
+		sh->last_exit_status = 0;
 	if (sh->s_pipe)
 		free_array(sh->s_pipe);
 	if (cmd)

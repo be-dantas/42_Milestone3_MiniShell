@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 13:24:52 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:41:20 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*trate_input(char *input, t_shell *sh)
 	if (rmv_quotes[0] == '\0')
 	{
 		ft_putstr_fd("Command not found\n", 2);
-		exit_status(sh, 127);
+		sh->last_exit_status = 127;;
 		free(rmv_quotes);
 		return (NULL);
 	}
@@ -67,13 +67,13 @@ static int	valid_input(char *line, t_shell *sh)
 		|| !valid_red(line, '>') || !valid_red(line, '<'))
 	{
 		printf("Syntax error\n");
-		exit_status(sh, 2);
+		sh->last_exit_status = 2;
 		return (0);
 	}
 	else if (!valid_quotes(line))
 	{
 		printf("unexpected EOF while looking for matching `\"\'\n");
-		exit_status(sh, 2);
+		sh->last_exit_status = 2;
 		return (0);
 	}
 	return (1);

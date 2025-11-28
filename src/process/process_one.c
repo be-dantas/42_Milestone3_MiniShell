@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 19:16:47 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:44:24 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	process_one_fork(char **line_tokens, t_shell *sh)
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exit_status(sh, WEXITSTATUS(status));
+		sh->last_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		exit_status(sh, 128 + WTERMSIG(status));
+		sh->last_exit_status = 128 + WTERMSIG(status);
 }
 
 void	process_one_split(t_shell *sh)

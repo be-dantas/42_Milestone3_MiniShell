@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:23 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 18:38:24 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 14:39:50 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	pwd(t_shell *sh)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		exit_status(sh, 1);
+		sh->last_exit_status = 1;
 		return (perror("pwd"));
 	}
 	printf("%s\n", pwd);
 	pointer = get_value_by_name(&sh->env, "PWD");
 	if (pointer)
 		update_value(pwd, pointer);
-	exit_status(sh, 0);
+	sh->last_exit_status = 0;
 	free(pwd);
 }
