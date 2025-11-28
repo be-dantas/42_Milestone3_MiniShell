@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:41:20 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:27:25 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*trate_input(char *input, t_shell *sh)
 		free(rmv_quotes);
 		return (NULL);
 	}
-	line = expand_arg(sh->env, rmv_quotes, 0);
+	line = expand_arg(sh, rmv_quotes, 0);
 	free(rmv_quotes);
 	return (line);
 }

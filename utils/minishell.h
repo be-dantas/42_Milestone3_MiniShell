@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:46:42 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:30:17 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void		unset_env(t_shell *sh, char **cmd);
 char		*join_and_free(char *s1, const char *s2);
 char		*expanded(t_env *begin_list, char *key);
 char		*get_key(char *str);
-char		*expand_arg(t_env *new_env, char *line, int i);
+char		*expand_arg(t_shell *sh, char *line, int i);
 
 /****************************** PROCESS *******************************/
 
