@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:38:39 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:24:10 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ static void	child_utils(t_shell *sh, t_pipes *p, int i)
 		exit(EXIT_FAILURE);
 	}
 	p->tokens_cmd = tokens(p->cmd);
+	free(p->cmd);
 }
 
 static void	child_process(t_shell *sh, t_pipes p, int i)
 {
 	child_utils(sh, &p, i);
 	if (is_builtin(p.tokens_cmd[0]))
-		exec_line(p.tokens_cmd, sh, p.cmd);
+		exec_line(p.tokens_cmd, sh);
 	else
 		exec_external(p.tokens_cmd, sh);
-	free(p.cmd);
 	free_array(p.tokens_cmd);
 	free_array(sh->s_pipe);
 	free_list(&sh->env);

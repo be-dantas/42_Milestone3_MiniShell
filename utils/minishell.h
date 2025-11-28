@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 15:30:17 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:22:05 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void		print_env(t_env *ptr);
 char		**split_env(char *line);
 void		put_env(t_env **list, char *line);
 t_env		*clone_env(char **envp);
-void		exit_process(char **tokens, t_shell *sh, char *cmd);
+void		exit_process(char **tokens, t_shell *sh);
 t_env		*get_value_by_name(t_env **new_env, char *str);
 void		pwd(t_shell *sh);
 void		unset_env(t_shell *sh, char **cmd);
@@ -76,7 +76,7 @@ void		exec_access_perror(char *s, char **array, int x, t_env *env);
 void		exec_access_putstr(char *s, char **array, int x, t_env *env);
 char		**path(t_env *env);
 char		*command_valid(char **tokens, char **path_split);
-void		cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out);
+void		cmd_bar(char **tokens, t_shell *sh);
 void		cmd_not_bar(char **tokens, t_shell *sh);
 char		**env_list_to_array(t_env *env, int i, char *tmp1, char *tmp2);
 
@@ -92,7 +92,7 @@ void		dup2_close_in_out(int fd_in, int fd_out);
 int			is_builtin(char *cmd);
 void		redirect_fd(t_shell *sh, int i);
 void		exec_external(char **tokens, t_shell *sh);
-void		exec_line(char **line_tokens, t_shell *sh, char *cmd);
+void		exec_line(char **line_tokens, t_shell *sh);
 
 /****************************** REDIRECT ******************************/
 

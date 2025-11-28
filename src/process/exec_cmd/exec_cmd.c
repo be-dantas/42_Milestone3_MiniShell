@@ -6,38 +6,38 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 12:35:30 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:29:33 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../utils/minishell.h"
 
-void	cmd_bar(char **tokens, t_env *env, int fd_in, int fd_out)
+void	cmd_bar(char **tokens, t_shell *sh)
 {
 	char	**envp;
+	char	*temp1;
+	char	*temp2;
 
 	if (access(tokens[0], F_OK) != 0)
 	{
-		dup2_close_in_out(fd_in, fd_out);
-		exec_access_putstr("No such file or directory\n", tokens, 127, env);
+		free(sh->s_pipe);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
+		exec_access_putstr("No such file or directory\n", tokens, 127, sh->env);
 	}
 	if (access(tokens[0], X_OK) != 0)
 	{
-		dup2_close_in_out(fd_in, fd_out);
-		exec_access_putstr("Permission denied\n", tokens, 126, env);
+		free(sh->s_pipe);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
+		exec_access_putstr("Permission denied\n", tokens, 126, sh->env);
 	}
-	envp = env_list_to_array(env, 0, ft_strdup(""), ft_strdup(""));
+	temp1 = ft_strdup("");
+	temp2 = ft_strdup("");
+	envp = env_list_to_array(sh->env, 0, temp1, temp2);
 	execve(tokens[0], tokens, envp);
 	free_array(envp);
-	dup2_close_in_out(fd_in, fd_out);
-	exec_access_perror("Error execve", tokens, 126, env);
-}
-
-static void	free_all(char **path_split, char *exec, char **envp)
-{
-	free_array(path_split);
-	free(exec);
-	free_array(envp);
+	free(sh->s_pipe);
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
+	exec_access_perror("Error execve", tokens, 126, sh->env);
 }
 
 static char	**path_split_func(char **tokens, t_shell *sh)
@@ -55,31 +55,45 @@ static char	**path_split_func(char **tokens, t_shell *sh)
 		return (path_split);
 }
 
-void	cmd_not_bar(char **tokens, t_shell *sh)
+static void	valid_exec(char **tokens, t_shell *sh, char *exec, char **path_split)
 {
-	char	**path_split;
-	char	*exec;
-	char	**envp;
-
-	path_split = path_split_func(tokens, sh);
-	if (path_split == NULL)
-		return ;
-	exec = command_valid(tokens, path_split);
 	if (exec == (char *)-1)
 	{
+		free(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, sh->env);
 	}
 	else if (!exec)
 	{
+		free(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Command not found\n", tokens, 127, sh->env);
 	}
-	envp = env_list_to_array(sh->env, 0, ft_strdup(""), ft_strdup(""));
+}
+
+void	cmd_not_bar(char **tokens, t_shell *sh)
+{
+	char	**path_split;
+	char	*exec;
+	char	**envp;
+	char	*temp1;
+	char	*temp2;
+
+	path_split = path_split_func(tokens, sh);
+	if (path_split == NULL)
+		return ;
+	exec = command_valid(tokens, path_split);
+	valid_exec(tokens, sh, exec, path_split);
+	temp1 = ft_strdup("");
+	temp2 = ft_strdup("");
+	envp = env_list_to_array(sh->env, 0, temp1, temp2);
 	execve(exec, tokens, envp);
-	free_all(path_split, exec, envp);
+	free_array(path_split);
+	free(exec);
+	free_array(envp);
+	free(sh->s_pipe);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	exec_access_perror("Error execve", tokens, 126, sh->env);
 }

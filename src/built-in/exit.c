@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:33:26 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:43:21 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:21:38 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ static void	exit_args(char **tokens, t_shell *sh, int i, int is_num)
 	free(token);
 }
 
-void	exit_process(char **tokens, t_shell *sh, char *cmd)
+void	exit_process(char **tokens, t_shell *sh)
 {
-	(void)cmd;
 	if (tokens[1] && tokens[2])
 	{
 		printf("exit: too many arguments\n");
@@ -55,8 +54,6 @@ void	exit_process(char **tokens, t_shell *sh, char *cmd)
 		sh->last_exit_status = 0;
 	if (sh->s_pipe)
 		free_array(sh->s_pipe);
-	if (cmd)
-		free(cmd);
 	close(sh->fd_in);
 	close(sh->fd_out);
 	free_list(&sh->env);

@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:44:24 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:23:03 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	process_one_split(t_shell *sh)
 	free(cmd);
 	cmd = NULL;
 	if (is_builtin(line_tokens[0]))
-		exec_line(line_tokens, sh, cmd);
+		exec_line(line_tokens, sh);
 	else
 		process_one_fork(line_tokens, sh);
 	free_array(line_tokens);
