@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 16:29:33 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:45:05 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	cmd_bar(char **tokens, t_shell *sh)
 	temp1 = ft_strdup("");
 	temp2 = ft_strdup("");
 	envp = env_list_to_array(sh->env, 0, temp1, temp2);
+	free(temp1);
+	free(temp2);
 	execve(tokens[0], tokens, envp);
 	free_array(envp);
 	free(sh->s_pipe);
@@ -89,6 +91,8 @@ void	cmd_not_bar(char **tokens, t_shell *sh)
 	temp1 = ft_strdup("");
 	temp2 = ft_strdup("");
 	envp = env_list_to_array(sh->env, 0, temp1, temp2);
+	free(temp1);
+	free(temp2);
 	execve(exec, tokens, envp);
 	free_array(path_split);
 	free(exec);
