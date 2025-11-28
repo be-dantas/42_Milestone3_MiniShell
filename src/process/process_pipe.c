@@ -6,7 +6,7 @@
 /*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 10:57:49 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:04:28 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		free(p.cmd);
+		//free_array(sh->s_pipe);
 		exec_external(p.tokens_cmd, sh);
 	}
 	free(p.cmd);

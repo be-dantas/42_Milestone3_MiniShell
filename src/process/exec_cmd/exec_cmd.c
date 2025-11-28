@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 12:35:30 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:22:03 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,23 @@ void	cmd_not_bar(char **tokens, t_shell *sh)
 	exec = command_valid(tokens, path_split);
 	if (exec == (char *)-1)
 	{
+		free_array(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, sh->env);
 	}
 	else if (!exec)
 	{
+		free_array(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Command not found\n", tokens, 127, sh->env);
 	}
-	envp = env_list_to_array(sh->env, 0, ft_strdup(""), ft_strdup(""));
+	char *temp1 = ft_strdup("");
+	char *temp2 = ft_strdup("");
+	envp = env_list_to_array(sh->env, 0, temp1, temp2);
+	free(temp1);
+	free(temp2);
 	execve(exec, tokens, envp);
 	free_all(path_split, exec, envp);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
