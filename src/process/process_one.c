@@ -6,7 +6,7 @@
 /*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 19:19:37 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/11/28 10:42:57 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	process_one_fork(char **line_tokens, t_shell *sh)
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);
+	write(1, "\n", 1);
 	signal(SIGINT, handle_sigint);
 	if (WIFEXITED(status))
 		sh->last_exit_status = WEXITSTATUS(status);

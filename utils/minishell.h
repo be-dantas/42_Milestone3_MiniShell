@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:30:59 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 13:18:34 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 10:41:23 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct s_shell
 	int		fd_in;
 	int		fd_out;
 }	t_shell;
+
+void	test_sig_int(int sig);
+void	test_sig_quit(int sig);
 
 //export
 void		update_value(char *split_line, t_env *pointer);
