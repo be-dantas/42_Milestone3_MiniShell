@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:36 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 16:23:03 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:33:15 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ static void	process_one_fork(char **line_tokens, t_shell *sh)
 	pid_t	pid;
 	int		status;
 
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		exec_external(line_tokens, sh);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);
+	signal(SIGINT, handle_sigint);
 	if (WIFEXITED(status))
 		sh->last_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))

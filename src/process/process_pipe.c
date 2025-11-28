@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:32:30 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 16:24:10 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/11/28 16:35:02 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh);
 	else
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		exec_external(p.tokens_cmd, sh);
+	}
 	free_array(p.tokens_cmd);
 	free_array(sh->s_pipe);
 	free_list(&sh->env);
@@ -65,6 +69,7 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 		;
 	free_array(sh->s_pipe);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
+	// signal(SIGINT, handle_sigint);
 }
 
 void	process_pipes(t_shell *sh)
@@ -80,6 +85,7 @@ void	process_pipes(t_shell *sh)
 	{
 		if (sh->s_pipe[i + 1])
 			pipe(p.fd);
+		signal(SIGINT, SIG_IGN);
 		p.pid = fork();
 		if (p.pid == 0)
 			child_process(sh, p, i);
@@ -94,4 +100,5 @@ void	process_pipes(t_shell *sh)
 		i++;
 	}
 	pipes_utils(p, sh);
+	signal(SIGINT, handle_sigint);
 }
