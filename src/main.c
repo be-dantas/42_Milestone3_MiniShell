@@ -6,7 +6,7 @@
 /*   By: wedos-sa <wedos-sa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/27 17:15:53 by wedos-sa         ###   ########.fr       */
+/*   Updated: 2025/11/28 09:57:14 by wedos-sa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_shell	sh;
 
-	(void)argc;
-	(void)argv;
+	if (argc > 1)
+	{
+		printf("%s: No such file or directory\n", argv[1]);
+		exit(127);
+	}
 	sh.env = clone_env(envp);
 	sh.last_exit_status = 0;
 	signal(SIGINT, handle_sigint);
