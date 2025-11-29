@@ -6,6 +6,8 @@ Authors: **Wesley Alexandre (wedos-sa)** and **Beatriz Dantas (bedantas)**
 
 ---
 
+![alt text](https://i.imgur.com/7nyUwMp.png)
+
 ## Overview
 
 This minishell provides a functional command interpreter capable of handling input reading, parsing, tokenization, environment variable expansion, redirections, pipelines, custom environment management, execution of built-in commands, and launching external programs via `execve`. Error handling follows the expected behavior of a real shell, including proper status codes retrievable through `$?`.
