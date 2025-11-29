@@ -20,13 +20,13 @@ void	cmd_bar(char **tokens, t_shell *sh)
 
 	if (access(tokens[0], F_OK) != 0)
 	{
-		free(sh->s_pipe);
+		free_array(sh->s_pipe);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("No such file or directory\n", tokens, 127, sh->env);
 	}
 	if (access(tokens[0], X_OK) != 0)
 	{
-		free(sh->s_pipe);
+		free_array(sh->s_pipe);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, sh->env);
 	}
@@ -37,7 +37,7 @@ void	cmd_bar(char **tokens, t_shell *sh)
 	free(temp2);
 	execve(tokens[0], tokens, envp);
 	free_array(envp);
-	free(sh->s_pipe);
+	free_array(sh->s_pipe);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	exec_access_perror("Error execve", tokens, 126, sh->env);
 }
@@ -61,14 +61,14 @@ static void	valid_exec(char **tokens, t_shell *sh, char *exec, char **path_split
 {
 	if (exec == (char *)-1)
 	{
-		free(sh->s_pipe);
+		free_array(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Permission denied\n", tokens, 126, sh->env);
 	}
 	else if (!exec)
 	{
-		free(sh->s_pipe);
+		free_array(sh->s_pipe);
 		free_array(path_split);
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
 		exec_access_putstr("Command not found\n", tokens, 127, sh->env);
@@ -97,7 +97,7 @@ void	cmd_not_bar(char **tokens, t_shell *sh)
 	free_array(path_split);
 	free(exec);
 	free_array(envp);
-	free(sh->s_pipe);
+	free_array(sh->s_pipe);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
 	exec_access_perror("Error execve", tokens, 126, sh->env);
 }
