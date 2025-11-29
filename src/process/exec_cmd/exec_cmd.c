@@ -17,7 +17,7 @@ static char	**envp_list(t_shell *sh)
 	char	**envp;
 	char	*temp1;
 	char	*temp2;
-	
+
 	temp1 = ft_strdup("");
 	temp2 = ft_strdup("");
 	envp = env_list_to_array(sh->env, 0, temp1, temp2);
