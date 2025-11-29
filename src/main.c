@@ -47,6 +47,30 @@ static void	status_signal(t_shell *sh)
 	}
 }
 
+static void	redirect_and_command(char *input, t_shell *sh)
+{
+	char	*line;
+	int		count_pipe;
+
+	count_pipe = 0;
+	line = expand_arg(sh, input, 0);
+	if (!valid_input(line, sh))
+	{
+		free(line);
+		return ;
+	}
+	sh->fd_in = dup(STDIN_FILENO);
+	sh->fd_out = dup(STDOUT_FILENO);
+	sh->s_pipe = split_pipe(line, 0, 0);
+	free(line);
+	while (sh->s_pipe[count_pipe])
+		count_pipe++;
+	if (count_pipe == 1)
+		process_one_split(sh);
+	else
+		process_pipes(sh);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;

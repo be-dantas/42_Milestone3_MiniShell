@@ -105,20 +105,8 @@ void		if_read(t_fd *fd, t_shell *sh, int i);
 int			*parse_fd(t_shell *sh, int i);
 char		**split_pipe(char *line, int i, int j);
 
-/**********************************************************************/
+/**************************** VALID_INPUT *****************************/
 
-//free.c
-void		free_array(char **array);
-void		free_list(t_env **begin_list);
-
-//main.c
-char		*read_input(t_shell *sh);
-void		handle_sigint(int sig);
-
-//trate_input.c
-void		redirect_and_command(char *input, t_shell *sh);
-
-//valid_input_utils.c
 typedef struct s_valid
 {
 	int	quote1;
@@ -129,6 +117,16 @@ typedef struct s_valid
 
 int			valid_pipe(char *line, t_valid *v, int i);
 int			valid_red(char *line, char c);
-int			valid_quotes(char *line);
+int			valid_input(char *line, t_shell *sh);
+
+/**********************************************************************/
+
+//free.c
+void		free_array(char **array);
+void		free_list(t_env **begin_list);
+
+//main.c
+char		*read_input(t_shell *sh);
+void		handle_sigint(int sig);
 
 #endif

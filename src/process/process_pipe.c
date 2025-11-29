@@ -26,7 +26,7 @@ static void	pipes_utils(t_pipes p, t_shell *sh)
 		;
 	free_array(sh->s_pipe);
 	dup2_close_in_out(sh->fd_in, sh->fd_out);
-	// signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigint);
 }
 
 static void	child_utils(t_shell *sh, t_pipes *p, int i)
@@ -57,6 +57,12 @@ static void	child_utils(t_shell *sh, t_pipes *p, int i)
 static void	child_process(t_shell *sh, t_pipes p, int i)
 {
 	child_utils(sh, &p, i);
+	if (!p.tokens_cmd || p.tokens_cmd[0][0] == '\0')
+	{
+		free_array(sh->s_pipe);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
+		exec_access_putstr("Command not found\n", p.tokens_cmd, 127, sh->env);
+	}
 	if (is_builtin(p.tokens_cmd[0]))
 		exec_line(p.tokens_cmd, sh);
 	else
@@ -98,5 +104,4 @@ void	process_pipes(t_shell *sh)
 		i++;
 	}
 	pipes_utils(p, sh);
-	signal(SIGINT, handle_sigint);
 }

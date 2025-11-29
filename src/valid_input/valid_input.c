@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_and_cmd.c                                      :+:      :+:    :+:   */
+/*   valid_input_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 15:38:34 by bedantas         ###   ########.fr       */
+/*   Created: 2025/11/26 16:31:12 by bedantas          #+#    #+#             */
+/*   Updated: 2025/11/26 16:31:13 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../utils/minishell.h"
+#include "../../utils/minishell.h"
 
-/*
-static char	*remove_quotes_start(char *input)
+static int	valid_quotes(char *line)
 {
-	int		i;
-	int		len;
-	int		len2;
-	char	*result;
+	int	i;
+	int	quote1;
+	int	quote2;
 
 	i = 0;
-	len = ft_strlen(input);
-	if (!((input[0] == '\'' && input[len - 1] == '\'')
-			|| (input[0] == '\"' && input[len - 1] == '\"')))
-		return (NULL);
-	len2 = len - 2;
-	result = malloc(sizeof(char) * (len2 + 1));
-	while (i < len2)
+	quote1 = 0;
+	quote2 = 0;
+	while (line[i])
 	{
-		result[i] = input[i + 1];
+		if (line[i] == '\'' && !quote1)
+			quote2 = !quote2;
+		else if (line[i] == '\"' && !quote2)
+			quote1 = !quote1;
 		i++;
 	}
-	result[len2] = '\0';
-	return (result);
-} */
+	if (quote1 || quote2)
+		return (0);
+	return (1);
+}
 
 static int	valid_space(char *line)
 {
@@ -48,7 +46,7 @@ static int	valid_space(char *line)
 	return (0);
 }
 
-static int	valid_input(char *line, t_shell *sh)
+int	valid_input(char *line, t_shell *sh)
 {
 	t_valid	v;
 
@@ -58,7 +56,7 @@ static int	valid_input(char *line, t_shell *sh)
 	v.found_char = 0;
 	if (valid_space(line) == 1)
 		return (0);
-	else if (!valid_pipe(line, &v, 0)   /// arrumar aqui ls -l | ""
+	else if (!valid_pipe(line, &v, 0)
 		|| !valid_red(line, '>') || !valid_red(line, '<'))
 	{
 		printf("Syntax error\n");
@@ -72,28 +70,4 @@ static int	valid_input(char *line, t_shell *sh)
 		return (0);
 	}
 	return (1);
-}
-
-void	redirect_and_command(char *input, t_shell *sh)
-{
-	char	*line;
-	int		count_pipe;
-
-	count_pipe = 0;
-	line = expand_arg(sh, input, 0);
-	if (!valid_input(line, sh))
-	{
-		free(line);
-		return ;
-	}
-	sh->fd_in = dup(STDIN_FILENO);
-	sh->fd_out = dup(STDOUT_FILENO);
-	sh->s_pipe = split_pipe(line, 0, 0);
-	free(line);
-	while (sh->s_pipe[count_pipe])
-		count_pipe++;
-	if (count_pipe == 1)
-		process_one_split(sh);
-	else
-		process_pipes(sh);
 }
