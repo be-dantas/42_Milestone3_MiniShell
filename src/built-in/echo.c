@@ -14,24 +14,29 @@
 
 static int	check_flag(char *token)
 {
-	int	i;
+	int		i;
+	int		flag;
+	char	*temp;
 
 	i = 0;
+	flag = 1;
 	if (!token)
 		return (0);
-	if (token[i] == '-' && token[i + 1] == 'n')
+	temp = remove_quotes_str(token, 0, 0);
+	if (temp[i] == '-' && temp[i + 1] == 'n')
 	{
 		i++;
-		while (token[i] != '\0')
+		while (temp[i] != '\0')
 		{
-			if (token[i] != 'n')
-				return (0);
+			if (temp[i] != 'n')
+				flag = 0;
 			i++;
 		}
 	}
 	else
-		return (0);
-	return (1);
+		flag = 0;
+	free(temp);
+	return (flag);
 }
 
 static void	result_exit(t_shell *sh)
