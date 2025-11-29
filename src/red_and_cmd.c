@@ -12,6 +12,7 @@
 
 #include "../utils/minishell.h"
 
+/*
 static char	*remove_quotes_start(char *input)
 {
 	int		i;
@@ -33,26 +34,18 @@ static char	*remove_quotes_start(char *input)
 	}
 	result[len2] = '\0';
 	return (result);
-}
+} */
 
-static char	*trate_input(char *input, t_shell *sh)
+static int	valid_space(char *line)
 {
-	char	*rmv_quotes;
-	char	*line;
+	int	i;
 
-	rmv_quotes = remove_quotes_start(input);
-	if (!rmv_quotes)
-		rmv_quotes = ft_strdup(input);
-	if (rmv_quotes[0] == '\0')
-	{
-		ft_putstr_fd("Command not found\n", 2);
-		sh->last_exit_status = 127;
-		free(rmv_quotes);
-		return (NULL);
-	}
-	line = expand_arg(sh, rmv_quotes, 0);
-	free(rmv_quotes);
-	return (line);
+	i = 0;
+	while (line[i] == ' ')
+		i++;
+	if (line[i] == '\0')
+		return (1);
+	return (0);
 }
 
 static int	valid_input(char *line, t_shell *sh)
@@ -63,7 +56,9 @@ static int	valid_input(char *line, t_shell *sh)
 	v.quote2 = 0;
 	v.last_pipe = 0;
 	v.found_char = 0;
-	if (!valid_pipe(line, &v, 0)
+	if (valid_space(line) == 1)
+		return (0);
+	else if (!valid_pipe(line, &v, 0)   /// arrumar aqui ls -l | ""
 		|| !valid_red(line, '>') || !valid_red(line, '<'))
 	{
 		printf("Syntax error\n");
@@ -85,14 +80,14 @@ void	redirect_and_command(char *input, t_shell *sh)
 	int		count_pipe;
 
 	count_pipe = 0;
-	line = trate_input(input, sh);
-	if (line == NULL)
-		return ;
+	line = expand_arg(sh, input, 0);
 	if (!valid_input(line, sh))
 	{
 		free(line);
 		return ;
 	}
+	sh->fd_in = dup(STDIN_FILENO);
+	sh->fd_out = dup(STDOUT_FILENO);
 	sh->s_pipe = split_pipe(line, 0, 0);
 	free(line);
 	while (sh->s_pipe[count_pipe])

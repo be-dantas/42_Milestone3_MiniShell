@@ -35,25 +35,41 @@ static void	process_one_fork(char **line_tokens, t_shell *sh)
 		sh->last_exit_status = 128 + WTERMSIG(status);
 }
 
-void	process_one_split(t_shell *sh)
+static char	**trate_cmd(t_shell *sh)
 {
 	char	*cmd;
 	char	**line_tokens;
 
-	sh->fd_in = dup(STDIN_FILENO);
-	sh->fd_out = dup(STDOUT_FILENO);
-	redirect_fd(sh, 0);
 	cmd = command(sh->s_pipe[0]);
 	free_array(sh->s_pipe);
 	sh->s_pipe = NULL;
 	if (cmd == NULL)
 	{
 		dup2_close_in_out(sh->fd_in, sh->fd_out);
-		return ;
+		return (NULL);
 	}
 	line_tokens = tokens(cmd);
 	free(cmd);
 	cmd = NULL;
+	if (!line_tokens || line_tokens[0][0] == '\0')
+	{
+		free_array(line_tokens);
+		dup2_close_in_out(sh->fd_in, sh->fd_out);
+		printf("Command not found\n");
+		sh->last_exit_status = 127;
+		return (NULL);
+	}
+	return (line_tokens);
+}
+
+void	process_one_split(t_shell *sh)
+{
+	char	**line_tokens;
+
+	redirect_fd(sh, 0);
+	line_tokens = trate_cmd(sh);
+	if (line_tokens == NULL)
+		return ;
 	if (is_builtin(line_tokens[0]))
 		exec_line(line_tokens, sh);
 	else

@@ -13,6 +13,22 @@
 #include "../../utils/minishell.h"
 #include "process.h"
 
+static void	pipes_utils(t_pipes p, t_shell *sh)
+{
+	int	status;
+
+	waitpid(p.last_pid, &status, 0);
+	if (WIFEXITED(status))
+		sh->last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		sh->last_exit_status = 128 + WTERMSIG(status);
+	while (wait(NULL) > 0)
+		;
+	free_array(sh->s_pipe);
+	dup2_close_in_out(sh->fd_in, sh->fd_out);
+	// signal(SIGINT, handle_sigint);
+}
+
 static void	child_utils(t_shell *sh, t_pipes *p, int i)
 {
 	if (p->prev_fd != -1)
@@ -56,22 +72,6 @@ static void	child_process(t_shell *sh, t_pipes p, int i)
 	exit(EXIT_SUCCESS);
 }
 
-static void	pipes_utils(t_pipes p, t_shell *sh)
-{
-	int	status;
-
-	waitpid(p.last_pid, &status, 0);
-	if (WIFEXITED(status))
-		sh->last_exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		sh->last_exit_status = 128 + WTERMSIG(status);
-	while (wait(NULL) > 0)
-		;
-	free_array(sh->s_pipe);
-	dup2_close_in_out(sh->fd_in, sh->fd_out);
-	// signal(SIGINT, handle_sigint);
-}
-
 void	process_pipes(t_shell *sh)
 {
 	t_pipes	p;
@@ -79,8 +79,6 @@ void	process_pipes(t_shell *sh)
 
 	i = 0;
 	p.prev_fd = -1;
-	sh->fd_in = dup(STDIN_FILENO);
-	sh->fd_out = dup(STDOUT_FILENO);
 	while (sh->s_pipe[i])
 	{
 		if (sh->s_pipe[i + 1])
