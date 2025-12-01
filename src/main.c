@@ -6,7 +6,7 @@
 /*   By: bedantas <bedantas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/26 16:31:20 by bedantas          #+#    #+#             */
-/*   Updated: 2025/11/28 14:46:33 by bedantas         ###   ########.fr       */
+/*   Updated: 2025/12/01 10:51:56 by bedantas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*read_input(t_shell *sh)
 {
 	char	*line;
 
-	line = readline("@minishell ~ ");
+	line = readline("\001\033[38;2;255;0;180m\002Minishell$ \001\033[0m\002");
 	if (line == NULL)
 	{
 		rl_clear_history();
